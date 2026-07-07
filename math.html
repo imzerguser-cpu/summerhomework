@@ -628,7 +628,6 @@
     </div>
   </div>
 
-  <!-- SCREEN 0: 단 선택 -->
   <div id="screen-home">
     <div class="hero">
       <h1>구구단 연습<br>어느 단부터 해볼까요?</h1>
@@ -638,7 +637,6 @@
     <div class="tablegrid" id="tableGrid"></div>
   </div>
 
-  <!-- SCREEN 1: 게임 -->
   <div id="screen-game" class="hidden">
     <div class="gamehead">
       <div class="titlewrap">
@@ -697,7 +695,6 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: 결과 -->
   <div id="screen-result" class="hidden">
     <div class="resultbox">
       <div class="emoji" id="resultEmoji">🎉</div>
@@ -715,11 +712,6 @@
 </div>
 
 <script>
-/* =========================================================
-   구구단 퀴즈: 각 단 x*2 ~ x*9 (총 8문제)
-   전체 랜덤 모드: 8단 x 8문제 = 64문제
-========================================================= */
-
 const TABLE_META = [
   {id:2, color:'#FF6B4A', label:'2단', en:'Table of 2', desc:'2를 여러 수와 곱해봐요'},
   {id:3, color:'#FFB23C', label:'3단', en:'Table of 3', desc:'3의 배수를 익혀요'},
@@ -742,15 +734,9 @@ let state = {
   wrongList:[],
   startTime:0,
   recognizing:false,
+  autoTimeout:null // 자동 이동 예약 타이머 저장용
 };
 
-/* =========================================================
-   한국어 숫자 파서 (오인식 대응 강화판)
-   - 한글/영어/아라비아 숫자 모두 처리
-   - 한 글자 오인식 흔한 케이스 매핑
-========================================================= */
-
-// 각 숫자별 흔한 오인식/유사음/영어 표기 매핑
 const NUMBER_ALIASES = {
   0: ['영','공','제로','zero','o','오영'],
   1: ['1','일','한','하나','one','원','왼','인','린'],
@@ -758,13 +744,12 @@ const NUMBER_ALIASES = {
   3: ['3','삼','셋','세','산','쌈','잠','참','탐','캄','함','람','남','담','샘','샴','sam','three','쓰리','뜨리','트리'],
   4: ['4','사','넷','네','샤','싸','자','짜','차','카','타','파','하','아','나','four','포','풔','폴','pour'],
   5: ['5','오','다섯','어','요','우','옹','옥','옷','옿','오오','five','파이브','파이','오와','와','와우'],
-  6: ['6','육','여섯','유','률','릉','룩','숙','죽','축','북','독','녹','록','목','족','유크','유욱','yook','six','식스','씩스','씩'],
+  6: ['6','육','여섯','유','률','릉','룩','숙','죽','축','북','독','녹','록','목','족','유크','유욱','yook','six','식스','식스','씩'],
   7: ['7','칠','일곱','치','질','실','길','밀','필','빌','칠칠','chill','seven','세븐','쎄븐','쎄분'],
   8: ['8','팔','여덟','판','빨','발','알','갈','달','말','살','탈','팔팔','pal','eight','에잇','에이트','에잇트'],
   9: ['9','구','아홉','그','쿠','누','꾸','무','루','국','굳','굿','goo','koo','nine','나인','나이','나은']
 };
 
-// 정확 매치 룩업 테이블 생성
 const ALIAS_LOOKUP = {};
 Object.entries(NUMBER_ALIASES).forEach(([num, list])=>{
   list.forEach(a=>{
@@ -773,8 +758,6 @@ Object.entries(NUMBER_ALIASES).forEach(([num, list])=>{
 });
 
 const KO_ONE = {영:0,공:0,일:1,이:2,삼:3,사:4,오:5,육:6,륙:6,칠:7,팔:8,구:9};
-
-// 영어 두 자리 숫자 매핑
 const EN_TEENS = {ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19};
 const EN_TENS = {twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
 const EN_ONES = {zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9};
@@ -784,20 +767,14 @@ function parseKoreanNumber(text){
   const rawLower = String(text).toLowerCase().trim();
   if(!rawLower) return null;
 
-  // 1) 아라비아 숫자 (가장 신뢰)
   const digitMatch = rawLower.match(/\d+/);
   if(digitMatch){
     const n = Number(digitMatch[0]);
     if(n >= 0 && n <= 99) return n;
   }
 
-  // 공백/기호 제거한 버전
   const s = rawLower.replace(/[\s,.\-!?'"·]/g, '');
-
-  // 2) alias 정확 매치 (한글 오인식 + 영어 한 자리)
   if(ALIAS_LOOKUP[s] !== undefined) return ALIAS_LOOKUP[s];
-
-  // 3) 영어 두 자리 (twenty four / twentyfour / twenty-four)
   if(EN_TEENS[s] !== undefined) return EN_TEENS[s];
   if(EN_TENS[s] !== undefined) return EN_TENS[s];
   const enTwo = s.match(/^(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(one|two|three|four|five|six|seven|eight|nine)?$/);
@@ -807,7 +784,6 @@ function parseKoreanNumber(text){
     return tens + ones;
   }
 
-  // 4) 한글 십진법 정확 매치
   if(s === '십') return 10;
   const koTwo = s.match(/^([일이삼사오육륙칠팔구])?십([일이삼사오육륙칠팔구])?$/);
   if(koTwo){
@@ -816,11 +792,9 @@ function parseKoreanNumber(text){
     return tens * 10 + ones;
   }
 
-  // 5) 반복 발음: "이이"→2, "삼삼"→3 (한 글자 강조용)
   const doubleKo = s.match(/^([일이삼사오육륙칠팔구])\1$/);
   if(doubleKo) return KO_ONE[doubleKo[1]];
 
-  // 6) 텍스트 안에 한글 십의 자리 조합 부분 매치
   const anyKo = rawLower.match(/([일이삼사오육륙칠팔구])?\s*십\s*([일이삼사오육륙칠팔구])?/);
   if(anyKo){
     const tens = anyKo[1] ? KO_ONE[anyKo[1]] : 1;
@@ -829,21 +803,15 @@ function parseKoreanNumber(text){
     if(v >= 10 && v <= 99) return v;
   }
 
-  // 7) 부분 문자열에서 alias 스캔 (예: "정답 삼", "그건 4번")
   for(const [alias, num] of Object.entries(ALIAS_LOOKUP)){
     if(alias.length >= 2 && s.includes(alias)) return num;
   }
 
-  // 8) 마지막으로 텍스트 내 한 글자 한글 숫자
   const singleKo = rawLower.match(/[영공일이삼사오육륙칠팔구]/);
   if(singleKo) return KO_ONE[singleKo[0]];
-
   return null;
 }
 
-/* =========================================================
-   Speech Recognition 초기화
-========================================================= */
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 
@@ -898,7 +866,6 @@ function initSpeech(){
     const results = e.results[0];
     if(results[0]) heard = results[0].transcript.trim();
 
-    // 모든 대안을 스캔, 구구단 답 범위(0~99) 안에 있는 첫 값 채택
     const candidates = [];
     for(let i=0; i<results.length; i++){
       const alt = (results[i].transcript || '').trim();
@@ -933,9 +900,6 @@ function shuffle(arr){
   return a;
 }
 
-/* =========================================================
-   POOL BUILDER
-========================================================= */
 function buildPool(tableId){
   const problems = [];
   if(tableId === 'all'){
@@ -953,9 +917,6 @@ function buildPool(tableId){
   return shuffle(problems);
 }
 
-/* =========================================================
-   SCREEN SWITCH
-========================================================= */
 function showScreen(id){
   ['screen-home','screen-game','screen-result'].forEach(s=>{
     document.getElementById(s).classList.add('hidden');
@@ -964,11 +925,7 @@ function showScreen(id){
   document.getElementById('homeBtn').classList.toggle('show', id !== 'screen-home');
 }
 
-/* =========================================================
-   HOME SCREEN
-========================================================= */
 function renderHome(){
-  // 랜덤 모드 카드 (맨 위)
   const randomList = document.getElementById('randomList');
   randomList.innerHTML = '';
   const allMeta = TABLE_META.find(m=>m.id==='all');
@@ -985,7 +942,6 @@ function renderHome(){
   randomCard.addEventListener('click', ()=>startGame('all'));
   randomList.appendChild(randomCard);
 
-  // 2~9단 그리드 (4 x 2)
   const grid = document.getElementById('tableGrid');
   grid.innerHTML = '';
   TABLE_META.filter(m=>m.id!=='all').forEach(m=>{
@@ -1000,9 +956,6 @@ function renderHome(){
   });
 }
 
-/* =========================================================
-   GAME
-========================================================= */
 function startGame(tableId){
   state.tableId = tableId;
   state.pool = buildPool(tableId);
@@ -1042,7 +995,6 @@ function renderQuestion(){
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressText').textContent = `${state.idx} / ${state.pool.length}`;
 
-  // Enable all keypad buttons and mic
   document.querySelectorAll('.key').forEach(k=>k.disabled=false);
   const micBtn = document.getElementById('micBtn');
   if(micBtn){
@@ -1084,6 +1036,12 @@ function submitAnswer(){
     fb.className = 'feedback correct';
     fb.innerHTML = `🎉 정답이에요! <span class="answer-reveal">${p.a} × ${p.b} = ${p.answer}</span>`;
     floatBadge('⭐');
+    
+    // [수정 사항 2] 정답을 맞추면 1.2초 뒤 자동으로 다음 문제로 이동
+    state.autoTimeout = setTimeout(() => {
+      nextQuestion();
+    }, 1200);
+    
   } else {
     state.wrongList.push({a:p.a, b:p.b, correct:p.answer, yours:userAns});
     const ansEl = document.getElementById('qAns');
@@ -1094,7 +1052,6 @@ function submitAnswer(){
   }
 
   document.getElementById('nextBtn').disabled = false;
-  // Disable digit keys and mic after answer
   document.querySelectorAll('.key').forEach(k=>{
     const kv = k.dataset.k;
     if(kv !== 'submit') k.disabled = true;
@@ -1102,7 +1059,7 @@ function submitAnswer(){
   const micBtn = document.getElementById('micBtn');
   if(micBtn) micBtn.disabled = true;
   if(SpeechRecognition){
-    document.getElementById('micLabel').textContent = correct ? '정답! 다음 문제로 이동하세요' : '아쉬워요';
+    document.getElementById('micLabel').textContent = correct ? '정답! 자동으로 다음 문제로 넘어갑니다.' : '아쉬워요';
   }
 }
 
@@ -1125,6 +1082,11 @@ function showAnswer(){
 }
 
 function nextQuestion(){
+  // 자동 이동 타이머 예약 해제
+  if(state.autoTimeout){
+    clearTimeout(state.autoTimeout);
+    state.autoTimeout = null;
+  }
   state.idx++;
   if(state.idx >= state.pool.length){
     showResult();
@@ -1133,9 +1095,6 @@ function nextQuestion(){
   }
 }
 
-/* =========================================================
-   RESULT
-========================================================= */
 function showResult(){
   const total = state.pool.length;
   const score = state.score;
@@ -1173,12 +1132,20 @@ function showResult(){
     `;
   }
 
+  // [수정 사항 1] 부모 창(index.html)으로 결과를 메시지로 전달하여 종합 현황판에 연동
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({
+      type: 'RECORD_QUIZ_SCORE',
+      gameType: 'math',
+      score: score,
+      total: total,
+      time: elapsedSec
+    }, '*');
+  }
+
   showScreen('screen-result');
 }
 
-/* =========================================================
-   FLOAT BADGE (star animation)
-========================================================= */
 function floatBadge(emoji){
   const badge = document.createElement('div');
   badge.className = 'float-badge';
@@ -1191,16 +1158,11 @@ function floatBadge(emoji){
   setTimeout(()=>badge.remove(), 1000);
 }
 
-/* =========================================================
-   EVENT WIRING
-========================================================= */
 document.getElementById('homeBtn').addEventListener('click', ()=>{
   showScreen('screen-home');
 });
-
 document.getElementById('nextBtn').addEventListener('click', nextQuestion);
 document.getElementById('showAnswerBtn').addEventListener('click', showAnswer);
-
 document.getElementById('resultRetryBtn').addEventListener('click', ()=>{
   startGame(state.tableId);
 });
@@ -1208,7 +1170,6 @@ document.getElementById('resultHomeBtn').addEventListener('click', ()=>{
   showScreen('screen-home');
 });
 
-// Keypad
 document.querySelectorAll('.key').forEach(k=>{
   k.addEventListener('click', ()=>{
     const val = k.dataset.k;
@@ -1219,7 +1180,6 @@ document.querySelectorAll('.key').forEach(k=>{
     } else if(val === 'submit'){
       submitAnswer();
     } else {
-      // digit
       if(state.currentInput.length < 3){
         state.currentInput += val;
         updateAnswerDisplay();
@@ -1228,7 +1188,6 @@ document.querySelectorAll('.key').forEach(k=>{
   });
 });
 
-// Physical keyboard support
 document.addEventListener('keydown', (e)=>{
   if(document.getElementById('screen-game').classList.contains('hidden')) return;
   if(e.key >= '0' && e.key <= '9'){
@@ -1250,7 +1209,6 @@ document.addEventListener('keydown', (e)=>{
   }
 });
 
-// Mic button
 document.getElementById('micBtn').addEventListener('click', ()=>{
   if(!recognition) return;
   if(state.answered) return;
@@ -1259,15 +1217,10 @@ document.getElementById('micBtn').addEventListener('click', ()=>{
   } else {
     state.currentInput = '';
     updateAnswerDisplay();
-    try{ recognition.start(); }
-    catch(err){
-      // 이미 실행 중이거나 권한 문제
-      console.warn(err);
-    }
+    try{ recognition.start(); } catch(err){ console.warn(err); }
   }
 });
 
-// Init
 initSpeech();
 renderHome();
 showScreen('screen-home');

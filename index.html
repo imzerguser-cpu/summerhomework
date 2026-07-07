@@ -445,3 +445,152 @@ function renderLeaderboard() {
 </script>
 </body>
 </html>
+/* ==========================================
+   선생님 관리 기능 및 학생 프라이버시 로그인 연동
+   ========================================== */
+let currentTeacherPassword = "3학년1반";
+let studentPasswords = {};
+
+// 1. Firebase에서 선생님 비밀번호 및 학생 비밀번호 실시간 구독 동기화
+if (typeof database !== 'undefined' || typeof firebase !== 'undefined') {
+  const db = firebase.database();
+  
+  // 선생님 관리자 암호 조회 및 기본셋업
+  db.ref('teacher_config/password').on('value', (snapshot) => {
+    if (snapshot.exists()) {
+      currentTeacherPassword = snapshot.val();
+    } else {
+      db.ref('teacher_config/password').set("3학년1반");
+    }
+  });
+
+  // 학생별 4자리 비밀번호 리스트 리딩
+  db.ref('student_passwords').on('value', (snapshot) => {
+    if (snapshot.exists()) {
+      studentPasswords = snapshot.val();
+    } else {
+      // 리스트가 공백이면 1번부터 30번까지 3101~3130 디폴트 구조 생성 빌드
+      let defaultPwds = {};
+      for (let i = 1; i <= 30; i++) { defaultPwds[i] = String(3100 + i); }
+      db.ref('student_passwords').set(defaultPwds);
+      studentPasswords = defaultPwds;
+    }
+  });
+}
+
+// 2. 하위 퀴즈 App들로부터 결과를 실시간 접수 받아 전광판에 저장
+window.addEventListener('message', function(event) {
+  const data = event.data;
+  if (!data || data.type !== 'RECORD_QUIZ_SCORE') return;
+
+  // 현재 로그인(선택)된 학생 변수 확인 매칭 (기존 코드에 지정된 전역변수명에 대입되도록 하거나 localStorage 참조)
+  const currentStudentNum = window.selectedStudentNum || localStorage.getItem('selectedStudentNum');
+  if (!currentStudentNum) {
+    alert("인증 완료된 학생 정보가 누락되었습니다. 이름을 먼저 선택해 주세요.");
+    return;
+  }
+
+  const db = firebase.database();
+  // 실시간 종합 전광판 스코어 노드에 기록 세팅
+  db.ref('students/' + currentStudentNum + '/records/' + data.gameType).set({
+    score: data.score,
+    total: data.total,
+    time: data.time,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  }).then(() => {
+    console.log("실시간 종합 현황판 데이터 영구 기록 성공!");
+    // 메인 전광판을 실시간 리프레시해 주는 내부 함수가 있다면 호출 예시
+    if (typeof loadLeaderboard === 'function') loadLeaderboard();
+  }).catch(err => console.error("현황판 연동 오류:", err));
+});
+
+// 3. 학생 이름 클릭 시 4자리 비밀번호 체크 가로채기 필터 함수
+// (기존의 학생 클릭 시 실행되던 본래 로직 상단 혹은 초입부에 결합해주세요)
+function handleStudentLoginIntercept(studentNum) {
+  const inputPwd = prompt(`${studentNum}번 학생의 4자리 암호를 입력하세요.\n(기본값은 3100 + 번호 예: 1번은 3101)`);
+  if (inputPwd === null) return false; // 취소 처리
+
+  const correctPwd = studentPasswords[studentNum] || String(3100 + studentNum);
+  if (inputPwd.trim() === correctPwd) {
+    alert("✅ 인증 성공!");
+    return true; // 인증 통과 -> 원래 학생 로그인 시스템 진행 허가
+  } else {
+    alert("❌ 비밀번호가 다릅니다. 친구의 계정에는 입장할 수 없습니다!");
+    return false; // 거부
+  }
+}
+
+// 4. 선생님 제어 제반 로직들
+function openTeacherTab() {
+  document.getElementById('teacher-tab-modal').style.display = 'block';
+  document.getElementById('teacher-auth-zone').style.display = 'block';
+  document.getElementById('teacher-admin-zone').style.display = 'none';
+  document.getElementById('teacher-pwd-input').value = '';
+}
+function closeTeacherTab() { document.getElementById('teacher-tab-modal').style.display = 'none'; }
+
+function verifyTeacherPassword() {
+  const input = document.getElementById('teacher-pwd-input').value;
+  if (input === currentTeacherPassword) {
+    document.getElementById('teacher-auth-zone').style.display = 'none';
+    document.getElementById('teacher-admin-zone').style.display = 'block';
+    renderTeacherStudentList();
+  } else {
+    alert("❌ 관리자 암호가 맞지 않습니다!");
+  }
+}
+
+function changeTeacherPassword() {
+  const currentInput = document.getElementById('teacher-current-pwd').value;
+  const newInput = document.getElementById('teacher-new-pwd').value;
+  if (currentInput !== currentTeacherPassword) { alert("❌ 현재 비밀번호가 틀렸습니다."); return; }
+  if (!newInput.trim()) { alert("❌ 새 암호를 기입하십시오."); return; }
+
+  firebase.database().ref('teacher_config/password').set(newInput.trim()).then(() => {
+    alert("🎯 관리자 비밀번호가 성공적으로 변경되었습니다!");
+    currentTeacherPassword = newInput.trim();
+    document.getElementById('teacher-current-pwd').value = '';
+    document.getElementById('teacher-new-pwd').value = '';
+  }).catch(err => alert("오류 발생: " + err));
+}
+
+function renderTeacherStudentList() {
+  const tbody = document.getElementById('teacher-student-list');
+  tbody.innerHTML = '';
+  // 1번부터 30번까지 테이블 렌더링
+  for (let i = 1; i <= 30; i++) {
+    const pwd = studentPasswords[i] || String(3100 + i);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="padding:7px; border-bottom:1px solid #eee; font-weight:bold; color:#3A2B22;">${i}번 학생</td>
+      <td style="padding:7px; border-bottom:1px solid #eee;">
+        <input type="text" id="stu-edit-pwd-${i}" value="${pwd}" maxlength="4" style="width:55px; text-align:center; padding:4px; border:1px solid #ccc; border-radius:6px;">
+      </td>
+      <td style="padding:7px; border-bottom:1px solid #eee;">
+        <button onclick="changeStudentPasswordByAdmin(${i})" style="background:#3C9EE8; color:white; border:none; padding:4px 10px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:bold;">변경</button>
+      </td>
+      <td style="padding:7px; border-bottom:1px solid #eee;">
+        <button onclick="clearStudentRecordsByAdmin(${i})" style="background:#FF7A70; color:white; border:none; padding:4px 10px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:bold;">기록 삭제</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+function changeStudentPasswordByAdmin(studentNum) {
+  const targetPwd = document.getElementById(`stu-edit-pwd-${studentNum}`).value.trim();
+  if (targetPwd.length !== 4 || isNaN(targetPwd)) { alert("❌ 반드시 숫자 4자리로 구성해 주세요!"); return; }
+
+  firebase.database().ref('student_passwords/' + studentNum).set(targetPwd).then(() => {
+    alert(`👍 ${studentNum}번 학생의 비밀번호가 [ ${targetPwd} ] (으)로 변경되었습니다.`);
+  }).catch(err => alert("저장 실패: " + err));
+}
+
+function clearStudentRecordsByAdmin(studentNum) {
+  if (confirm(`⚠ 정말로 ${studentNum}번 학생의 모든 퀴즈 기록을 포맷(삭제)하시겠습니까?\n실시간 종합 현황판에서 초기화 처리됩니다.`)) {
+    firebase.database().ref('students/' + studentNum + '/records').remove().then(() => {
+      alert(`✨ ${studentNum}번 학생의 학습 기록이 초기화되었습니다.`);
+      if (typeof loadLeaderboard === 'function') loadLeaderboard();
+    }).catch(err => alert("초기화 실패: " + err));
+  }
+}
