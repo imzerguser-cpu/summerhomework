@@ -442,7 +442,7 @@ function renderLeaderboard() {
   html += `</table>`;
   document.getElementById('leaderboard-container').innerHTML = html;
 }
-</script>
+openTeacherTab(), closeTeacherTab(), verifyTeacherPassword(), changeTeacherPassword()
 /* ==========================================
    선생님 관리 기능 및 학생 프라이버시 로그인 연동
    ========================================== */
@@ -592,5 +592,7 @@ function clearStudentRecordsByAdmin(studentNum) {
     }).catch(err => alert("초기화 실패: " + err));
   }
 }
+
+</script>
 </body>
 </html>
