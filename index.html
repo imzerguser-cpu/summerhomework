@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마동초 3학년 방학숙제 마스터</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+  :root { --primary: #3B82F6; --primary-dark: #2563EB; --bg: #F3F4F6; --card: #FFFFFF; --text: #1F2937; }
+  body { margin:0; padding:0; font-family:'Noto Sans KR', sans-serif; background:var(--bg); color:var(--text); }
+  .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+  .card { background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+  h1, h2, h3 { margin-top: 0; color: #111827; }
+  
+  .btn { display: inline-block; width: 100%; padding: 14px 20px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; text-align: center; font-size: 16px; transition: 0.2s; box-sizing: border-box; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
+  .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+  
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .student-btn { padding: 16px; font-size: 16px; font-weight:bold; border-radius: 16px; border: 2px solid #E5E7EB; background: white; cursor: pointer; transition: 0.2s; color: var(--text); }
+  .student-btn:hover { border-color: var(--primary); color: var(--primary); }
+  
+  #iframe-container { position: fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:none; flex-direction:column; }
+  .iframe-header { height: 60px; background: #1F2937; display:flex; justify-content:space-between; align-items:center; padding: 0 20px; flex: none; }
+  .iframe-header h3 { color: white; margin: 0; font-size:16px; }
+  .iframe-header button { background: #EF4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family:inherit; }
+  #app-frame { flex: 1; border: none; width: 100%; height: 100%; }
+
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 10000; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+  firebase.initializeApp({
+    apiKey:"AIzaSyAKbtiQ1UutXkGI2ozyTNDO3N20NQ9vjDE",
+    authDomain:"jump-rope-43833.firebaseapp.com",
+    databaseURL:"https://jump-rope-43833-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId:"jump-rope-43833",
+    storageBucket:"jump-rope-43833.firebasestorage.app",
+    messagingSenderId:"870652268913",
+    appId:"1:870652268913:web:6b45cabb7e317827b1a6d0"
+  });
+  const db = firebase.database();
+</script>
+
+<div class="container">
+  <div id="screen-login" class="card">
+    <h1>마동초 3학년<br>방학 과제 시스템 🚀</h1>
+    <p style="color:#6B7D8F; margin-bottom:20px;">자신의 이름을 선택해주세요.</p>
+    <div class="grid">
+      <button class="student-btn" onclick="login('김대현')">1번 김대현</button>
+      <button class="student-btn" onclick="login('나대한')">2번 나대한</button>
+      <button class="student-btn" onclick="login('민주은')">3번 민주은</button>
+      <button class="student-btn" onclick="login('백은성')">4번 백은성</button>
+      <button class="student-btn" onclick="login('신서희')">5번 신서희</button>
+    </div>
+    <div style="margin-top:24px;">
+      <button class="btn btn-outline" onclick="showLeaderboardOnly()">🏆 반 전체 랭킹 보드 구경하기</button>
+    </div>
+  </div>
+
+  <div id="screen-menu" class="card" style="display:none;">
+    <h2 id="welcome-text"></h2>
+    <p style="color:#6B7D8F; margin-bottom:20px;">어떤 과제를 먼저 해볼까요?</p>
+    
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <button class="btn" style="background:#3FA772;" onclick="openApp('english')">🔤 영어 공부하기</button>
+      <button class="btn" style="background:#FFC93C; color:#3A2B22;" onclick="openApp('math')">✖️ 구구단 연습하기</button>
+      <button class="btn" style="background:#4DA3E8;" onclick="openApp('jumprope')">🏃 줄넘기 급수 기록</button>
+      <button class="btn btn-outline" style="border-width:2px; margin-top:10px;" onclick="showDashboard()">📅 나의 공부 달력 & 분석 보기</button>
+    </div>
+    
+    <div style="margin-top:24px; text-align:center;">
+      <button style="border:none; background:transparent; color:#9CA3AF; text-decoration:underline; cursor:pointer;" onclick="logout()">학생 다시 선택하기</button>
+    </div>
+  </div>
+
+  <div id="screen-dashboard" style="display:none;">
+    <button id="btn-dash-back" style="border:none;background:transparent;color:var(--primary);font-weight:bold;cursor:pointer;margin-bottom:16px;font-size:16px;">← 뒤로 가기</button>
+    
+    <div id="personal-calendar" class="card">
+      <h2 style="margin-bottom:16px;">나의 공부 달력 📅</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; background:#F3F4F6; padding:8px 16px; border-radius:12px;">
+        <button style="border:none; background:white; border-radius:8px; padding:6px 12px; cursor:pointer; font-weight:bold;" onclick="changeMonth(-1)">◀</button>
+        <strong id="calendar-month" style="font-size:16px;">2026년 7월</strong>
+        <button style="border:none; background:white; border-radius:8px; padding:6px 12px; cursor:pointer; font-weight:bold;" onclick="changeMonth(1)">▶</button>
+      </div>
+      <div id="calendar-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:6px; text-align:center;"></div>
+    </div>
+    
+    <div id="personal-chart" class="card">
+      <h2>성장 분석 그래프 📈</h2>
+      <p style="font-size:12px; color:#6B7D8F;">일자별 영어/구구단 맞춘 개수 추이</p>
+      <div id="chart-container" style="display:flex; overflow-x:auto; padding-bottom:10px; border-bottom:1px solid #E5E7EB; min-height:120px; align-items:flex-end; margin-top:20px;"></div>
+    </div>
+    
+    <div class="card">
+      <h2>🏆 마동초 3학년 명예의 전당</h2>
+      <div id="leaderboard-container" style="overflow-x:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="iframe-container">
+  <div class="iframe-header">
+    <h3 id="iframe-title">학습 중...</h3>
+    <button onclick="exitApp()">나가기 ✕</button>
+  </div>
+  <iframe id="app-frame"></iframe>
+</div>
+
+<div id="modal-date" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; justify-content:center; align-items:center; padding:20px; box-sizing:border-box;">
+  <div style="background:white; padding:24px; border-radius:16px; width:100%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    <h3 id="modal-date-title" style="margin-bottom:16px;">7월 8일 기록</h3>
+    <div id="modal-date-content" style="max-height:60vh; overflow-y:auto; margin-bottom:20px;"></div>
+    <button class="btn" onclick="document.getElementById('modal-date').style.display='none'">닫기</button>
+  </div>
+</div>
+
+<div id="toast" class="toast">기록이 자동 저장되었습니다!</div>
+
+<script>
+/* ================= 데이터베이스 연동 및 전역 변수 ================= */
+const tasksRef = db.ref('madong_3rd_tasks');
+const jumpRef = db.ref('jumprope_data');
+
+let currentStudent = null;
+let currentApp = null;
+let pollInterval = null;
+
+let allTasks = {};
+let jumpRopeData = [];
+
+// 원본 소스코드 파일명 (반드시 업로드된 파일명과 동일해야 함)
+const filePaths = {
+  english: '맛있는_영어_퀴즈_전학년_1.html',
+  math: '맛있는_구구단_2.html',
+  jumprope: '줄넘기_급수계산기.html'
+};
+
+// 줄넘기 급수 계산에 필요한 협회 공인 기준 (그래프/랭킹 계산용)
+const EV=[
+  {id:"a",th:[180,150,120,90,60,50,40,30,20,10]}, {id:"b",th:[300,250,200,150,100,80,50,30,20,10]},
+  {id:"c",th:[200,150,100,80,60,40,20,10,5,3]}, {id:"d",th:[80,60,50,40,30,20,10,5,3,1]},
+  {id:"e",th:[150,120,100,80,60,40,30,20,10,5]}, {id:"f",th:[80,60,50,40,30,20,10,5,3,1]},
+  {id:"g",th:[50,40,30,20,10,5,3,2,1,0]}, {id:"h",th:[50,40,30,20,10,5,3,1,0,0]}
+];
+const GT=[{m:70,g:"1급"},{m:60,g:"2급"},{m:50,g:"3급"},{m:40,g:"4급"},{m:30,g:"5급"},{m:20,g:"6급"},{m:10,g:"7급"},{m:8,g:"8급"},{m:6,g:"9급"},{m:4,g:"10급"}];
+
+// 데이터베이스 실시간 수신
+tasksRef.on('value', snap => {
+  allTasks = snap.val() || {};
+  if (currentStudent && document.getElementById('screen-dashboard').style.display !== 'none') {
+    renderCalendar(currentYear, currentMonth);
+    renderChart();
+  }
+  renderLeaderboard();
+});
+
+jumpRef.on('value', snap => {
+  const data = snap.val();
+  if (data && data.students) jumpRopeData = data.students;
+  renderLeaderboard();
+});
+
+/* ================= 화면 이동 로직 ================= */
+function login(name) {
+  currentStudent = name;
+  document.getElementById('welcome-text').innerHTML = `환영합니다, <span style="color:var(--primary)">${name}</span> 학생! 👋`;
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('screen-menu').style.display = 'block';
+}
+
+function logout() {
+  currentStudent = null;
+  document.getElementById('screen-menu').style.display = 'none';
+  document.getElementById('screen-login').style.display = 'block';
+}
+
+function showDashboard() {
+  document.getElementById('screen-menu').style.display = 'none';
+  document.getElementById('screen-dashboard').style.display = 'block';
+  document.getElementById('personal-calendar').style.display = 'block';
+  document.getElementById('personal-chart').style.display = 'block';
+  document.getElementById('btn-dash-back').onclick = () => {
+    document.getElementById('screen-dashboard').style.display = 'none';
+    document.getElementById('screen-menu').style.display = 'block';
+  };
+  renderCalendar(currentYear, currentMonth);
+  renderChart();
+  renderLeaderboard();
+}
+
+function showLeaderboardOnly() {
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('screen-dashboard').style.display = 'block';
+  document.getElementById('personal-calendar').style.display = 'none';
+  document.getElementById('personal-chart').style.display = 'none';
+  document.getElementById('btn-dash-back').onclick = () => {
+    document.getElementById('screen-dashboard').style.display = 'none';
+    document.getElementById('screen-login').style.display = 'block';
+  };
+  renderLeaderboard();
+}
+
+/* ================= Iframe 앱 연동 (핵심 마법) ================= */
+function openApp(appName) {
+  currentApp = appName;
+  const container = document.getElementById('iframe-container');
+  const iframe = document.getElementById('app-frame');
+  
+  document.getElementById('iframe-title').innerText = 
+    appName === 'english' ? '🔤 영어 공부 중...' : 
+    appName === 'math' ? '✖️ 구구단 연습 중...' : '🏃 줄넘기 기록 중...';
+  
+  container.style.display = 'flex';
+  iframe.src = filePaths[appName];
+  iframe.dataset.recorded = "false";
+  
+  // 줄넘기일 경우: 사용자가 일일이 학생 이름을 다시 선택하지 않아도 되도록 강제로 이름을 주입해주는 로직
+  if (appName === 'jumprope') {
+    let attempts = 0;
+    const injectInterval = setInterval(() => {
+      try {
+        const doc = iframe.contentDocument;
+        const searchInp = doc.querySelector('.sinp');
+        if (searchInp) {
+          doc.querySelectorAll('.gfb').forEach(b => { if(b.innerText === '3') b.click(); });
+          searchInp.value = currentStudent;
+          searchInp.dispatchEvent(new Event('input', {bubbles:true}));
+          clearInterval(injectInterval);
+        }
+      } catch(e) {}
+      if(++attempts > 20) clearInterval(injectInterval);
+    }, 500);
+  }
+  
+  // 영어/구구단일 경우: 점수 결과 화면이 나타나는 것을 1초마다 감시하여 자동 저장 (원본 소스 무수정 방식)
+  if (appName === 'english' || appName === 'math') {
+    pollInterval = setInterval(() => {
+      try {
+        const doc = iframe.contentDocument;
+        if (!doc) return;
+        const resultScreen = doc.getElementById('screen-result');
+        
+        if (resultScreen && !resultScreen.classList.contains('hidden')) {
+          if (iframe.dataset.recorded !== "true") {
+            iframe.dataset.recorded = "true";
+            const score = doc.getElementById('resultScore').innerText;
+            const total = doc.getElementById('resultTotal').innerText;
+            saveTaskRecord(appName, `${score}/${total}점 달성!`, score, total);
+            showToast();
+          }
+        } else if (resultScreen && resultScreen.classList.contains('hidden')) {
+          iframe.dataset.recorded = "false"; // '다시하기' 버튼을 누르면 초기화
+        }
+      } catch(e) {}
+    }, 1000);
+  }
+}
+
+function exitApp() {
+  if (pollInterval) clearInterval(pollInterval);
+  document.getElementById('iframe-container').style.display = 'none';
+  document.getElementById('app-frame').src = 'about:blank'; // 메모리 정리
+}
+
+function saveTaskRecord(type, title, score, total) {
+  const now = new Date();
+  const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+  const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  
+  tasksRef.child(currentStudent).push({ type, title, score, total, date: dateStr, time: timeStr, timestamp: Date.now() });
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ================= 달력 & 분석 대시보드 로직 ================= */
+let currentYear = 2026;
+let currentMonth = 7;
+
+function changeMonth(delta) {
+  currentMonth += delta;
+  if (currentMonth > 12) { currentMonth = 1; currentYear++; }
+  if (currentMonth < 1) { currentMonth = 12; currentYear--; }
+  renderCalendar(currentYear, currentMonth);
+}
+
+function renderCalendar(year, month) {
+  document.getElementById('calendar-month').innerText = `${year}년 ${month}월`;
+  const firstDay = new Date(year, month - 1, 1).getDay();
+  const lastDate = new Date(year, month, 0).getDate();
+  
+  let html = ['일','월','화','수','목','금','토'].map(d => `<div style="font-size:12px; color:#6B7D8F; font-weight:bold;">${d}</div>`).join('');
+  for(let i=0; i<firstDay; i++) html += `<div></div>`;
+  
+  const monthStr = String(month).padStart(2,'0');
+  for(let d=1; d<=lastDate; d++) {
+    const dateStr = `${year}-${monthStr}-${String(d).padStart(2,'0')}`;
+    let hasEngMath = false; let hasJR = false;
+    
+    if (allTasks[currentStudent]) {
+      if (Object.values(allTasks[currentStudent]).some(t => t.date === dateStr)) hasEngMath = true;
+    }
+    const jrStudent = jumpRopeData.find(s => s.gr === "3" && s.nm === currentStudent);
+    if (jrStudent && jrStudent.ms && jrStudent.ms.some(m => m.date === dateStr)) hasJR = true;
+    
+    let dots = '';
+    if (hasEngMath) dots += `<div style="width:6px;height:6px;border-radius:50%;background:#FFC93C;margin:0 auto;margin-top:4px;"></div>`;
+    if (hasJR) dots += `<div style="width:6px;height:6px;border-radius:50%;background:#4DA3E8;margin:0 auto;margin-top:4px;"></div>`;
+    
+    const bg = (hasEngMath || hasJR) ? '#EFF6FF' : 'transparent';
+    const border = (hasEngMath || hasJR) ? '1px solid #BFDBFE' : '1px solid transparent';
+    
+    html += `<div onclick="openDateModal('${dateStr}')" style="cursor:pointer; padding:8px 0; border-radius:8px; background:${bg}; border:${border};">
+      <span style="font-size:14px; font-weight:bold; color:${(hasEngMath||hasJR)?'#2563EB':'#374151'}">${d}</span>
+      <div style="display:flex; gap:3px; justify-content:center; height:10px;">${dots}</div>
+    </div>`;
+  }
+  document.getElementById('calendar-grid').innerHTML = html;
+}
+
+function openDateModal(dateStr) {
+  document.getElementById('modal-date-title').innerText = `${dateStr.replace(/-/g, '.')} 학습 기록`;
+  let contentHtml = '';
+  
+  if (allTasks[currentStudent]) {
+    const tasks = Object.values(allTasks[currentStudent]).filter(t => t.date === dateStr);
+    tasks.forEach(t => {
+      let icon = t.type === 'english' ? '🔤 영어' : '✖️ 구구단';
+      contentHtml += `<div style="background:#FFFBEB; padding:12px; border-radius:12px; margin-bottom:10px; border:1px solid #FDE68A;">
+        <div style="font-size:12px; color:#D97706; font-weight:bold; margin-bottom:4px;">${t.time} | ${icon}</div>
+        <div style="font-weight:bold; font-size:15px;">맞춘 문제: <span style="color:#B45309">${t.score}</span> / ${t.total}</div>
+      </div>`;
+    });
+  }
+  
+  const jrStudent = jumpRopeData.find(s => s.gr === "3" && s.nm === currentStudent);
+  if (jrStudent && jrStudent.ms) {
+    const jrTasks = jrStudent.ms.filter(m => m.date === dateStr);
+    jrTasks.forEach(m => {
+      contentHtml += `<div style="background:#EFF6FF; padding:12px; border-radius:12px; margin-bottom:10px; border:1px solid #BFDBFE;">
+        <div style="font-size:12px; color:#2563EB; font-weight:bold; margin-bottom:4px;">🏃 줄넘기 측정 제출</div>
+        <div style="font-size:12px; color:#1E3A8A; line-height:1.6;">`;
+      EV.forEach((e, i) => {
+        if(m.scores[e.id]) contentHtml += `• ${e.id === "a" ? "오래뛰기" : (i+1)+"번 종목"}: <b>${m.scores[e.id]}</b> ${e.th[0]>100 ? (e.id==="a"?"초":"개") : ""}<br>`;
+      });
+      contentHtml += `</div></div>`;
+    });
+  }
+  
+  if (contentHtml === '') contentHtml = '<p style="text-align:center; color:#9CA3AF; padding:20px;">이날은 기록이 없어요.</p>';
+  document.getElementById('modal-date-content').innerHTML = contentHtml;
+  document.getElementById('modal-date').style.display = 'flex';
+}
+
+function renderChart() {
+  const dailyCorrect = {};
+  if (allTasks[currentStudent]) {
+    Object.values(allTasks[currentStudent]).forEach(t => {
+      if(!dailyCorrect[t.date]) dailyCorrect[t.date] = 0;
+      dailyCorrect[t.date] += parseInt(t.score) || 0;
+    });
+  }
+  
+  const sortedDates = Object.keys(dailyCorrect).sort();
+  let chartHtml = '';
+  if (sortedDates.length === 0) {
+    chartHtml = '<div style="color:#9CA3AF; padding:20px; text-align:center; width:100%;">아직 기록이 없습니다. 학습을 시작해보세요!</div>';
+  } else {
+    const maxSc = Math.max(...Object.values(dailyCorrect), 10);
+    sortedDates.forEach(d => {
+      const sc = dailyCorrect[d];
+      const h = (sc / maxSc) * 100;
+      chartHtml += `<div style="display:flex; flex-direction:column; align-items:center; margin-right:16px;">
+        <div style="font-size:11px; color:var(--primary); font-weight:bold; margin-bottom:6px;">${sc}개</div>
+        <div style="height:100px; display:flex; align-items:flex-end; width:34px; background:#F3F4F6; border-radius:6px; overflow:hidden;">
+          <div style="width:100%; background:var(--primary); height:${h}%; border-radius:4px; transition:height 0.5s ease;"></div>
+        </div>
+        <span style="font-size:10px; margin-top:8px; color:#6B7D8F; font-weight:bold;">${d.split('-').slice(1).join('/')}</span>
+      </div>`;
+    });
+  }
+  document.getElementById('chart-container').innerHTML = chartHtml;
+}
+
+function renderLeaderboard() {
+  const students = ["김대현", "나대한", "민주은", "백은성", "신서희"];
+  let html = `<table style="width:100%; text-align:center; border-collapse:collapse; font-size:14px;">
+    <tr style="background:#F9FAFB; border-bottom:2px solid #E5E7EB; color:#4B5563;">
+      <th style="padding:12px;">이름</th><th>📚 공부 횟수/정답</th><th>🏃 줄넘기 최고급수</th>
+    </tr>`;
+  
+  let rankData = students.map(nm => {
+    const tasks = allTasks[nm] || {};
+    const engMath = Object.values(tasks);
+    let engMathCorrect = 0;
+    engMath.forEach(t => engMathCorrect += Number(t.score));
+    
+    let jrGrade = "기록없음";
+    let highestJrTotal = -1;
+    const jrStudent = jumpRopeData.find(s => s.gr === "3" && s.nm === nm);
+    if (jrStudent && jrStudent.ms) {
+      jrStudent.ms.forEach(m => {
+        let total = 0;
+        EV.forEach(e => {
+          const v = m.scores[e.id];
+          if(v!=="" && v!=null){
+            const n=parseFloat(v);
+            if(!isNaN(n)){ for(let i=0;i<e.th.length;i++){ if(n>=e.th[i]){ total+=(10-i); break;} } }
+          }
+        });
+        if (total > highestJrTotal) highestJrTotal = total;
+      });
+      if (highestJrTotal >= 0) {
+        for(const g of GT) { if (highestJrTotal >= g.m) { jrGrade = g.g; break; } }
+        if (jrGrade === "기록없음") jrGrade = "급수 없음";
+      }
+    }
+    // 종합 점수(정렬용) 계산
+    const sortScore = engMath.length * 100 + engMathCorrect + highestJrTotal;
+    return { nm, cnt: engMath.length, correct: engMathCorrect, grade: jrGrade, sortScore, hasJumpRope: highestJrTotal >= 0 };
+  });
+  
+  rankData.sort((a,b) => b.sortScore - a.sortScore);
+  
+  rankData.forEach((r, idx) => {
+    const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx+1}등`;
+    const bgClass = r.hasJumpRope ? '#10B981' : '#9CA3AF';
+    html += `<tr style="border-bottom:1px solid #E5E7EB;">
+      <td style="padding:14px; font-weight:bold;">${medal} ${r.nm}</td>
+      <td style="color:var(--primary); font-weight:bold;">${r.cnt}회 <span style="color:#9CA3AF;font-size:12px;">(${r.correct}문제)</span></td>
+      <td><span style="background:${bgClass}; color:white; padding:4px 8px; border-radius:6px; font-size:12px; font-weight:bold;">${r.grade}</span></td>
+    </tr>`;
+  });
+  html += `</table>`;
+  document.getElementById('leaderboard-container').innerHTML = html;
+}
+</script>
+</body>
+</html>
