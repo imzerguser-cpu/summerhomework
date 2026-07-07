@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교사 페이지 - 숙제 관리실</title>
+<style>
+    body { font-family: 'Malgun Gothic', Arial, sans-serif; background: #edf2f7; margin: 0; padding: 25px 15px; color: #2d3748; }
+    .wrap { max-width: 950px; margin: 0 auto; }
+    header { background: #2b6cb0; color: #fff; padding: 22px 25px; border-radius: 14px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
+    header h1 { margin: 0; font-size: 24px; font-weight: bold; }
+    .back-btn { background: #fff; color: #2b6cb0; border: none; padding: 10px 18px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px; text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .back-btn:hover { background: #ebf8ff; transform: translateY(-1px); }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+    @media(min-width: 768px) { .grid { grid-template-columns: 1.1fr 0.9fr; } .full-width { grid-column: 1 / -1; } }
+    .card { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
+    .card h2 { margin-top: 0; font-size: 18px; color: #2b6cb0; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; margin-bottom: 18px; display: flex; align-items: center; gap: 6px; }
+
+    /* 데이터 테이블 레이아웃 */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: center; }
+    th { background: #f7fafc; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #4a5568; font-weight: bold; }
+    td { padding: 12px; border-bottom: 1px solid #edf2f7; color: #4a5568; }
+    input.pw-input { width: 90px; padding: 6px 10px; border: 1px solid #cbd5e0; border-radius: 6px; text-align: center; font-size: 14px; font-weight: bold; transition: border-color 0.2s; }
+    input.pw-input:focus { border-color: #3182ce; outline: none; }
+    .btn { padding: 7px 14px; background: #3182ce; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; transition: background 0.2s; }
+    .btn:hover { background: #2b6cb0; }
+    .btn.success { background: #38a169; }
+    .btn.success:hover { background: #2f855a; }
+
+    /* 학생 선택 상자 */
+    .select-box { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e0; font-size: 15px; font-weight: bold; color: #4a5568; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+    .select-box:focus { border-color: #3182ce; }
+
+    /* 미니 달력 레이아웃 */
+    .calendar-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; text-align: center; }
+    .cal-hd { background: #f7fafc; font-size: 12px; padding: 6px 0; font-weight: bold; color: #718096; border-radius: 4px; }
+    .cal-cell { background: #fff; border: 1px solid #edf2f7; min-height: 48px; padding: 4px; font-size: 12px; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; transition: background 0.15s; }
+    .cal-cell:hover { background: #ebf8ff; border-color: #bee3f8; }
+    .cal-cell .dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+    .dot.en { background: #ff7675; }
+    .dot.ma { background: #ffbe76; }
+    .dot.ju { background: #2ecc71; }
+
+    .stats-box { font-size: 15px; line-height: 2.0; }
+    .stats-line { display: flex; justify-content: space-between; border-bottom: 1px dashed #edf2f7; padding: 8px 0; color: #4a5568; }
+    .stats-line:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+    <header>
+        <h1>👨‍🏫 여름방학 숙제 관리자 모드 콘솔</h1>
+        <a href="index.html" class="back-btn">🏠 메인 화면으로 복귀</a>
+    </header>
+
+    <div class="grid">
+        
+        <!-- 1. 학생 암호 열람 및 자유 수정 테이블 -->
+        <div class="card">
+            <h2>👥 학생 로그인 암호 일괄 관리 및 조정</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>학생 이름</th>
+                        <th>지정 비밀번호</th>
+                        <th>데이터 변경</th>
+                    </tr>
+                </thead>
+                <tbody id="table-students-pw-body">
+                    <!-- 스크립트로 동적 행 추가 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2. 교사 시스템 진입 암호 수정 상자 -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h2>🔐 교사 인증 마스터 비밀번호 관리</h2>
+                <p style="font-size:13px; color:#718096; margin-top:-8px; margin-bottom: 15px;">교사 탭 진입 시 적용되는 패스워드를 수정합니다.</p>
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 14px; font-weight: bold;">현재 마스터 암호: <span id="text-cur-teacher-pw" style="color: #2b6cb0; font-size: 15px;">20260301</span></span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="input-new-teacher-pw" placeholder="새 비밀번호 설정" style="padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; flex: 1; font-size: 14px;">
+                    <button class="btn" onclick="updateTeacherPassword()">변경 적용</button>
+                </div>
+            </div>
+            
+            <!-- 3. 반 전체 누적 학습 통계 데이터 리포트 -->
+            <div style="margin-top: 25px; padding-top: 15px; border-top: 2px dashed #edf2f7;">
+                <h2 style="font-size: 16px; margin-bottom: 10px; border: none; padding: 0; color:#2d3748;">📊 우리 반 전체 학습 종합 데이터</h2>
+                <div class="stats-box" id="class-stats-report">
+                    <!-- 통계 데이터 자동 주입 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 학생별 공부 이력 달력 정밀 추적기 -->
+        <div class="card">
+            <h2>📅 학생 개인별 공부 진도 및 달력 추적 조회</h2>
+            <select class="select-box" id="select-student-dropdown" onchange="onSelectedStudentChange()">
+                <!-- 학생 옵션 엘리먼트 자동 바인딩 -->
+            </select>
+            <div id="teacher-calendar-container">
+                <h3 style="font-size:14px; margin:5px 0; color:#4a5568;" id="teacher-cal-title">학습 판독 달력</h3>
+                <div class="calendar-mini" id="teacher-calendar-grid"></div>
+            </div>
+            <div id="teacher-day-detail" style="margin-top:15px; padding:12px 15px; background:#f7fafc; border-left:4px solid #2b6cb0; border-radius: 0 6px 6px 0; font-size:13.5px; display:none; line-height:1.6;">
+                <!-- 일일 세부 상세 이력 명세서 출력 영역 -->
+            </div>
+        </div>
+
+        <!-- 5. 데이터 백업용 포터블 파일 일괄 다운로드 기능 -->
+        <div class="card full-width" style="text-align: center; padding: 30px 20px;">
+            <h2>💾 전 학생 전체 방학 숙제 원본 기록 엑셀 백업</h2>
+            <p style="font-size: 14px; color: #4a5568; margin-bottom: 20px;">학생들이 각자 집에서 풀이하고 남긴 모든 일자별 오리지널 로그 테이블을 엑셀(CSV) 파일로 완벽하게 내려받습니다.</p>
+            <button class="btn success" style="padding: 14px 40px; font-size: 16px; border-radius: 10px; box-shadow: 0 4px 6px rgba(56,161,105,0.2);" onclick="downloadRecordsCSV()">📥 전체 숙제 완료 기록 일괄 다운로드 (CSV)</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const defaultStudents = ["김대현", "나대한", "민주은", "백은성", "신서희"];
+let db = JSON.parse(localStorage.getItem("homeworkData")) || { students: {}, teacherPw: "20260301" };
+
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("text-cur-teacher-pw").textContent = db.teacherPw || "20260301";
+    loadStudentPasswordTable();
+    initStudentDropdown();
+    loadClassStatistics();
+});
+
+// 마스터 패스워드 갱신
+function updateTeacherPassword() {
+    const newVal = document.getElementById("input-new-teacher-pw").value.trim();
+    if(!newVal) return alert("변경할 새 패스워드를 명확히 기재하세요.");
+    
+    db.teacherPw = newVal;
+    localStorage.setItem("homeworkData", JSON.stringify(db));
+    document.getElementById("text-cur-teacher-pw").textContent = newVal;
+    document.getElementById("input-new-teacher-pw").value = "";
+    alert("교사 관리 시스템 접근 비밀번호가 안전하게 교체되었습니다.");
+}
+
+// 학생 리스트 및 암호 수정 관리행 바인더
+function loadStudentPasswordTable() {
+    const tbody = document.getElementById("table-students-pw-body");
+    tbody.innerHTML = "";
+    
+    defaultStudents.forEach(name => {
+        const currentPw = db.students[name]?.password || "1111";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="font-weight:bold; color:#2d3748;">${name}</td>
+            <td><input type="text" class="pw-input" id="pw-input-${name}" value="${currentPw}"></td>
+            <td><button class="btn" onclick="updateStudentPassword('${name}')">저장</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// 학생 암호 변경 실시간 커밋 함수
+function updateStudentPassword(name) {
+    const inputVal = document.getElementById(`pw-input-${name}`).value.trim();
+    if(!inputVal) return alert("공백 상태로는 비밀번호 지정이 제한됩니다.");
+    
+    if(!db.students[name]) db.students[name] = { password: "1111", records: {} };
+    db.students[name].password = inputVal;
+    
+    localStorage.setItem("homeworkData", JSON.stringify(db));
+    alert(`${name} 학생의 접속 암호가 '${inputVal}'(으)로 리셋 및 반영 완료되었습니다.`);
+}
+
+// 드롭다운 초기 세팅
+function initStudentDropdown() {
+    const select = document.getElementById("select-student-dropdown");
+    select.innerHTML = "";
+    
+    defaultStudents.forEach(name => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = `👤 ${name} 학생 수행 내역 추적`;
+        select.appendChild(opt);
+    });
+    onSelectedStudentChange();
+}
+
+function onSelectedStudentChange() {
+    const selectedStudent = document.getElementById("select-student-dropdown").value;
+    document.getElementById("teacher-day-detail").style.display = "none";
+    
+    const records = db.students[selectedStudent]?.records || {};
+    buildTeacherCalendar(records, selectedStudent);
+}
+
+// 교사용 정밀 미니 현황 달력 렌더링 파트 (2026년 7월 고정)
+function buildTeacherCalendar(records, studentName) {
+    const grid = document.getElementById("teacher-calendar-grid");
+    grid.innerHTML = "";
+    
+    const targetYear = 2026;
+    const targetMonth = 6; 
+    
+    document.getElementById("teacher-cal-title").textContent = `📅 ${studentName} 학생의 방학 7월 학습 진도판`;
+    
+    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+    daysOfWeek.forEach(w => {
+        const div = document.createElement("div");
+        div.className = "cal-hd";
+        div.textContent = w;
+        grid.appendChild(div);
+    });
+    
+    const firstDay = new Date(targetYear, targetMonth, 1).getDay();
+    const totalDays = new Date(targetYear, targetMonth + 1, 0).getDate();
+    
+    for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement("div");
+        empty.className = "cal-cell";
+        empty.style.border = "none";
+        grid.appendChild(empty);
+    }
+    
+    for (let day = 1; day <= totalDays; day++) {
+        const cell = document.createElement("div");
+        cell.className = "cal-cell";
+        
+        const dateStr = targetYear + '-' + String(targetMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        cell.innerHTML = `<div style="text-align:left; font-weight:bold; color:#888;">${day}</div>`;
+        
+        const dotsDiv = document.createElement("div");
+        dotsDiv.className = "dots";
+        
+        if (records[dateStr]) {
+            const d = records[dateStr];
+            if (d.english && d.english.count > 0) dotsDiv.innerHTML += `<span class="dot en"></span>`;
+            if (d.math && d.math.count > 0) dotsDiv.innerHTML += `<span class="dot ma"></span>`;
+            if (d.jumprope && d.jumprope.count > 0) dotsDiv.innerHTML += `<span class="dot ju"></span>`;
+        }
+        cell.appendChild(dotsDiv);
+        
+        cell.onclick = () => {
+            const detailPanel = document.getElementById("teacher-day-detail");
+            const data = records[dateStr];
+            detailPanel.style.display = "block";
+            
+            if(!data || (!data.english && !data.math && !data.jumprope)) {
+                detailPanel.innerHTML = `<b>📍 ${day}일 기록:</b> 공부 및 기록 완료 내역이 존재하지 않습니다.`;
+                return;
+            }
+            
+            let txt = `<b>📍 ${day}일 학생 상세 제출 결과 명세</b><br>`;
+            if (data.english && data.english.count > 0) txt += `• <b>영어:</b> ${data.english.count}문제 풀이 완료 (최고 성적: ${data.english.score || 0}점)<br>`;
+            if (data.math && data.math.count > 0) txt += `• <b>수학:</b> ${data.math.count}문제 풀이 완료 (최고 성적: ${data.math.score || 0}점)<br>`;
+            if (data.jumprope && data.jumprope.count > 0) txt += `• <b>줄넘기:</b> ${data.jumprope.count}회 수행 / 획득 등급: <span style="color:#27ae60; font-weight:bold;">${data.jumprope.grade || '없음'}</span>`;
+            detailPanel.innerHTML = txt;
+        };
+        
+        grid.appendChild(cell);
+    }
+}
+
+// 학급 통계 정량 분석기
+function loadClassStatistics() {
+    let totalEnCount = 0, totalMaCount = 0, totalJuCount = 0;
+    let allEnScores = [], allMaScores = [];
+    let bestJumpropeStudent = "없음";
+    let bestJumpropeGrade = "없음";
+    
+    const gradeWeight = { "1급":1, "2급":2, "3급":3, "4급":4, "5급":5, "6급":6, "7급":7, "8급":8, "9급":9, "10급":10 };
+
+    defaultStudents.forEach(name => {
+        const records = db.students[name]?.records || {};
+        Object.keys(records).forEach(date => {
+            const d = records[date];
+            if(d.english) {
+                totalEnCount += d.english.count || 0;
+                if(d.english.score !== undefined) allEnScores.push(d.english.score);
+            }
+            if(d.math) {
+                totalMaCount += d.math.count || 0;
+                if(d.math.score !== undefined) allMaScores.push(d.math.score);
+            }
+            if(d.jumprope) {
+                totalJuCount += d.jumprope.count || 0;
+                if(d.jumprope.grade) {
+                    if (bestJumpropeGrade === "없음" || gradeWeight[d.jumprope.grade] < gradeWeight[bestJumpropeGrade]) {
+                        bestJumpropeGrade = d.jumprope.grade;
+                        bestJumpropeStudent = name;
+                    }
+                }
+            }
+        });
+    });
+    
+    const avgEnScore = allEnScores.length ? Math.round(allEnScores.reduce((a,b)=>a+b,0)/allEnScores.length) : 0;
+    const avgMaScore = allMaScores.length ? Math.round(allMaScores.reduce((a,b)=>a+b,0)/allMaScores.length) : 0;
+    
+    const reportBox = document.getElementById("class-stats-report");
+    reportBox.innerHTML = `
+        <div class="stats-line"><span>📘 <b>우리 반 영어 평균 성적:</b></span> <span><b>${avgEnScore}점</b> (총 완수 ${totalEnCount}문제)</span></div>
+        <div class="stats-line"><span>🧮 <b>우리 반 수학 평균 성적:</b></span> <span><b>${avgMaScore}점</b> (총 완수 ${totalMaCount}문제)</span></div>
+        <div class="stats-line"><span>🏃 <b>우리 반 줄넘기 연습 총합:</b></span> <span>총 <b>${totalJuCount}회</b> 실습 수행</span></div>
+        <div class="stats-line"><span>👑 <b>여름방학 줄넘기 급수 왕:</b></span> <span style="color:#27ae60; font-weight:bold;">${bestJumpropeStudent} (${bestJumpropeGrade})</span></div>
+    `;
+}
+
+// 백엔드 전체 숙제 완수 이력 CSV 변환 및 다운로드 지원 모듈
+function downloadRecordsCSV() {
+    let csvContent = "\uFEFF날짜,학생이름,영어풀이문제수,영어최고점수,수학풀이문제수,수학최고점수,줄넘기수행횟수,줄넘기획득급수\n";
+    
+    defaultStudents.forEach(name => {
+        const records = db.students[name]?.records || {};
+        Object.keys(records).sort().forEach(date => {
+            const d = records[date];
+            const enC = d.english?.count || 0;
+            const enS = d.english?.score || 0;
+            const maC = d.math?.count || 0;
+            const maS = d.math?.score || 0;
+            const juC = d.jumprope?.count || 0;
+            const juG = d.jumprope?.grade || "기록없음";
+            
+            csvContent += `${date},${name},${enC},${enS},${maC},${maS},${juC},${juG}\n`;
+        });
+    });
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "3학년1반_여름방학_숙제기록전체.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+</body>
+</html>
