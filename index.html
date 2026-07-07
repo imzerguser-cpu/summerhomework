@@ -36,135 +36,47 @@
     min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{
-    max-width:640px;
-    margin:0 auto;
-    padding:22px 18px 60px;
-    min-height:100vh;
-  }
+  .wrap{ max-width:640px; margin:0 auto; padding:22px 18px 60px; min-height:100vh; }
   h1,h2,h3{margin:0;}
   
-  .brandbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:18px;
-    gap:8px;
-  }
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:'Jua',sans-serif;
-    font-size:22px;
-    color:var(--coral-dark);
-  }
-  .brand .plate{
-    width:34px;height:34px;border-radius:50%;
-    background:var(--white);
-    border:3px solid var(--coral);
-    display:flex;align-items:center;justify-content:center;
-    font-size:16px;
-    flex:none;
-  }
+  .brandbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; gap:8px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:'Jua',sans-serif; font-size:22px; color:var(--coral-dark); }
+  .brand .plate{ width:34px;height:34px;border-radius:50%; background:var(--white); border:3px solid var(--coral); display:flex;align-items:center;justify-content:center; font-size:16px; flex:none; }
   .navbtns{display:flex;gap:6px;align-items:center;}
-  .homebtn{
-    background:var(--white);
-    border:none;
-    border-radius:14px;
-    padding:8px 12px;
-    font-family:'Nunito',sans-serif;
-    font-weight:800;
-    font-size:12.5px;
-    color:var(--ink-soft);
-    box-shadow:var(--shadow-sm);
-    cursor:pointer;
-    display:none;
-    white-space:nowrap;
-  }
+  .homebtn{ background:var(--white); border:none; border-radius:14px; padding:8px 12px; font-family:'Nunito',sans-serif; font-weight:800; font-size:12.5px; color:var(--ink-soft); box-shadow:var(--shadow-sm); cursor:pointer; display:none; white-space:nowrap; }
   .homebtn.show{display:inline-block;}
 
-  /* ---------- Intro / Login Screen ---------- */
-  .intro-box {
-    background: var(--white);
-    border-radius: 26px;
-    padding: 32px 22px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    margin-top: 20px;
-  }
-  .intro-box h2 {
-    font-family: 'Jua', sans-serif;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: var(--ink);
-  }
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  .input-group input {
-    padding: 14px;
-    border-radius: 12px;
-    border: 2px solid var(--cream-2);
-    font-size: 15px;
-    font-family: 'Nunito', 'Noto Sans KR', sans-serif;
-    outline: none;
-    text-align: center;
-  }
-  .input-group input:focus { border-color: var(--mustard); }
+  /* Box Styles */
+  .intro-box { background: var(--white); border-radius: 26px; padding: 32px 22px; box-shadow: var(--shadow); text-align: center; margin-top: 20px; }
+  .intro-box h2 { font-family: 'Jua', sans-serif; font-size: 24px; margin-bottom: 20px; color: var(--ink); }
   
-  /* ---------- Lists & Cards ---------- */
-  .hero{
-    background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%);
-    border-radius:28px;
-    padding:26px 24px;
-    color:var(--white);
-    box-shadow:var(--shadow);
-    position:relative;
-    overflow:hidden;
-    margin-bottom:20px;
-  }
+  /* Student Grid */
+  .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .student-btn { background: var(--cream-2); border: 2px solid transparent; border-radius: 14px; padding: 12px 10px; font-size: 15px; font-weight: 800; color: var(--ink); cursor: pointer; transition: transform 0.1s, border-color 0.1s; }
+  .student-btn:hover { border-color: var(--mustard); transform: translateY(-2px); }
+  .student-btn:active { transform: scale(0.96); }
+
+  /* Lists & Cards */
+  .hero{ background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%); border-radius:28px; padding:26px 24px; color:var(--white); box-shadow:var(--shadow); position:relative; overflow:hidden; margin-bottom:20px; }
   .hero h1{ font-family:'Jua',sans-serif; font-size:24px; line-height:1.4; margin-bottom:6px; }
-  .hero p{ margin:0; font-size:14px; opacity:0.92; line-height:1.6; max-width:82%; }
-  
   .listcards{ display:flex; flex-direction:column; gap:12px; }
-  .listcard{
-    background:var(--white); border-radius:20px; padding:16px; box-shadow:var(--shadow-sm);
-    display:flex; align-items:center; gap:14px; cursor:pointer;
-    border:2px solid transparent; transition:transform .15s ease, border-color .15s ease;
-  }
+  .listcard{ background:var(--white); border-radius:20px; padding:16px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:14px; cursor:pointer; border:2px solid transparent; transition:transform .15s ease, border-color .15s ease; }
   .listcard:hover{transform:translateY(-2px); border-color:var(--mustard);}
-  .listcard .num{
-    flex:none; width:46px; height:46px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Jua',sans-serif; font-size:18px; color:var(--white);
-  }
+  .listcard .num{ flex:none; width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Jua',sans-serif; font-size:18px; color:var(--white); }
   .listcard .body{flex:1;}
   .listcard .body h3{ font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; margin-bottom:3px; }
   
-  /* ---------- Game screen ---------- */
+  /* Game & Controls */
   .gamehead{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
   .gamehead h2{ font-family:'Jua',sans-serif; font-size:17px; }
   .progresswrap{ display:flex; align-items:center; gap:8px; font-size:12px; font-weight:800; color:var(--ink-soft); margin-top:4px; }
   .progressbar{ width:90px; height:8px; border-radius:6px; background:var(--cream-2); overflow:hidden; }
   .progressbar .fill{ height:100%; background:var(--green); transition:width .3s ease; }
   .score{ background:var(--white); border-radius:14px; padding:7px 12px; font-weight:800; font-size:13px; color:var(--coral-dark); }
-
-  .stage{
-    background:var(--white); border-radius:26px; padding:26px 22px 22px; box-shadow:var(--shadow);
-    min-height:340px; display:flex; flex-direction:column; align-items:center; gap:16px;
-  }
-  .prompttext .main{ font-family:'Jua',sans-serif; font-size:23px; text-align:center; }
-  
+  .stage{ background:var(--white); border-radius:26px; padding:26px 22px 22px; box-shadow:var(--shadow); min-height:340px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
+  .prompttext .main{ font-family:'Jua',sans-serif; font-size:24px; text-align:center; }
   .controls{ width:100%; display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:auto; }
-  .micbtn{
-    width:70px;height:70px; border-radius:50%; border:none;
-    background:linear-gradient(135deg, var(--coral), var(--red-soft)); color:var(--white);
-    font-size:27px; display:flex; align-items:center; justify-content:center; cursor:pointer;
-  }
+  .micbtn{ width:70px;height:70px; border-radius:50%; border:none; background:linear-gradient(135deg, var(--coral), var(--red-soft)); color:var(--white); font-size:27px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
   .micbtn.listening{ background:linear-gradient(135deg, var(--green), #59C48A); animation:pulse 1.1s infinite; }
   @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(63,167,114,0.55);} 70%{box-shadow:0 0 0 18px rgba(63,167,114,0);} 100%{box-shadow:0 0 0 0 rgba(63,167,114,0);} }
   
@@ -180,11 +92,15 @@
   .btn[disabled]{ opacity:0.45; cursor:not-allowed; }
   .hidden{ display:none !important; }
 
-  /* ---------- Record Tables ---------- */
+  /* Modals & Tables */
+  .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; }
+  .modal-content { background:#fff; width:90%; max-width:480px; border-radius:20px; padding:25px; box-shadow:0 10px 30px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto; }
+  .modal-input { padding:14px; border-radius:12px; border:2px solid var(--cream-2); outline:none; text-align:center; font-size:18px; width:100%; letter-spacing:4px; font-weight:bold; }
+  .modal-input:focus { border-color:var(--coral); }
+  
   .record-table { width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: center; margin-top:10px; }
-  .record-table th { background: var(--cream-2); padding: 10px; border-bottom: 2px solid var(--mustard); }
-  .record-table td { padding: 10px; border-bottom: 1px solid #eee; }
-
+  .record-table th { background: var(--cream-2); padding: 10px; border-bottom: 2px solid var(--mustard); font-weight:800; color:var(--ink); }
+  .record-table td { padding: 10px; border-bottom: 1px solid #eee; color:var(--ink-soft); vertical-align:middle; }
 </style>
 </head>
 <body>
@@ -193,63 +109,47 @@
     <div class="brand"><span class="plate">🍽️</span> 맛있는 영어 퀴즈</div>
     <div class="navbtns">
       <button onclick="openTeacherTab()" class="homebtn show" id="teacherTopBtn" style="background:#5D5046; color:#fff;">👨‍🏫 선생님 탭</button>
-      
-      <button class="homebtn" id="introNavBtn" onclick="showScreen('intro')">👤 내 정보</button>
+      <button class="homebtn" id="introNavBtn" onclick="showScreen('intro')">👤 로그아웃</button>
+      <button class="homebtn" id="dashBtn" onclick="showScreen('dashboard')">🏠 내 기록</button>
       <button class="homebtn" id="gradeBtn" onclick="showScreen('grade')">🎓 학년</button>
-      <button class="homebtn" id="homeBtn" onclick="showScreen('home')">📚 단원</button>
       <button class="homebtn" id="unitMenuBtn" onclick="showScreen('unitmenu')">🔁 게임</button>
     </div>
   </div>
 
   <div id="screen-intro">
     <div class="intro-box">
-      <h2>학생 정보 입력</h2>
-      <p style="font-size:14px; color:var(--ink-soft); margin-bottom:20px;">이름과 반을 입력하고 학습을 시작하세요!</p>
-      <div class="input-group">
-        <input type="text" id="loginClass" placeholder="학년/반 (예: 3학년 1반)">
-        <input type="text" id="loginName" placeholder="이름 (예: 홍길동)">
-      </div>
-      <div class="actionrow" style="flex-direction: column; gap:10px;">
-        <button class="btn primary" onclick="loginAndStart()" style="padding:16px; font-size:16px;">학습 시작하기</button>
-        <button class="btn ghost" onclick="showStudentRecords()">내 결과 및 기록 보기</button>
-      </div>
+      <h2>자신의 이름을 선택하세요 👋</h2>
+      <p style="font-size:14px; color:var(--ink-soft); margin-bottom:20px;">이름을 누르고 비밀번호를 입력하면 내 기록을 볼 수 있어요.</p>
+      <div class="student-grid" id="studentGrid">
+        </div>
     </div>
   </div>
 
-  <div id="screen-records" class="hidden">
+  <div id="screen-dashboard" class="hidden">
     <div class="intro-box">
-      <h2 id="recordTitle">내 학습 기록</h2>
-      <div style="max-height: 300px; overflow-y: auto; margin-bottom:15px;">
+      <h2 id="dashStudentName">OOO 학생의 기록</h2>
+      <div style="max-height: 250px; overflow-y: auto; margin-bottom:15px;">
         <table class="record-table">
-          <thead>
-            <tr><th>날짜</th><th>단원</th><th>점수</th></tr>
-          </thead>
-          <tbody id="studentRecordBody">
-            </tbody>
+          <thead><tr><th>날짜</th><th>단원</th><th>점수</th></tr></thead>
+          <tbody id="studentRecordBody"></tbody>
         </table>
       </div>
-      <button class="btn primary" onclick="showScreen('intro')">뒤로 가기</button>
+      <div class="actionrow">
+        <button class="btn primary" onclick="showScreen('grade')" style="padding:16px; font-size:16px;">🚀 학습 시작하기</button>
+      </div>
     </div>
   </div>
 
   <div id="screen-grade" class="hidden">
     <div class="hero">
-      <h1>초등 영어 말하기 연습<br>학년을 선택하세요</h1>
-    </div>
-    <div class="listcards" id="gradeList"></div>
-  </div>
-
-  <div id="screen-home" class="hidden">
-    <div class="hero">
-      <h1 id="homeHeroTitle">단원 선택</h1>
+      <h1>초등 영어 연습<br>단원을 선택하세요</h1>
     </div>
     <div class="listcards" id="unitList"></div>
   </div>
 
   <div id="screen-unitmenu" class="hidden">
     <div class="hero">
-      <span class="unitchip" id="unitChip">Lesson 1</span>
-      <h1 id="unitHeroTitle">Hello! I'm Dito</h1>
+      <h1 id="unitHeroTitle">단원 학습</h1>
     </div>
     <div class="listcards" id="modeList"></div>
   </div>
@@ -270,12 +170,10 @@
       <div class="prompttext">
         <div class="main" id="promptMain"></div>
       </div>
-      
       <div class="controls">
         <div class="feedback" id="feedback"></div>
         <button class="micbtn" id="micBtn">🎤</button>
         <div style="font-size:12px; color:var(--ink-soft); margin-top:5px;" id="micLabel">마이크를 눌러 말해보세요</div>
-        
         <div class="actionrow" style="margin-top:15px;">
           <button class="btn ghost" id="showAnswerBtn">정답 보기</button>
           <button class="btn next" id="nextBtn" disabled>다음 →</button>
@@ -291,45 +189,58 @@
       <div style="font-family:'Fredoka',sans-serif; font-size:34px; color:var(--coral-dark); margin:12px 0;">
         <span id="resultScore">0</span> / <span id="resultTotal">0</span>
       </div>
-      <p style="color:var(--ink-soft); font-size:14px; margin-bottom:20px;">결과가 기록되었습니다.</p>
+      <p style="color:var(--ink-soft); font-size:14px; margin-bottom:20px;">결과가 내 기록에 저장되었습니다.</p>
       <div class="actionrow" style="flex-direction:column;">
         <button class="btn primary" onclick="startGame(state.modeId)">이 게임 다시 하기</button>
-        <button class="btn ghost" onclick="showScreen('intro')">처음으로 (내 정보)</button>
+        <button class="btn ghost" onclick="showScreen('dashboard')">내 기록 보기</button>
+        <button class="btn ghost" onclick="showScreen('grade')">다른 단원 선택</button>
       </div>
     </div>
   </div>
 </div>
 
-<div id="teacher-modal" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center;">
-  <div style="background:#fff; width:90%; max-width:500px; border-radius:20px; padding:25px; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+<div id="modal-student-login" class="modal-overlay hidden">
+  <div class="modal-content" style="text-align:center;">
+    <h2 id="loginTitle" style="color:var(--ink); margin-top:0;">비밀번호 입력</h2>
+    <p style="font-size:13px; color:var(--ink-soft);">본인 확인을 위해 4자리 비밀번호를 입력하세요.</p>
+    <input type="password" id="studentPwdInput" class="modal-input" maxlength="4" placeholder="••••" style="margin:15px 0;">
+    <div class="actionrow">
+      <button class="btn primary" onclick="verifyStudentPassword()">확인</button>
+      <button class="btn ghost" onclick="closeModals()">취소</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal-teacher" class="modal-overlay hidden">
+  <div class="modal-content">
     
     <div id="teacher-auth-zone">
-      <h2 style="text-align:center; color:var(--ink); margin-top:0;">👨‍🏫 선생님 전용 메뉴</h2>
-      <p style="text-align:center; font-size:14px; color:var(--ink-soft); margin-bottom:20px;">관리자 비밀번호를 입력해 주세요.</p>
-      
-      <div style="display:flex; justify-content:center; gap:10px;">
-        <input type="password" id="teacherPwdInput" placeholder="비밀번호" style="padding:12px; border-radius:10px; border:2px solid var(--cream-2); outline:none; text-align:center; width:60%;">
-        <button onclick="verifyTeacherPassword()" class="btn primary" style="flex:none; width:auto; padding:0 20px;">확인</button>
-      </div>
-      <div style="text-align:center; margin-top:20px;">
-        <button onclick="closeTeacherTab()" class="btn ghost">닫기</button>
+      <h2 style="text-align:center; color:var(--ink); margin-top:0;">👨‍🏫 선생님 탭</h2>
+      <p style="text-align:center; font-size:13px; color:var(--ink-soft);">관리자 비밀번호를 입력해 주세요.</p>
+      <input type="password" id="teacherPwdInput" class="modal-input" placeholder="비밀번호" style="margin:15px 0; letter-spacing:normal;">
+      <div class="actionrow">
+        <button class="btn primary" onclick="verifyTeacherPassword()">접속</button>
+        <button class="btn ghost" onclick="closeModals()">닫기</button>
       </div>
     </div>
 
     <div id="teacher-dashboard-zone" class="hidden">
-      <h2 style="margin-top:0; color:var(--green-dark);">📊 반 전체 학습 기록</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h2 style="margin:0; color:var(--green-dark); font-size:18px;">👥 학생 비밀번호 및 기록 관리</h2>
+        <button onclick="closeModals()" style="background:var(--ink-soft); color:#fff; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:12px;">닫기</button>
+      </div>
+      
       <div style="max-height:300px; overflow-y:auto; border:2px solid var(--cream-2); border-radius:12px; margin-bottom:15px;">
         <table class="record-table">
           <thead>
-            <tr><th>반</th><th>이름</th><th>단원</th><th>점수</th></tr>
+            <tr><th>이름</th><th>비밀번호(수정)</th><th>기록 초기화</th></tr>
           </thead>
-          <tbody id="allRecordsBody">
-            </tbody>
+          <tbody id="adminStudentList"></tbody>
         </table>
       </div>
+      
       <div style="text-align:right;">
-        <button onclick="clearAllRecords()" class="btn" style="background:var(--red-soft); color:white; margin-right:10px;">기록 초기화</button>
-        <button onclick="closeTeacherTab()" class="btn ghost">닫기</button>
+        <button onclick="clearAllRecords()" style="background:var(--red-soft); color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:bold;">🚨 반 전체 기록 싹 지우기</button>
       </div>
     </div>
 
@@ -338,30 +249,46 @@
 
 <script>
 /* =========================================================
-   데이터 및 상태 관리
+   1. 데이터 설정
 ========================================================= */
-const DATA = {
-  "g3": {
-    "title": "3학년",
-    "units": [
-      {
-        "id": "u1", "title": "Lesson 1", "titleEn": "Hello! I'm Dito",
-        "modes": {
-          "word": [
-            { "ko": "안녕", "en": "hello" },
-            { "ko": "나는 ~야", "en": "i am" }
-          ]
-        }
-      }
-    ]
+// 퀴즈 문제 데이터
+const QUIZ_DATA = [
+  {
+    "id": "u1", "title": "Lesson 1. Hello! I'm Dito",
+    "modes": {
+      "word": [
+        { "ko": "안녕", "en": "hello" },
+        { "ko": "나는 ~야", "en": "i am" }
+      ]
+    }
+  },
+  {
+    "id": "u2", "title": "Lesson 2. What's this?",
+    "modes": {
+      "word": [
+        { "ko": "이것은 무엇이니?", "en": "what's this" },
+        { "ko": "그것은 연필이야", "en": "it is a pencil" }
+      ]
+    }
   }
-};
+];
+
+// 학생 목록 (기본값 세팅, 브라우저 스토리지에 저장되어 변경값 유지됨)
+let students = JSON.parse(localStorage.getItem('english_students')) || [
+  { id: 's1', name: '김민준', password: '1111' },
+  { id: 's2', name: '이서윤', password: '2222' },
+  { id: 's3', name: '박도윤', password: '3333' },
+  { id: 's4', name: '최지아', password: '4444' },
+  { id: 's5', name: '정하준', password: '5555' }
+];
+
+// 학생들 전체 기록 배열 [{ studentId, date, unitTitle, score }]
+let records = JSON.parse(localStorage.getItem('english_records')) || [];
+const ADMIN_PWD = "20260301";
 
 let state = {
   screen: 'intro',
-  userClass: '',
-  userName: '',
-  gradeId: null,
+  currentUser: null,
   unitId: null,
   modeId: null,
   questions: [],
@@ -370,182 +297,174 @@ let state = {
   answered: false
 };
 
-// 학생들의 모든 기록을 저장할 배열 (로컬스토리지 연동)
-let allRecords = JSON.parse(localStorage.getItem('english_records')) || [];
-
 /* =========================================================
-   1. 로그인 및 시작 화면 로직
+   2. 초기 설정 및 화면 전환 로직
 ========================================================= */
-function loginAndStart() {
-  const c = document.getElementById('loginClass').value.trim();
-  const n = document.getElementById('loginName').value.trim();
+window.onload = () => {
+  renderStudentGrid();
+  showScreen('intro');
   
-  if (!c || !n) {
-    alert("학년/반과 이름을 모두 입력해주세요!");
-    return;
+  // 엔터키 지원
+  document.getElementById('studentPwdInput').addEventListener('keypress', e => { if(e.key === 'Enter') verifyStudentPassword(); });
+  document.getElementById('teacherPwdInput').addEventListener('keypress', e => { if(e.key === 'Enter') verifyTeacherPassword(); });
+};
+
+function showScreen(screenName) {
+  state.screen = screenName;
+  const screens = ['intro', 'dashboard', 'grade', 'unitmenu', 'game', 'result'];
+  screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
+  document.getElementById(`screen-${screenName}`).classList.remove('hidden');
+  
+  // 상단 네비게이션 버튼 노출 관리
+  const navs = ['introNavBtn', 'dashBtn', 'gradeBtn', 'unitMenuBtn', 'teacherTopBtn'];
+  navs.forEach(id => document.getElementById(id).classList.remove('show'));
+  
+  document.getElementById('teacherTopBtn').classList.add('show');
+  
+  if(screenName !== 'intro') {
+    document.getElementById('introNavBtn').classList.add('show'); // 로그아웃 역할
+    if(screenName !== 'dashboard') document.getElementById('dashBtn').classList.add('show');
   }
-  
-  state.userClass = c;
-  state.userName = n;
-  
-  // 로그인 성공 시 학년 선택 화면으로 이동
-  renderGradeList();
-  showScreen('grade');
+  if(['unitmenu', 'game'].includes(screenName)) document.getElementById('gradeBtn').classList.add('show');
 }
 
-function showStudentRecords() {
-  const c = document.getElementById('loginClass').value.trim();
-  const n = document.getElementById('loginName').value.trim();
+/* =========================================================
+   3. 학생 선택 및 로그인 로직
+========================================================= */
+function renderStudentGrid() {
+  const grid = document.getElementById('studentGrid');
+  grid.innerHTML = '';
+  students.forEach(s => {
+    grid.innerHTML += `<button class="student-btn" onclick="openStudentLogin('${s.id}')">${s.name}</button>`;
+  });
+}
+
+let targetStudentId = null;
+function openStudentLogin(id) {
+  targetStudentId = id;
+  const s = students.find(x => x.id === id);
+  document.getElementById('loginTitle').textContent = `${s.name} 학생`;
+  document.getElementById('studentPwdInput').value = '';
+  document.getElementById('modal-student-login').classList.remove('hidden');
+  setTimeout(() => document.getElementById('studentPwdInput').focus(), 100);
+}
+
+function verifyStudentPassword() {
+  const s = students.find(x => x.id === targetStudentId);
+  const pwd = document.getElementById('studentPwdInput').value.trim();
   
-  if (!c || !n) {
-    alert("기록을 보려면 학년/반과 이름을 먼저 입력해주세요.");
-    return;
+  if (pwd === s.password) {
+    state.currentUser = s;
+    closeModals();
+    renderStudentDashboard();
+    showScreen('dashboard');
+  } else {
+    alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요!");
   }
-  
+}
+
+function renderStudentDashboard() {
+  document.getElementById('dashStudentName').textContent = `${state.currentUser.name} 학생의 기록`;
   const tbody = document.getElementById('studentRecordBody');
   tbody.innerHTML = '';
   
-  // 현재 접속한 학생의 기록만 필터링
-  const myRecords = allRecords.filter(r => r.className === c && r.studentName === n);
-  
+  const myRecords = records.filter(r => r.studentId === state.currentUser.id);
   if (myRecords.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" style="color:#7A6A5D;">아직 학습 기록이 없습니다.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="3" style="color:var(--ink-soft);">아직 기록이 없습니다. 파이팅!</td></tr>';
   } else {
-    myRecords.forEach(r => {
-      tbody.innerHTML += `<tr><td>${r.date}</td><td>${r.unitTitle}</td><td style="color:var(--coral-dark); font-weight:bold;">${r.score}점</td></tr>`;
+    // 최신 기록이 위로 오게 역순
+    [...myRecords].reverse().forEach(r => {
+      tbody.innerHTML += `<tr><td>${r.date}</td><td>${r.unitTitle}</td><td style="color:var(--coral-dark); font-weight:bold;">${r.score}</td></tr>`;
     });
   }
-  
-  document.getElementById('recordTitle').textContent = `${n} 학생의 기록`;
-  showScreen('records');
-}
-
-function saveCurrentResult() {
-  const today = new Date();
-  const dateStr = `${today.getMonth()+1}/${today.getDate()} ${today.getHours()}:${String(today.getMinutes()).padStart(2,'0')}`;
-  
-  const record = {
-    className: state.userClass,
-    studentName: state.userName,
-    unitTitle: document.getElementById('gameTitleEn') ? document.getElementById('gameTitleEn').innerText : '단원 학습',
-    score: `${state.score}/${state.questions.length}`,
-    date: dateStr
-  };
-  
-  allRecords.push(record);
-  localStorage.setItem('english_records', JSON.stringify(allRecords));
+  renderUnitList(); // 학습 시작 시 보일 단원 세팅
 }
 
 /* =========================================================
-   2. 선생님 탭(모달) 로직 - 비밀번호 문제 완벽 해결
+   4. 선생님 관리자 로직 (비밀번호 조회/변경 및 기록 초기화)
 ========================================================= */
 function openTeacherTab() {
-  document.getElementById('teacher-modal').classList.remove('hidden');
+  document.getElementById('modal-teacher').classList.remove('hidden');
   document.getElementById('teacher-auth-zone').classList.remove('hidden');
   document.getElementById('teacher-dashboard-zone').classList.add('hidden');
   document.getElementById('teacherPwdInput').value = '';
-}
-
-function closeTeacherTab() {
-  document.getElementById('teacher-modal').classList.add('hidden');
+  setTimeout(() => document.getElementById('teacherPwdInput').focus(), 100);
 }
 
 function verifyTeacherPassword() {
-  // 값 가져오기 및 공백 제거로 정확한 비교
-  const pwd = document.getElementById('teacherPwdInput').value.trim();
-  
-  if (pwd === "20260301") {
-    // 비밀번호 통과 시 화면 전환
+  const inputPwd = document.getElementById('teacherPwdInput').value.trim();
+  if (inputPwd === ADMIN_PWD) {
     document.getElementById('teacher-auth-zone').classList.add('hidden');
     document.getElementById('teacher-dashboard-zone').classList.remove('hidden');
-    renderAllRecords();
+    renderAdminStudentList();
   } else {
-    alert("비밀번호가 일치하지 않습니다.");
+    alert("비밀번호가 올바르지 않습니다.");
   }
 }
 
-// 엔터키 지원 (폼 제출 방지)
-document.getElementById('teacherPwdInput').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault(); 
-    verifyTeacherPassword();
-  }
-});
-
-function renderAllRecords() {
-  const tbody = document.getElementById('allRecordsBody');
+function renderAdminStudentList() {
+  const tbody = document.getElementById('adminStudentList');
   tbody.innerHTML = '';
-  
-  if (allRecords.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" style="color:#7A6A5D;">아직 기록된 학생 데이터가 없습니다.</td></tr>';
-  } else {
-    // 최신 기록이 위로 오도록 역순 정렬
-    const reversed = [...allRecords].reverse();
-    reversed.forEach(r => {
-      tbody.innerHTML += `<tr><td>${r.className}</td><td>${r.studentName}</td><td>${r.unitTitle}</td><td style="color:var(--coral-dark); font-weight:bold;">${r.score}</td></tr>`;
-    });
+  students.forEach(s => {
+    tbody.innerHTML += `
+      <tr>
+        <td style="font-weight:bold; color:var(--ink);">${s.name}</td>
+        <td>
+          <input type="text" id="admin-pwd-${s.id}" value="${s.password}" style="width:60px; text-align:center; padding:4px; border:1px solid #ccc; border-radius:4px;">
+          <button onclick="saveStudentPwd('${s.id}')" style="background:var(--green); color:#fff; border:none; padding:5px 8px; border-radius:4px; font-size:12px; cursor:pointer;">저장</button>
+        </td>
+        <td>
+          <button onclick="resetSingleStudent('${s.id}')" style="background:var(--coral-dark); color:#fff; border:none; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">기록 리셋</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function saveStudentPwd(id) {
+  const newPwd = document.getElementById(`admin-pwd-${id}`).value.trim();
+  if(!newPwd) return alert("비밀번호를 입력해주세요.");
+  const s = students.find(x => x.id === id);
+  s.password = newPwd;
+  localStorage.setItem('english_students', JSON.stringify(students));
+  alert(`${s.name} 학생의 비밀번호가 [ ${newPwd} ](으)로 변경되었습니다.`);
+}
+
+function resetSingleStudent(id) {
+  const s = students.find(x => x.id === id);
+  if(confirm(`${s.name} 학생의 모든 학습 기록을 삭제하시겠습니까? (복구 불가)`)) {
+    records = records.filter(r => r.studentId !== id);
+    localStorage.setItem('english_records', JSON.stringify(records));
+    alert("삭제되었습니다.");
   }
 }
 
 function clearAllRecords() {
-  if(confirm("정말로 반 전체 기록을 모두 삭제하시겠습니까? (복구 불가)")) {
-    allRecords = [];
+  if(confirm("모든 학생의 학습 기록을 완전히 초기화하시겠습니까? (복구 불가)")) {
+    records = [];
     localStorage.removeItem('english_records');
-    renderAllRecords();
-    alert("초기화 되었습니다.");
+    alert("전체 기록이 초기화되었습니다.");
   }
+}
+
+function closeModals() {
+  document.getElementById('modal-student-login').classList.add('hidden');
+  document.getElementById('modal-teacher').classList.add('hidden');
 }
 
 /* =========================================================
-   3. 화면 이동 및 퀴즈 구동 로직
+   5. 퀴즈 진행 로직
 ========================================================= */
-function showScreen(screenName) {
-  state.screen = screenName;
-  const screens = ['intro', 'records', 'grade', 'home', 'unitmenu', 'game', 'result'];
-  screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden'));
-  
-  document.getElementById(`screen-${screenName}`).classList.remove('hidden');
-  
-  // 상단 네비게이션 버튼 관리
-  const navs = ['introNavBtn', 'gradeBtn', 'homeBtn', 'unitMenuBtn', 'teacherTopBtn'];
-  navs.forEach(id => document.getElementById(id).classList.remove('show'));
-  
-  // 선생님 버튼은 항상 보이게 설정 (단, 퀴즈 도중에는 숨김 처리 가능)
-  document.getElementById('teacherTopBtn').classList.add('show');
-  
-  if(screenName !== 'intro' && screenName !== 'records') {
-    document.getElementById('introNavBtn').classList.add('show');
-  }
-  if(screenName === 'home' || screenName === 'unitmenu' || screenName === 'game') {
-    document.getElementById('gradeBtn').classList.add('show');
-  }
-  if(screenName === 'unitmenu' || screenName === 'game') {
-    document.getElementById('homeBtn').classList.add('show');
-  }
-}
-
-function renderGradeList(){
-  const list = document.getElementById('gradeList');
-  list.innerHTML = '';
-  Object.keys(DATA).forEach(key => {
-    const card = document.createElement('div');
-    card.className = 'listcard';
-    card.innerHTML = `<div class="num" style="background:var(--coral)">🎓</div><div class="body"><h3>${DATA[key].title}</h3></div>`;
-    card.onclick = () => { state.gradeId = key; renderUnitList(); showScreen('home'); };
-    list.appendChild(card);
-  });
-}
-
-function renderUnitList(){
+function renderUnitList() {
   const list = document.getElementById('unitList');
   list.innerHTML = '';
-  DATA[state.gradeId].units.forEach((u, idx) => {
+  QUIZ_DATA.forEach((u, idx) => {
     const card = document.createElement('div');
     card.className = 'listcard';
     card.innerHTML = `<div class="num" style="background:var(--mustard)">${idx+1}</div><div class="body"><h3>${u.title}</h3></div>`;
     card.onclick = () => {
       state.unitId = u.id;
-      document.getElementById('unitHeroTitle').textContent = u.titleEn;
+      document.getElementById('unitHeroTitle').textContent = u.title;
       renderModeList(u);
       showScreen('unitmenu');
     };
@@ -553,10 +472,10 @@ function renderUnitList(){
   });
 }
 
-function renderModeList(u){
+function renderModeList(u) {
   const list = document.getElementById('modeList');
   list.innerHTML = '';
-  if(u.modes.word){
+  if(u.modes.word) {
     const card = document.createElement('div');
     card.className = 'listcard';
     card.innerHTML = `<div class="num" style="background:var(--coral)">🍎</div><div class="body"><h3>낱말 익히기</h3></div>`;
@@ -567,7 +486,7 @@ function renderModeList(u){
 
 function startGame(mode) {
   state.modeId = mode;
-  const u = DATA[state.gradeId].units.find(x => x.id === state.unitId);
+  const u = QUIZ_DATA.find(x => x.id === state.unitId);
   state.questions = [...u.modes[mode]];
   state.currentIdx = 0;
   state.score = 0;
@@ -611,12 +530,9 @@ function processAnswer(text) {
   document.getElementById('nextBtn').disabled = false;
 }
 
-/* =========================================================
-   이벤트 리스너 및 음성 인식
-========================================================= */
 document.getElementById('showAnswerBtn').onclick = () => {
   if(state.answered) return;
-  processAnswer("wrong_answer_forced"); // 강제로 오답 처리하여 정답 노출
+  processAnswer("wrong_answer_forced"); 
 };
 
 document.getElementById('nextBtn').onclick = () => {
@@ -624,13 +540,29 @@ document.getElementById('nextBtn').onclick = () => {
   if(state.currentIdx < state.questions.length) {
     loadQuestion();
   } else {
-    saveCurrentResult(); // 모든 퀴즈 완료 시 로컬스토리지에 저장
+    saveRecord();
     document.getElementById('resultScore').textContent = state.score;
     document.getElementById('resultTotal').textContent = state.questions.length;
     showScreen('result');
   }
 };
 
+function saveRecord() {
+  if(!state.currentUser) return;
+  const today = new Date();
+  const dateStr = `${today.getMonth()+1}/${today.getDate()} ${today.getHours()}:${String(today.getMinutes()).padStart(2,'0')}`;
+  const u = QUIZ_DATA.find(x => x.id === state.unitId);
+  
+  records.push({
+    studentId: state.currentUser.id,
+    date: dateStr,
+    unitTitle: u.title,
+    score: `${state.score}/${state.questions.length}`
+  });
+  localStorage.setItem('english_records', JSON.stringify(records));
+}
+
+// 음성 인식 로직
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 if(SpeechRecognition) {
   const recognition = new SpeechRecognition();
@@ -653,10 +585,6 @@ if(SpeechRecognition) {
 } else {
   document.getElementById('micLabel').textContent = "이 브라우저는 음성 인식을 지원하지 않습니다.";
 }
-
-// 최초 로드 시 인트로 화면 표시
-window.onload = () => showScreen('intro');
-
 </script>
 </body>
 </html>
