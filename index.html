@@ -2,13 +2,13 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>마동초 3학년 방학숙제 마스터 관리 시스템</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
   :root { --primary: #3B82F6; --primary-dark: #2563EB; --bg: #F3F4F6; --card: #FFFFFF; --text: #1F2937; }
-  body { margin:0; padding:0; font-family:'Noto Sans KR', sans-serif; background:var(--bg); color:var(--text); }
-  .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+  body { margin:0; padding:0; font-family:'Noto Sans KR', sans-serif; background:var(--bg); color:var(--text); -webkit-tap-highlight-color:transparent; }
+  .container { max-width: 600px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
   .card { background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
   h1, h2, h3 { margin-top: 0; color: #111827; }
   
@@ -110,7 +110,7 @@
     <h3 id="iframe-title">과제 수행 중...</h3>
     <button onclick="exitApp()">제출 및 종료 ✕</button>
   </div>
-  <iframe id="app-frame" allow="microphone; camera; suborigins"></iframe>
+  <iframe id="app-frame" allow="microphone; speech-recognition; camera;"></iframe>
 </div>
 
 <div id="modal-date" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; justify-content:center; align-items:center; padding:20px; box-sizing:border-box;">
@@ -133,7 +133,7 @@ let pollInterval = null;
 let allTasks = {};
 let jumpRopeData = [];
 
-// GitHub 대응 영문 파일명 매핑 완료
+// 영어 파일명 연결 브릿지
 const filePaths = {
   english: 'english.html',
   math: 'math.html',
@@ -215,7 +215,7 @@ function openApp(appName) {
   iframe.src = filePaths[appName];
   iframe.dataset.recorded = "false";
   
-  // 예외 처리를 강화하여 에러 로그를 방지하고 부드럽게 주입합니다.
+  // 수정사항 1: 줄넘기 3학년만 자동 고정 및 UI 비활성화 원격 주입 제어 장치
   if (appName === 'jumprope') {
     let attempts = 0;
     const injectInterval = setInterval(() => {
@@ -246,6 +246,7 @@ function openApp(appName) {
     }, 400);
   }
   
+  // 수정사항 2: 완료 시 실시간 결과 캐치 및 실시간 파이어베이스 연동 장치
   if (appName === 'english' || appName === 'math') {
     pollInterval = setInterval(() => {
       try {
