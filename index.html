@@ -3,517 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3학년 1반 여름방학 숙제 홈</title>
+<title>3학년 1반 여름방학 숙제</title>
 <style>
-    body { font-family: 'Malgun Gothic', Arial, sans-serif; background: #f4f8ff; margin: 0; padding-bottom: 50px; color: #333; }
-    header { background: linear-gradient(135deg, #4a7cff, #3559d9); color: #fff; padding: 30px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    header h1 { margin: 0; font-size: 28px; font-weight: bold; letter-spacing: -0.5px; }
-    header p { margin: 10px 0 0; opacity: 0.9; font-size: 15px; }
-    .container { max-width: 800px; margin: 25px auto; padding: 0 20px; }
-    .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2ff; }
-    .card h2 { margin-top: 0; color: #2c3e50; font-size: 20px; border-bottom: 2px solid #f0f4ff; padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-    
-    /* 학생 선택 버튼 그리드 */
-    .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; margin: 15px 0; }
-    .student-btn { background: #fff; border: 2px solid #e2e8f0; border-radius: 14px; padding: 18px 10px; font-size: 16px; font-weight: bold; color: #4a5568; cursor: pointer; transition: all 0.2s ease; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .student-btn:hover { border-color: #4a7cff; background: #f0f4ff; color: #4a7cff; transform: translateY(-3px); box-shadow: 0 5px 10px rgba(74,124,255,0.15); }
-    .student-btn .score-badge { display: block; font-size: 11px; color: #a0aec0; font-weight: normal; margin-top: 6px; }
-
-    /* 랭킹 스타일 */
-    .rank-list { list-style: none; padding: 0; margin: 0; }
-    .rank-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #f0f4f8; font-size: 16px; }
-    .rank-item:last-child { border-bottom: none; }
-    .rank-name { display: flex; align-items: center; gap: 12px; font-weight: bold; }
-    .rank-medal { font-size: 20px; width: 28px; text-align: center; }
-    .rank-count { color: #4a7cff; font-weight: bold; background: #eef3ff; padding: 5px 12px; border-radius: 20px; font-size: 14px; }
-
-    /* 대시보드 과제 보드 */
-    .homework-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin: 20px 0; }
-    .hw-card { border-radius: 14px; padding: 20px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; min-height: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s; }
-    .hw-card:hover { transform: translateY(-2px); }
-    .hw-card.english { background: linear-gradient(135deg, #ff7675, #d63031); }
-    .hw-card.math { background: linear-gradient(135deg, #ffbe76, #f0932b); }
-    .hw-card.jumprope { background: linear-gradient(135deg, #2ecc71, #27ae60); }
-    .hw-card h3 { margin: 0 0 12px; font-size: 19px; display: flex; align-items: center; gap: 8px; }
-    .hw-stats { font-size: 14px; opacity: 0.95; line-height: 1.7; }
-    .hw-btn { background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; color: inherit; padding: 10px; text-align: center; font-weight: bold; text-decoration: none; margin-top: 15px; display: block; transition: all 0.2s; cursor: pointer; font-size: 14px; }
-    .hw-btn:hover { background: rgba(255, 255, 255, 0.4); border-color: #fff; }
-
-    /* 달력 스타일 */
-    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; margin-top: 15px; }
-    .calendar-header { font-weight: bold; background: #edf2f7; padding: 10px 0; border-radius: 8px; font-size: 13px; color: #4a5568; }
-    .calendar-day { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; min-height: 70px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.15s; }
-    .calendar-day:hover { background: #f0f4ff; border-color: #4a7cff; }
-    .calendar-day.today { border: 2px solid #4a7cff; background: #f7f9ff; }
-    .calendar-day.empty { background: #f7fafc; border: none; cursor: default; }
-    .day-num { font-size: 13px; font-weight: bold; text-align: left; color: #718096; }
-    .day-badges { display: flex; justify-content: center; gap: 3px; flex-wrap: wrap; margin-top: 4px; }
-    .badge-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-    .badge-dot.en { background: #ff7675; border: 1px solid rgba(0,0,0,0.1); }
-    .badge-dot.ma { background: #ffbe76; border: 1px solid rgba(0,0,0,0.1); }
-    .badge-dot.ju { background: #2ecc71; border: 1px solid rgba(0,0,0,0.1); }
-
-    /* 모달 */
-    #loginModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
-    .modal-content { background: #fff; border-radius: 20px; padding: 30px; width: 90%; max-width: 340px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease-out; }
-    @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .modal-content h3 { margin-top: 0; color: #2c3e50; font-size: 20px; text-align: center; }
-    .modal-content input { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 18px; box-sizing: border-box; text-align: center; letter-spacing: 6px; margin: 18px 0; transition: border-color 0.2s; }
-    .modal-content input:focus { border-color: #4a7cff; outline: none; }
-    .modal-buttons { display: flex; gap: 12px; }
-    .modal-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-    .modal-btn.confirm { background: #4a7cff; color: #fff; }
-    .modal-btn.confirm:hover { background: #3559d9; }
-    .modal-btn.cancel { background: #edf2f7; color: #4a5568; }
-    .modal-btn.cancel:hover { background: #e2e8f0; }
-
-    /* 공통 관리 버튼 */
-    .admin-btn { width: 100%; padding: 15px; background: #4a5568; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 25px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .admin-btn:hover { background: #2d3748; }
-    .logout-btn { background: #edf2f7; color: #e53e3e; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
-    .logout-btn:hover { background: #fff5f5; border-color: #feb2b2; }
-
-    /* 상세 내역 출력 패널 */
-    .detail-panel { background: #f8fafc; border-left: 4px solid #4a7cff; padding: 16px; margin-top: 20px; border-radius: 0 12px 12px 0; font-size: 15px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02); }
-    .detail-title { font-weight: bold; margin-bottom: 10px; color: #1a202c; font-size: 16px; }
-    .detail-item { display: flex; justify-content: space-between; margin-bottom: 6px; color: #4a5568; padding: 4px 0; border-bottom: 1px dashed #edf2f8; }
-    .detail-item:last-child { border-bottom: none; margin-bottom: 0; }
-
-    .hidden { display: none !important; }
+body{font-family:Arial,sans-serif;background:#f4f8ff;margin:0}
+header{background:#4a7cff;color:#fff;padding:20px;text-align:center}
+.container{max-width:700px;margin:20px auto;padding:20px}
+.card{background:#fff;border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;background:#4a7cff;color:#fff;font-size:16px;cursor:pointer}
+#loginModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5)}
+.modal{background:#fff;width:320px;margin:120px auto;padding:20px;border-radius:12px}
+.rank li{display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
-
 <header>
-    <h1>🌻 3학년 1반 여름방학 숙제 🌻</h1>
-    <p>매일매일 스스로 공부하고 멋진 기록을 달력에 남겨보세요!</p>
+<h1>🌻 3학년 1반 여름방학 숙제 🌻</h1>
+<p>학생을 선택하여 로그인하세요.</p>
 </header>
 
 <div class="container">
-    
-    <!-- [화면 1] 학생 선택 메인 대문 화면 -->
-    <div id="view-main">
-        <div class="card">
-            <h2>👤 누구의 방학 숙제 방인가요?</h2>
-            <p style="font-size: 14px; color: #718096; margin-top: -8px; margin-bottom: 20px;">자신의 이름을 클릭한 뒤 비밀번호(초기 암호: 1111)를 입력해 로그인하세요.</p>
-            <div class="student-grid" id="student-list-container">
-                <!-- 자바스크립트로 학생 리스트 자동 출력 -->
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>🏆 우리 반 방학 숙제 랭킹 (전체 누적 횟수 합산)</h2>
-            <ul class="rank-list" id="ranking-container">
-                <!-- 정렬된 랭킹 데이터 자동 출력 -->
-            </ul>
-        </div>
-        
-        <button class="admin-btn" onclick="openTeacherLogin()">👨‍🏫 교사 전용 관리 페이지 진입</button>
-    </div>
-
-    <!-- [화면 2] 로그인 성공 시 나타나는 개인 대시보드 화면 -->
-    <div id="view-dashboard" class="hidden">
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; margin-bottom: 20px;">
-            <div>
-                <span style="font-size: 19px; font-weight: bold; color: #2d3748;">👋 반갑습니다, <span id="user-welcome-name" style="color: #4a7cff;"></span> 학생!</span>
-            </div>
-            <button class="logout-btn" onclick="logoutStudent()">로그아웃</button>
-        </div>
-
-        <!-- 3개 숙제 바로가기 대시보드 카드 영역 -->
-        <div class="homework-container">
-            <!-- 영어 영역 -->
-            <div class="hw-card english">
-                <div>
-                    <h3>📘 영어 단어 퀴즈</h3>
-                    <div class="hw-stats">
-                        • 오늘 참여: <span id="hw-en-today">0</span>문제<br>
-                        • 누적 총합: <span id="hw-en-total">0</span>문제
-                    </div>
-                </div>
-                <button class="hw-btn" onclick="goHomework('english.html')">영어 숙제 시작 ➔</button>
-            </div>
-            
-            <!-- 수학 영역 -->
-            <div class="hw-card math">
-                <div>
-                    <h3>🧮 맛있는 구구단</h3>
-                    <div class="hw-stats">
-                        • 오늘 참여: <span id="hw-ma-today">0</span>문제<br>
-                        • 누적 총합: <span id="hw-ma-total">0</span>문제
-                    </div>
-                </div>
-                <button class="hw-btn" onclick="goHomework('math.html')">수학 숙제 시작 ➔</button>
-            </div>
-            
-            <!-- 줄넘기 영역 -->
-            <div class="hw-card jumprope">
-                <div>
-                    <h3>🏃 줄넘기 연습</h3>
-                    <div class="hw-stats">
-                        • 오늘 기록: <span id="hw-ju-today">0</span>회<br>
-                        • 달성 최고 등급: <span id="hw-ju-best">없음</span>
-                    </div>
-                </div>
-                <button class="hw-btn" onclick="goHomework('jumprope.html')">줄넘기 기록 시작 ➔</button>
-            </div>
-        </div>
-
-        <!-- 개인 스터디 달력 컴포넌트 -->
-        <div class="card">
-            <h2 id="calendar-month-title">📅 나의 학습 기록 달력</h2>
-            <p style="font-size: 13px; color: #718096; margin-top: -8px; margin-bottom: 15px;">날짜를 클릭하면 해당 날짜의 상세 퀴즈 점수 및 실습 횟수를 볼 수 있습니다.</p>
-            <div class="calendar" id="calendar-grid">
-                <!-- 달력 날짜 컴포넌트 동적 로드 -->
-            </div>
-            <div id="day-detail-panel" class="detail-panel hidden">
-                <!-- 선택 일자 상세 현황 명세서 출력 패널 -->
-            </div>
-        </div>
-
-        <!-- 누적 학습 성적 종합 통계 리포트 -->
-        <div class="card">
-            <h2>📈 나의 과목별 누적 성적 통계 리포트</h2>
-            <div style="font-size: 15px; line-height: 2.0; color: #4a5568;">
-                <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed #e2e8f0;">
-                    <b style="color: #d63031; font-size: 16px;">📘 영어 단어:</b> 총 완수 <span id="stat-en-count" style="font-weight:bold;">0</span>문제 | 평균 점수 <span id="stat-en-avg" style="font-weight:bold;">0</span>점 | 최고 기록 <span id="stat-en-max" style="font-weight:bold;">0</span>점
-                </div>
-                <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed #e2e8f0;">
-                    <b style="color: #e67e22; font-size: 16px;">🧮 구구단 수학:</b> 총 완수 <span id="stat-ma-count" style="font-weight:bold;">0</span>문제 | 평균 점수 <span id="stat-ma-avg" style="font-weight:bold;">0</span>점 | 최고 기록 <span id="stat-ma-max" style="font-weight:bold;">0</span>점
-                </div>
-                <div>
-                    <b style="color: #27ae60; font-size: 16px;">🏃 줄넘기 연습:</b> 최고 획득 등급 <span id="stat-ju-best-text" style="font-weight:bold; color:#27ae60;">없음</span> | 총 누적 연습 횟수 <span id="stat-ju-total-count" style="font-weight:bold;">0</span>회
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="card">
+<h2>학생 선택</h2>
+<div id="students"></div>
 </div>
 
-<!-- 학생 패스워드 검증 로그인 팝업 모달 -->
+<div class="card">
+<h2>🏆 오늘의 수행 횟수</h2>
+<ul class="rank" id="ranking">
+<li><span>김대현</span><span>0회</span></li>
+<li><span>나대한</span><span>0회</span></li>
+<li><span>민주은</span><span>0회</span></li>
+<li><span>백은성</span><span>0회</span></li>
+<li><span>신서희</span><span>0회</span></li>
+</ul>
+</div>
+
+<button onclick="teacherLogin()">👨‍🏫 교사 페이지</button>
+</div>
+
 <div id="loginModal">
-    <div class="modal-content">
-        <h3 id="login-title-name">학생 로그인</h3>
-        <p style="font-size:13px; color:#718096; text-align:center; margin:0;">비밀번호 4자리를 입력하세요.</p>
-        <input type="password" id="student-pw-input" maxlength="8" placeholder="••••" autocomplete="off">
-        <div class="modal-buttons">
-            <button class="modal-btn cancel" onclick="closeModal()">취소</button>
-            <button class="modal-btn confirm" onclick="submitStudentLogin()">확인</button>
-        </div>
-    </div>
+<div class="modal">
+<h3 id="title"></h3>
+<input id="pw" type="password" placeholder="비밀번호" style="width:100%;padding:10px">
+<button onclick="login()">로그인</button>
+<button onclick="closeModal()">취소</button>
+</div>
 </div>
 
 <script>
-// 우리반 고정 학생 라인업 (5명 명단 제공 데이터 구성)
-const defaultStudents = ["김대현", "나대한", "민주은", "백은성", "신서희"];
-
-// 로컬스토리지 백엔드 초기 동기화 인프라 빌드
-let db = JSON.parse(localStorage.getItem("homeworkData")) || {
-    students: {},
-    teacherPw: "20260301"
-};
-
-// 학생 구조 널 가드 및 초기 암호값 매핑
-defaultStudents.forEach(name => {
-    if (!db.students[name]) {
-        db.students[name] = {
-            password: "1111",
-            records: {}
-        };
-    }
-});
-localStorage.setItem("homeworkData", JSON.stringify(db));
-
-let currentActiveUser = null;
-let selectedLoginStudent = null;
-
-// 오늘 날짜 계산 헬퍼 함수 (KST 로컬 타임존 보정 타임스탬프 반환)
-function getTodayString() {
-    const d = new Date();
-    const offset = d.getTimezoneOffset() * 60000;
-    const localTime = new Date(d.getTime() - offset);
-    return localTime.toISOString().split('T')[0];
-}
-
-// 윈도우 로딩 이벤트 리스너 바인딩 (주소창 파라미터 트래킹 분기)
-window.addEventListener("DOMContentLoaded", () => {
-    const params = new URLSearchParams(window.location.search);
-    const paramStudent = params.get("student");
-    
-    if (paramStudent && db.students[paramStudent]) {
-        loginSuccess(paramStudent);
-    } else {
-        renderMainView();
-    }
+const students=[
+"김대현","나대한","민주은","백은성","신서희"
+];
+let current="";
+const box=document.getElementById("students");
+students.forEach(n=>{
+ const b=document.createElement("button");
+ b.textContent=n;
+ b.onclick=()=>openLogin(n);
+ box.appendChild(b);
 });
 
-// 메인 게이트웨이 화면 렌더러
-function renderMainView() {
-    currentActiveUser = null;
-    document.getElementById("view-main").classList.remove("hidden");
-    document.getElementById("view-dashboard").classList.add("hidden");
-    
-    const listContainer = document.getElementById("student-list-container");
-    listContainer.innerHTML = "";
-    
-    const rankData = [];
-    
-    defaultStudents.forEach(name => {
-        let totalCount = 0;
-        const records = db.students[name].records || {};
-        
-        // 전체 누적 수행 횟수 계산 (영어 횟수 + 수학 횟수 + 줄넘기 횟수 전체 합산)
-        Object.keys(records).forEach(date => {
-            const dayData = records[date];
-            if (dayData.english && dayData.english.count) totalCount += dayData.english.count;
-            if (dayData.math && dayData.math.count) totalCount += dayData.math.count;
-            if (dayData.jumprope && dayData.jumprope.count) totalCount += dayData.jumprope.count;
-        });
-        
-        rankData.push({ name: name, total: totalCount });
-        
-        // 버튼 템플릿 컴포넌트 렌더링
-        const btn = document.createElement("button");
-        btn.className = "student-btn";
-        btn.innerHTML = `${name} <span class="score-badge">누적 ${totalCount}회</span>`;
-        btn.onclick = () => openLoginModal(name);
-        listContainer.appendChild(btn);
-    });
-    
-    // 랭킹 정렬 소팅 알고리즘 작동 (내림차순 정렬)
-    rankData.sort((a, b) => b.total - a.total);
-    const rankingContainer = document.getElementById("ranking-container");
-    rankingContainer.innerHTML = "";
-    
-    rankData.forEach((item, index) => {
-        let medal = "•";
-        if (index === 0) medal = "🥇";
-        else if (index === 1) medal = "🥈";
-        else if (index === 2) medal = "🥉";
-        
-        const li = document.createElement("li");
-        li.className = "rank-item";
-        li.innerHTML = `
-            <div class="rank-name"><span class="rank-medal">${medal}</span> ${item.name}</div>
-            <span class="rank-count">${item.total}회 완료</span>
-        `;
-        rankingContainer.appendChild(li);
-    });
+function openLogin(name){
+ current=name;
+ title.textContent=name+" 로그인";
+ loginModal.style.display="block";
 }
-
-// 로그인 제어 모달 트리거
-function openLoginModal(name) {
-    selectedLoginStudent = name;
-    document.getElementById("login-title-name").textContent = name + " 학생 로그인";
-    document.getElementById("student-pw-input").value = "";
-    document.getElementById("loginModal").style.display = "flex";
-    document.getElementById("student-pw-input").focus();
+function closeModal(){loginModal.style.display="none";pw.value="";}
+function login(){
+ if(pw.value==="1111"){
+   localStorage.setItem("student",current);
+   alert(current+" 로그인 성공\n(다음 단계에서 학생 홈과 Firebase를 연결합니다.)");
+ }else{
+   alert("비밀번호가 올바르지 않습니다.");
+ }
 }
-
-function closeModal() {
-    document.getElementById("loginModal").style.display = "none";
-}
-
-// 비밀번호 검증 코어 엔진
-function submitStudentLogin() {
-    const enteredPw = document.getElementById("student-pw-input").value;
-    const correctPw = db.students[selectedLoginStudent].password || "1111";
-    
-    if (enteredPw === correctPw) {
-        closeModal();
-        loginSuccess(selectedLoginStudent);
-    } else {
-        alert("비밀번호가 맞지 않습니다. 다시 확인하고 입력해 주세요!");
-    }
-}
-
-// 인증 성공 핸들러
-function loginSuccess(name) {
-    currentActiveUser = name;
-    document.getElementById("view-main").classList.add("hidden");
-    document.getElementById("view-dashboard").classList.remove("hidden");
-    document.getElementById("user-welcome-name").textContent = name;
-    
-    // 새로고침 가드용 쿼리스트링 파라미터 백업 주입
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?student=' + encodeURIComponent(name);
-    window.history.replaceState({ path: newUrl }, '', newUrl);
-    
-    loadDashboardData();
-}
-
-function logoutStudent() {
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-    window.history.replaceState({ path: newUrl }, '', newUrl);
-    renderMainView();
-}
-
-// 개인 대시보드 내부 데이터 가공 매핑 엔진
-function loadDashboardData() {
-    const name = currentActiveUser;
-    const records = db.students[name].records || {};
-    const todayStr = getTodayString();
-    
-    // 오늘의 숙제 카운트 리셋 및 새로고침
-    const todayData = records[todayStr] || {};
-    document.getElementById("hw-en-today").textContent = (todayData.english && todayData.english.count) ? todayData.english.count : 0;
-    document.getElementById("hw-ma-today").textContent = (todayData.math && todayData.math.count) ? todayData.math.count : 0;
-    document.getElementById("hw-ju-today").textContent = (todayData.jumprope && todayData.jumprope.count) ? todayData.jumprope.count : 0;
-    
-    // 누적 누설 점수 데이터 연산 가공
-    let enTotal = 0, maTotal = 0, juTotal = 0;
-    let enScores = [], maScores = [];
-    let juBestGrade = "없음";
-    
-    const gradeWeight = { "1급":1, "2급":2, "3급":3, "4급":4, "5급":5, "6급":6, "7급":7, "8급":8, "9급":9, "10급":10 };
-
-    Object.keys(records).forEach(date => {
-        const d = records[date];
-        if (d.english) {
-            enTotal += d.english.count || 0;
-            if (d.english.score !== undefined) enScores.push(d.english.score);
-        }
-        if (d.math) {
-            maTotal += d.math.count || 0;
-            if (d.math.score !== undefined) maScores.push(d.math.score);
-        }
-        if (d.jumprope) {
-            juTotal += d.jumprope.count || 0;
-            if (d.jumprope.grade) {
-                if (juBestGrade === "없음" || gradeWeight[d.jumprope.grade] < gradeWeight[juBestGrade]) {
-                    juBestGrade = d.jumprope.grade;
-                }
-            }
-        }
-    });
-    
-    document.getElementById("hw-en-total").textContent = enTotal;
-    document.getElementById("hw-ma-total").textContent = maTotal;
-    document.getElementById("hw-ju-best").textContent = juBestGrade;
-    
-    // 종합 성적 통계 보드 값 주입
-    document.getElementById("stat-en-count").textContent = enTotal;
-    document.getElementById("stat-en-avg").textContent = enScores.length ? Math.round(enScores.reduce((a,b)=>a+b,0)/enScores.length) : 0;
-    document.getElementById("stat-en-max").textContent = enScores.length ? Math.max(...enScores) : 0;
-    
-    document.getElementById("stat-ma-count").textContent = maTotal;
-    document.getElementById("stat-ma-avg").textContent = maScores.length ? Math.round(maScores.reduce((a,b)=>a+b,0)/maScores.length) : 0;
-    document.getElementById("stat-ma-max").textContent = maScores.length ? Math.max(...maScores) : 0;
-    
-    document.getElementById("stat-ju-best-text").textContent = juBestGrade;
-    document.getElementById("stat-ju-total-count").textContent = juTotal;
-    
-    buildCalendar(records);
-}
-
-// 게임 하위 웹페이지 연결 제어 및 세션 유지 파라미터 전송
-function goHomework(pageFile) {
-    if (!currentActiveUser) return;
-    location.href = pageFile + '?student=' + encodeURIComponent(currentActiveUser);
-}
-
-// 달력 컴포넌트 동적 드로잉 빌더 (방학 기간인 2026년 7월 타겟 고정)
-function buildCalendar(records) {
-    const calendarGrid = document.getElementById("calendar-grid");
-    calendarGrid.innerHTML = "";
-    
-    const targetYear = 2026;
-    const targetMonth = 6; // 7월을 의미 (0부터 시작)
-    
-    document.getElementById("calendar-month-title").textContent = `📅 나의 학습 기록 달력 (${targetYear}년 7월)`;
-    
-    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-    daysOfWeek.forEach(w => {
-        const head = document.createElement("div");
-        head.className = "calendar-header";
-        head.textContent = w;
-        calendarGrid.appendChild(head);
-    });
-    
-    const firstDay = new Date(targetYear, targetMonth, 1).getDay();
-    const totalDays = new Date(targetYear, targetMonth + 1, 0).getDate();
-    
-    // 7월 시작 요일 전까지 빈칸 생성
-    for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement("div");
-        emptyCell.className = "calendar-day empty";
-        calendarGrid.appendChild(emptyCell);
-    }
-    
-    // 1일부터 말일까지 셀 생성 및 기록 매칭 후 색상 도트 인디케이터 부착
-    for (let day = 1; day <= totalDays; day++) {
-        const dayCell = document.createElement("div");
-        dayCell.className = "calendar-day";
-        
-        const dateStr = targetYear + '-' + String(targetMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-        
-        if (dateStr === getTodayString()) {
-            dayCell.classList.add("today");
-        }
-        
-        const numLabel = document.createElement("div");
-        numLabel.className = "day-num";
-        numLabel.textContent = day;
-        dayCell.appendChild(numLabel);
-        
-        const badgesContainer = document.createElement("div");
-        badgesContainer.className = "day-badges";
-        
-        if (records[dateStr]) {
-            const d = records[dateStr];
-            if (d.english && d.english.count > 0) {
-                const b = document.createElement("span"); b.className = "badge-dot en";
-                badgesContainer.appendChild(b);
-            }
-            if (d.math && d.math.count > 0) {
-                const b = document.createElement("span"); b.className = "badge-dot ma";
-                badgesContainer.appendChild(b);
-            }
-            if (d.jumprope && d.jumprope.count > 0) {
-                const b = document.createElement("span"); b.className = "badge-dot ju";
-                badgesContainer.appendChild(b);
-            }
-        }
-        dayCell.appendChild(badgesContainer);
-        
-        dayCell.onclick = () => showDayDetail(dateStr, day);
-        calendarGrid.appendChild(dayCell);
-    }
-}
-
-// 선택 일자 상세 이력 패널 데이터 매핑 함수
-function showDayDetail(dateStr, dayNum) {
-    const panel = document.getElementById("day-detail-panel");
-    panel.classList.remove("hidden");
-    
-    const dayData = db.students[currentActiveUser].records[dateStr];
-    
-    if (!dayData || (!dayData.english && !dayData.math && !dayData.jumprope)) {
-        panel.innerHTML = `<div class="detail-title">📍 ${dayNum}일 공부 결과</div><p style="margin:0; color:#a0aec0; font-size:14px;">해당 일자에 완수한 방학 숙제 내역이 없습니다.</p>`;
-        return;
-    }
-    
-    let html = `<div class="detail-title">📍 ${dayNum}일 완료 숙제 상세 리포트</div>`;
-    if (dayData.english && dayData.english.count > 0) {
-        html += `<div class="detail-item"><span>📘 영어 단어 퀴즈</span> <span><b>${dayData.english.count}문제</b> 완료 (최고 점수: ${dayData.english.score || 0}점)</span></div>`;
-    }
-    if (dayData.math && dayData.math.count > 0) {
-        html += `<div class="detail-item"><span>🧮 수학 구구단 연습</span> <span><b>${dayData.math.count}문제</b> 완료 (최고 점수: ${dayData.math.score || 0}점)</span></div>`;
-    }
-    if (dayData.jumprope && dayData.jumprope.count > 0) {
-        html += `<div class="detail-item"><span>🏃 줄넘기 연습 기록</span> <span><b>${dayData.jumprope.count}회</b> 실습 수행 (최고 급수: <b>${dayData.jumprope.grade || '없음'}</b>)</span></div>`;
-    }
-    
-    panel.innerHTML = html;
-}
-
-// 교사 관리 비밀번호 게이트웨이 인증기
-function openTeacherLogin() {
-    const pw = prompt("👨‍🏫 교사 전용 인증 비밀번호를 입력해 주세요:");
-    const correctTeacherPw = db.teacherPw || "20260301";
-    if (pw === correctTeacherPw) {
-        location.href = "teacher.html";
-    } else if (pw !== null) {
-        alert("인증에 실패했습니다. 관리자 암호가 일치하지 않습니다.");
-    }
+function teacherLogin(){
+ const p=prompt("교사 비밀번호");
+ if(p==="20260301"){
+   location.href="teacher.html";
+ }else if(p!==null){
+   alert("비밀번호가 틀렸습니다.");
+ }
 }
 </script>
 </body>
