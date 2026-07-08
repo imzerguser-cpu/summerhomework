@@ -109,28 +109,50 @@ h1,h2,h3,h4{margin:0;}
 .activitycard.class::before{background:var(--red);}
 
 /* Calendar */
-.calendar-wrap{background:var(--white);border-radius:20px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
-.calendar-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;}
-.calendar-nav button{background:var(--cream-2);border:none;border-radius:10px;padding:8px 14px;cursor:pointer;font-family:inherit;font-weight:800;font-size:13px;color:var(--ink);}
+.calendar-wrap{background:var(--white);border-radius:20px;padding:14px 12px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
+.calendar-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:6px;}
+.calendar-nav button{background:var(--cream-2);border:none;border-radius:10px;padding:8px 12px;cursor:pointer;font-family:inherit;font-weight:800;font-size:12px;color:var(--ink);}
 .calendar-nav button:disabled{opacity:0.35;cursor:not-allowed;}
-.calendar-title{font-family:'Jua',sans-serif;font-size:18px;text-align:center;flex:1;}
-.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-dow{text-align:center;font-size:11px;font-weight:800;color:var(--ink-soft);padding:8px 0;}
+.calendar-title{font-family:'Jua',sans-serif;font-size:16px;text-align:center;flex:1;}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-dow{text-align:center;font-size:10px;font-weight:800;color:var(--ink-soft);padding:6px 0;}
 .cal-dow.sun{color:var(--coral-dark);}
 .cal-dow.sat{color:var(--sky);}
-.cal-cell{aspect-ratio:1;background:var(--cream);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:6px 3px;position:relative;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;border:none;color:var(--ink);transition:transform .1s;}
+.cal-cell{aspect-ratio:0.85;background:var(--cream);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:4px 2px;position:relative;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;border:none;color:var(--ink);transition:transform .1s;overflow:hidden;}
 .cal-cell:hover{transform:scale(1.04);background:var(--cream-2);}
 .cal-cell.empty{background:transparent;cursor:default;pointer-events:none;}
 .cal-cell.today{background:var(--mustard);border:2px solid var(--mustard-dark);}
 .cal-cell.has-record{background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%);color:var(--white);}
 .cal-cell.has-record.today{border:2px solid var(--mustard-dark);}
 .cal-cell.selected{outline:3px solid var(--navy);outline-offset:2px;}
-.cal-dot-row{display:flex;gap:2px;margin-top:2px;}
-.cal-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.7);}
-.cal-dot.eng{background:var(--sky);}
-.cal-dot.mult{background:var(--mustard);}
-.cal-cell.has-record .cal-dot.eng{background:#fff;}
-.cal-cell.has-record .cal-dot.mult{background:#FFEB99;}
+.cal-icons{display:flex;gap:1px;margin-top:2px;flex-wrap:wrap;justify-content:center;line-height:1;}
+.cal-ic{font-size:9px;line-height:1;}
+.cal-cell.has-record .cal-ic{filter:drop-shadow(0 0 1px rgba(0,0,0,0.15));}
+.cal-dots{display:flex;gap:2px;justify-content:center;margin-top:2px;}
+.cal-dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.cal-dot.eng{background:#4DA3E8;}       /* 영어 - 파란색 */
+.cal-dot.mult{background:#FFB800;}      /* 구구단 - 노란색 */
+.cal-dot.jr{background:#3FA772;}        /* 줄넘기 - 초록색 */
+.cal-cell.has-record .cal-dot{box-shadow:0 0 0 1.5px #fff;}
+
+/* Mobile phones - most modern phones are 360-430px wide */
+@media (max-width:640px){
+  .calendar-wrap{padding:10px 6px;}
+  .calendar-grid{gap:2px;}
+  .cal-cell{aspect-ratio:1;font-size:11px;padding:3px 1px;border-radius:6px;}
+  .cal-dow{font-size:10px;padding:4px 0;}
+  .cal-ic{font-size:9px;}
+  .cal-icons{gap:0;margin-top:1px;}
+  .calendar-title{font-size:14px;}
+  .calendar-nav button{padding:6px 10px;font-size:11px;}
+}
+/* Very small phones */
+@media (max-width:400px){
+  .calendar-wrap{padding:8px 4px;}
+  .cal-cell{aspect-ratio:1;font-size:10px;padding:2px 1px;}
+  .cal-dow{font-size:9px;padding:3px 0;}
+  .cal-ic{font-size:8px;}
+}
 
 /* Records list */
 .records-panel{background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
@@ -261,7 +283,7 @@ h1,h2,h3,h4{margin:0;}
 .popup-emoji{font-size:64px;margin-bottom:8px;display:inline-block;animation:celebration 1s ease-in-out infinite;}
 .popup-title{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:10px;font-family:'Jua','Nunito',sans-serif;}
 .popup-body{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px;font-weight:600;}
-.popup-btn{background:linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-size:15px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:var(--shadow-sm);}
+.popup-btn{background:linear-gradient(135deg,#FF6B4A 0%,#E0465A 100%);color:#fff;border:none;border-radius:14px;padding:14px 24px;font-size:16px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:var(--shadow-sm);width:100%;letter-spacing:-0.3px;}
 .popup-btn:active{transform:scale(0.96);}
 .popup-status{display:flex;gap:8px;justify-content:center;margin:14px 0;flex-wrap:wrap;}
 .popup-status-item{padding:10px 14px;border-radius:12px;font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;}
@@ -678,10 +700,10 @@ h1,h2,h3,h4{margin:0;}
         <button id="calNext">다음달 →</button>
       </div>
       <div class="calendar-grid" id="calGrid"></div>
-      <div style="margin-top:12px;display:flex;gap:14px;justify-content:center;font-size:11px;color:var(--ink-soft);flex-wrap:wrap;">
-        <span><span style="display:inline-block;width:10px;height:10px;background:var(--sky);border-radius:50%;vertical-align:middle;margin-right:4px;"></span>영어</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:var(--mustard);border-radius:50%;vertical-align:middle;margin-right:4px;"></span>구구단</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%);border-radius:4px;vertical-align:middle;margin-right:4px;"></span>공부한 날</span>
+      <div style="margin-top:12px;display:flex;gap:12px;justify-content:center;font-size:12px;color:var(--ink-soft);flex-wrap:wrap;font-weight:700;">
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span class="cal-dot eng" style="width:10px;height:10px;"></span>영어</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span class="cal-dot mult" style="width:10px;height:10px;"></span>구구단</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span class="cal-dot jr" style="width:10px;height:10px;"></span>줄넘기</span>
       </div>
     </div>
     <div class="chart-panel">
@@ -1191,7 +1213,7 @@ function showTodayHomeworkPopup() {
         정말 대단해요! 👏
       </div>
       <div class="popup-status">${statusHtml}</div>
-      <button class="popup-btn" onclick="closePopup()">✨ 수고했어 오늘도 ✨</button>
+      <button class="popup-btn" onclick="closePopup()" style="background:linear-gradient(135deg,#3FA772 0%,#2D8A5C 100%);color:#fff;border:none;border-radius:14px;padding:16px 24px;font-size:17px;font-weight:900;font-family:inherit;cursor:pointer;width:100%;margin-top:8px;">✨ 수고했어 오늘도! ✨</button>
     `);
     localStorage.setItem(key, '1');
   } else {
@@ -1211,7 +1233,7 @@ function showTodayHomeworkPopup() {
         남은 숙제: <b>${remainingItems}</b>
       </div>
       <div class="popup-status">${statusHtml}</div>
-      <button class="popup-btn" onclick="closePopup()">🍽️ 맛있게 해보자! 🥳</button>
+      <button class="popup-btn" onclick="closePopup()" style="background:linear-gradient(135deg,#FF6B4A 0%,#E0465A 100%);color:#fff;border:none;border-radius:14px;padding:16px 24px;font-size:17px;font-weight:900;font-family:inherit;cursor:pointer;width:100%;margin-top:8px;">🍽️ 맛있게 해보자! 🥳</button>
     `);
   }
 }
@@ -1235,7 +1257,7 @@ function checkHomeworkAfterActivity() {
           모두 완료했어요!<br><br>
           <b style="color:var(--red);">정말 자랑스러워요! 👏✨</b>
         </div>
-        <button class="popup-btn" onclick="closePopup()">✨ 수고했어 오늘도 ✨</button>
+        <button class="popup-btn" onclick="closePopup()" style="background:linear-gradient(135deg,#3FA772 0%,#2D8A5C 100%);color:#fff;border:none;border-radius:14px;padding:16px 24px;font-size:17px;font-weight:900;font-family:inherit;cursor:pointer;width:100%;margin-top:8px;">✨ 수고했어 오늘도! ✨</button>
       `);
       localStorage.setItem(key, '1');
     }
@@ -2608,6 +2630,7 @@ function currentEngItem() { return engState.pool[engState.idx]; }
 function renderEngQuestion() {
   stopAllAudio();
   engState.answered = false;
+  engState.attempts = 0;
   document.getElementById('engTranscript').textContent = '';
   const fb = document.getElementById('engFeedback');
   fb.className = 'feedback';
@@ -2987,11 +3010,11 @@ function getDisplayAnswer(item) {
 }
 
 function markEngResult(isCorrect, transcript) {
-  engState.answered = true;
-  document.getElementById('engNextBtn').disabled = false;
   const item = currentEngItem();
   const fb = document.getElementById('engFeedback');
   if (isCorrect) {
+    engState.answered = true;
+    document.getElementById('engNextBtn').disabled = false;
     engState.score++;
     document.getElementById('engScoreText').textContent = engState.score;
     fb.className = 'feedback correct';
@@ -3001,11 +3024,32 @@ function markEngResult(isCorrect, transcript) {
     // Auto-advance after correct answer
     if (engAutoNextTimer) clearTimeout(engAutoNextTimer);
     engAutoNextTimer = setTimeout(() => { engGoNext(); }, 1500);
-  } else {
+    return;
+  }
+  // Wrong answer: track attempts
+  engState.attempts = (engState.attempts || 0) + 1;
+  const attemptsLeft = 3 - engState.attempts;
+  if (attemptsLeft > 0) {
+    // Give another chance
+    engState.answered = false;
+    document.getElementById('engNextBtn').disabled = true;
     fb.className = 'feedback wrong';
-    fb.innerHTML = `아쉬워요! <span class="answer-reveal">정답: ${getDisplayAnswer(item)}</span>`;
+    fb.innerHTML = `🎧 <b>${engState.attempts}번째 시도</b> · 소리를 잘 듣고 <b>${attemptsLeft}번</b> 더 해볼 수 있어요!`;
     setTimeout(() => {
-      playItemAudio(item, () => { document.getElementById('engMicLabel').textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
+      playItemAudio(item, () => {
+        document.getElementById('engMicLabel').textContent = '소리를 듣고 마이크를 눌러 다시 말해보세요';
+      });
+    }, 350);
+  } else {
+    // Out of attempts - reveal answer
+    engState.answered = true;
+    document.getElementById('engNextBtn').disabled = false;
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `아쉬워요, 3번 다 도전했어요! <span class="answer-reveal">정답: ${getDisplayAnswer(item)}</span>`;
+    setTimeout(() => {
+      playItemAudio(item, () => {
+        document.getElementById('engMicLabel').textContent = '정답을 듣고 다음 문제로 넘어가요';
+      });
     }, 350);
   }
 }
@@ -3169,6 +3213,10 @@ function submitEngText() {
   const correct = checkAnswer(val, item, item.lang);
   document.getElementById('engTranscript').textContent = `✍️ 입력한 답: "${val}"`;
   markEngResult(correct, val);
+  // Clear input for retry if wrong
+  if (!correct && !engState.answered) {
+    setTimeout(() => { document.getElementById('engTextInput').value = ''; document.getElementById('engTextInput').focus(); }, 400);
+  }
 }
 document.getElementById('engTextSubmit').addEventListener('click', submitEngText);
 document.getElementById('engTextInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') submitEngText(); });
@@ -3422,6 +3470,7 @@ function startMultGame(tableId) {
 function renderMultQuestion() {
   const p = multState.pool[multState.idx];
   multState.answered = false;
+  multState.attempts = 0;
   multState.currentInput = '';
   document.getElementById('multQA').textContent = p.a;
   document.getElementById('multQB').textContent = p.b;
@@ -3457,26 +3506,62 @@ function submitMultAnswer() {
   const p = multState.pool[multState.idx];
   const userAns = Number(multState.currentInput);
   const correct = userAns === p.answer;
-  multState.answered = true;
   const fb = document.getElementById('multFeedback');
   if (correct) {
+    multState.answered = true;
     multState.score++;
     document.getElementById('multScoreText').textContent = multState.score;
     fb.className = 'feedback correct';
     fb.innerHTML = `🎉 정답이에요! <span class="answer-reveal">${p.a} × ${p.b} = ${p.answer}</span>`;
     spawnFloatBadge('⭐', document.getElementById('multQAns'));
+    document.getElementById('multNextBtn').disabled = false;
+    document.querySelectorAll('#multKeypad .key').forEach(k => { if (k.dataset.k !== 'submit') k.disabled = true; });
+    const micBtn = document.getElementById('multMicBtn');
+    if (micBtn) micBtn.disabled = true;
+    if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '정답! 다음 문제로 이동하세요';
+    return;
+  }
+  // Wrong answer - track attempts
+  multState.attempts = (multState.attempts || 0) + 1;
+  const attemptsLeft = 3 - multState.attempts;
+  if (attemptsLeft > 0) {
+    // Let them try again
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `🎧 <b>${multState.attempts}번째 시도</b> · 다시 계산해서 <b>${attemptsLeft}번</b> 더 해볼 수 있어요!`;
+    const ansEl = document.getElementById('multQAns');
+    ansEl.classList.remove('filled'); ansEl.classList.add('wrong');
+    // Play the problem again (speak it)
+    setTimeout(() => {
+      try {
+        const utter = new SpeechSynthesisUtterance(`${p.a} 곱하기 ${p.b}는?`);
+        utter.lang = 'ko-KR';
+        utter.rate = 0.95;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utter);
+      } catch(e) {}
+      // Reset input for retry
+      setTimeout(() => {
+        multState.currentInput = '';
+        updateMultAnswerDisplay();
+        ansEl.classList.remove('wrong');
+        ansEl.classList.add('empty');
+        if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '🎤 다시 눌러서 답을 말해보세요';
+      }, 1200);
+    }, 300);
   } else {
+    // Out of attempts - reveal answer
+    multState.answered = true;
     multState.wrongList.push({a: p.a, b: p.b, correct: p.answer, yours: userAns});
     const ansEl = document.getElementById('multQAns');
     ansEl.classList.remove('filled'); ansEl.classList.add('wrong');
     fb.className = 'feedback wrong';
-    fb.innerHTML = `아쉬워요! <span class="answer-reveal">정답: ${p.a} × ${p.b} = ${p.answer}</span>`;
+    fb.innerHTML = `아쉬워요, 3번 다 도전했어요! <span class="answer-reveal">정답: ${p.a} × ${p.b} = ${p.answer}</span>`;
+    document.getElementById('multNextBtn').disabled = false;
+    document.querySelectorAll('#multKeypad .key').forEach(k => { if (k.dataset.k !== 'submit') k.disabled = true; });
+    const micBtn = document.getElementById('multMicBtn');
+    if (micBtn) micBtn.disabled = true;
+    if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '다음 문제로 이동하세요';
   }
-  document.getElementById('multNextBtn').disabled = false;
-  document.querySelectorAll('#multKeypad .key').forEach(k => { if (k.dataset.k !== 'submit') k.disabled = true; });
-  const micBtn = document.getElementById('multMicBtn');
-  if (micBtn) micBtn.disabled = true;
-  if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = correct ? '정답! 다음 문제로 이동하세요' : '아쉬워요';
 }
 function showMultAnswer() {
   if (multState.answered) return;
@@ -3923,18 +4008,21 @@ function renderCalendar() {
     const cell = document.createElement('button');
     cell.className = 'cal-cell';
     const dayRecords = studentRecords[dateStr];
-    const hasRecord = dayRecords && Object.keys(dayRecords).length > 0;
-    if (hasRecord) cell.classList.add('has-record');
+    // Check all 3 activities for this date
+    const acts = studentActivitiesOnDate(currentStudent.id, dateStr);
+    const hasEng = acts.has('english');
+    const hasMult = acts.has('multiplication');
+    const hasJr = acts.has('jumprope');
+    const hasAny = hasEng || hasMult || hasJr;
+    if (hasAny) cell.classList.add('has-record');
     if (dateStr === todayStr) cell.classList.add('today');
     if (calSelectedDate === dateStr) cell.classList.add('selected');
     let inner = `<span>${day}</span>`;
-    if (hasRecord) {
-      const entries = Object.values(dayRecords);
-      const hasEng = entries.some(e => e.activity === 'english');
-      const hasMult = entries.some(e => e.activity === 'multiplication');
-      inner += '<div class="cal-dot-row">';
-      if (hasEng) inner += '<div class="cal-dot eng"></div>';
-      if (hasMult) inner += '<div class="cal-dot mult"></div>';
+    if (hasAny) {
+      inner += '<div class="cal-dots">';
+      if (hasEng) inner += '<span class="cal-dot eng" title="영어"></span>';
+      if (hasMult) inner += '<span class="cal-dot mult" title="구구단"></span>';
+      if (hasJr) inner += '<span class="cal-dot jr" title="줄넘기"></span>';
       inner += '</div>';
     }
     cell.innerHTML = inner;
