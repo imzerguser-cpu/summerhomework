@@ -1,0 +1,4360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>마동초 3학년 방학 학습장 🌻</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&family=Nunito:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coral:#FF6B4A;
+  --coral-dark:#E5532F;
+  --mustard:#FFC93C;
+  --mustard-dark:#E8AE12;
+  --green:#3FA772;
+  --green-dark:#2C7F55;
+  --cream:#FFF7EC;
+  --cream-2:#FFEFDA;
+  --ink:#3A2B22;
+  --ink-soft:#7A6A5D;
+  --white:#FFFFFF;
+  --red-soft:#FF7A70;
+  --navy:#1B2E4A;
+  --navy-l:#2A4470;
+  --navy-g:#3B6BA5;
+  --sky:#4DA3E8;
+  --sky-p:#E8F4FD;
+  --red:#E0465A;
+  --orange:#E8833A;
+  --bg:#F3F5F8;
+  --card:#FFF;
+  --tx:#1E2D3D;
+  --tx2:#6B7D8F;
+  --tx3:#A4B3C2;
+  --bdr:#E0E7EF;
+  --shadow: 0 8px 24px rgba(58,43,34,0.12);
+  --shadow-sm: 0 4px 10px rgba(58,43,34,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(circle at 8% 12%, rgba(255,201,60,0.28) 0, transparent 42%),
+    radial-gradient(circle at 92% 88%, rgba(63,167,114,0.20) 0, transparent 40%),
+    var(--cream);
+  font-family:'Nunito','Noto Sans KR',sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 60px;min-height:100vh;}
+.hidden{display:none !important;}
+h1,h2,h3,h4{margin:0;}
+
+/* Header/Nav */
+.brandbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:8px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Jua',sans-serif;font-size:20px;color:var(--coral-dark);}
+.brand .plate{width:36px;height:36px;border-radius:50%;background:var(--white);border:3px solid var(--coral);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none;}
+.currentStudent{font-family:'Jua',sans-serif;font-size:15px;color:var(--ink-soft);background:var(--white);padding:6px 12px;border-radius:14px;box-shadow:var(--shadow-sm);}
+.navbtns{display:flex;gap:6px;flex-wrap:wrap;}
+.navbtn{background:var(--white);border:none;border-radius:14px;padding:8px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12.5px;color:var(--ink-soft);box-shadow:var(--shadow-sm);cursor:pointer;white-space:nowrap;}
+.navbtn:active{transform:scale(0.97);}
+
+/* Hero */
+.hero{background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%);border-radius:28px;padding:26px 24px;color:var(--white);box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:20px;}
+.hero.blue{background:linear-gradient(135deg, var(--sky) 0%, #7BB8ED 100%);}
+.hero.green{background:linear-gradient(135deg, var(--green) 0%, #6DBF8F 100%);}
+.hero::after{content:"🌻 ✏️ 📚 🌈 ⭐";position:absolute;right:-10px;bottom:-14px;font-size:44px;opacity:0.16;letter-spacing:6px;}
+.hero h1{font-family:'Jua',sans-serif;font-size:24px;line-height:1.35;margin-bottom:8px;}
+.hero p{font-size:13.5px;line-height:1.6;opacity:0.95;max-width:80%;}
+
+/* Cards list */
+.listcards{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.listcard{background:var(--white);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow-sm);border:none;text-align:left;font-family:inherit;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform .12s ease, box-shadow .12s ease;width:100%;}
+.listcard:hover{box-shadow:var(--shadow);}
+.listcard:active{transform:scale(0.98);}
+.listcard .num{width:52px;height:52px;border-radius:16px;font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--white);display:flex;align-items:center;justify-content:center;flex:none;}
+.listcard .body{flex:1;min-width:0;}
+.listcard .body h3{font-family:'Jua',sans-serif;font-size:17px;margin-bottom:2px;}
+.listcard .body h3 .titleEn{font-family:'Fredoka',sans-serif;font-size:12px;color:var(--ink-soft);font-weight:600;margin-left:6px;}
+.listcard .body p{font-size:12px;color:var(--ink-soft);line-height:1.5;}
+.listcard .tag{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--white);padding:4px 10px;border-radius:10px;flex:none;}
+
+/* Student selection */
+.student-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:8px;}
+.studentcard{background:var(--white);border-radius:22px;padding:22px 14px;box-shadow:var(--shadow-sm);border:none;text-align:center;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;}
+.studentcard:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.studentcard:active{transform:scale(0.97);}
+.studentcard .avatar{width:70px;height:70px;border-radius:50%;font-size:38px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;background:var(--cream-2);border:3px solid var(--coral);}
+.studentcard .no{font-family:'Fredoka',sans-serif;font-size:11px;color:var(--ink-soft);font-weight:600;margin-bottom:2px;}
+.studentcard .name{font-family:'Jua',sans-serif;font-size:18px;color:var(--ink);}
+
+/* Activity cards for menu */
+.activity-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:600px){.activity-grid{grid-template-columns:1fr 1fr;}}
+.activitycard{background:var(--white);border-radius:22px;padding:22px;box-shadow:var(--shadow-sm);border:none;text-align:left;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden;}
+.activitycard:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.activitycard:active{transform:scale(0.98);}
+.activitycard .icon-big{font-size:44px;margin-bottom:10px;display:block;}
+.activitycard h3{font-family:'Jua',sans-serif;font-size:19px;margin-bottom:6px;}
+.activitycard p{font-size:12.5px;color:var(--ink-soft);line-height:1.55;}
+.activitycard::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:var(--coral);}
+.activitycard.eng::before{background:var(--sky);}
+.activitycard.mult::before{background:var(--mustard);}
+.activitycard.rope::before{background:var(--green);}
+.activitycard.record::before{background:#B15CFF;}
+.activitycard.class::before{background:var(--red);}
+
+/* Calendar */
+.calendar-wrap{background:var(--white);border-radius:20px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
+.calendar-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;}
+.calendar-nav button{background:var(--cream-2);border:none;border-radius:10px;padding:8px 14px;cursor:pointer;font-family:inherit;font-weight:800;font-size:13px;color:var(--ink);}
+.calendar-nav button:disabled{opacity:0.35;cursor:not-allowed;}
+.calendar-title{font-family:'Jua',sans-serif;font-size:18px;text-align:center;flex:1;}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-dow{text-align:center;font-size:11px;font-weight:800;color:var(--ink-soft);padding:8px 0;}
+.cal-dow.sun{color:var(--coral-dark);}
+.cal-dow.sat{color:var(--sky);}
+.cal-cell{aspect-ratio:1;background:var(--cream);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:6px 3px;position:relative;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;border:none;color:var(--ink);transition:transform .1s;}
+.cal-cell:hover{transform:scale(1.04);background:var(--cream-2);}
+.cal-cell.empty{background:transparent;cursor:default;pointer-events:none;}
+.cal-cell.today{background:var(--mustard);border:2px solid var(--mustard-dark);}
+.cal-cell.has-record{background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%);color:var(--white);}
+.cal-cell.has-record.today{border:2px solid var(--mustard-dark);}
+.cal-cell.selected{outline:3px solid var(--navy);outline-offset:2px;}
+.cal-dot-row{display:flex;gap:2px;margin-top:2px;}
+.cal-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.7);}
+.cal-dot.eng{background:var(--sky);}
+.cal-dot.mult{background:var(--mustard);}
+.cal-cell.has-record .cal-dot.eng{background:#fff;}
+.cal-cell.has-record .cal-dot.mult{background:#FFEB99;}
+
+/* Records list */
+.records-panel{background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
+.records-title{font-family:'Jua',sans-serif;font-size:16px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--cream-2);}
+.record-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--cream-2);}
+.record-item:last-child{border-bottom:none;}
+.record-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none;background:var(--cream-2);}
+.record-icon.eng{background:var(--sky-p);}
+.record-icon.mult{background:#FFF3D6;}
+.record-info{flex:1;min-width:0;}
+.record-info .rtitle{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;}
+.record-info .rmeta{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.record-score{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;color:var(--coral-dark);white-space:nowrap;}
+.record-score .total{font-size:12px;color:var(--ink-soft);}
+
+/* Charts */
+.chart-panel{background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
+.chart-title{font-family:'Jua',sans-serif;font-size:15px;margin-bottom:12px;}
+.chart-svg{width:100%;height:auto;display:block;}
+
+/* Class ranking */
+.rank-panel{background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;}
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--cream-2);}
+.rank-row:last-child{border-bottom:none;}
+.rank-badge{width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;color:var(--white);flex:none;background:var(--ink-soft);}
+.rank-badge.r1{background:linear-gradient(135deg, #FFD700 0%, #FFA500 100%);}
+.rank-badge.r2{background:linear-gradient(135deg, #C0C0C0 0%, #808080 100%);}
+.rank-badge.r3{background:linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);}
+.rank-info{flex:1;min-width:0;}
+.rank-name{font-family:'Jua',sans-serif;font-size:16px;}
+.rank-meta{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.rank-count{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;color:var(--coral-dark);}
+
+/* -------- English Quiz Styles -------- */
+.gamehead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;background:var(--white);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow-sm);}
+.titlewrap{flex:1;min-width:0;}
+.gamehead h2{font-family:'Jua',sans-serif;font-size:18px;line-height:1.2;}
+.gameTitleEn{font-family:'Fredoka',sans-serif;font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+.progresswrap{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.progressbar{flex:1;height:8px;background:var(--cream-2);border-radius:6px;overflow:hidden;}
+.fill{height:100%;background:linear-gradient(90deg, var(--coral) 0%, var(--mustard) 100%);border-radius:6px;transition:width .3s;}
+.progresswrap span{font-family:'Fredoka',sans-serif;font-size:11.5px;color:var(--ink-soft);font-weight:600;}
+.score{background:var(--mustard);border-radius:14px;padding:6px 14px;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:var(--ink);white-space:nowrap;}
+
+.stage{background:var(--white);border-radius:26px;padding:22px 20px;box-shadow:var(--shadow);}
+.prompttext{text-align:center;margin-bottom:16px;padding:20px 16px;background:var(--cream);border-radius:18px;}
+.kotag{display:inline-block;background:var(--coral);color:var(--white);border-radius:8px;padding:3px 10px;font-family:'Fredoka',sans-serif;font-size:10px;font-weight:700;margin-bottom:8px;}
+.prompttext .main{font-family:'Fredoka',sans-serif;font-size:30px;font-weight:700;color:var(--ink);word-break:break-word;}
+.word-en{text-align:center;font-family:'Fredoka',sans-serif;font-size:24px;font-weight:700;color:var(--coral-dark);margin-bottom:6px;}
+.sentence-en{text-align:center;font-size:14px;color:var(--ink-soft);margin-bottom:14px;}
+
+.controls{display:flex;flex-direction:column;gap:10px;align-items:center;}
+.transcript{min-height:20px;font-size:12.5px;color:var(--ink-soft);text-align:center;padding:6px 12px;}
+.feedback{min-height:28px;font-size:14px;font-weight:800;text-align:center;padding:4px 12px;border-radius:12px;transition:all .2s ease;}
+.feedback.correct{background:rgba(63,167,114,0.15);color:var(--green-dark);}
+.feedback.wrong{background:rgba(255,107,74,0.12);color:var(--coral-dark);}
+.answer-reveal{display:block;font-family:'Fredoka',sans-serif;font-size:14px;margin-top:4px;font-weight:700;}
+.microw{display:flex;align-items:center;gap:12px;margin:6px 0;}
+.micbtn{width:70px;height:70px;border-radius:50%;border:none;background:var(--coral);color:var(--white);font-size:30px;cursor:pointer;box-shadow:var(--shadow);transition:transform .12s ease, background .2s ease;}
+.micbtn:active{transform:scale(0.94);}
+.micbtn.listening{background:var(--red-soft);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,74,0.6);}50%{box-shadow:0 0 0 14px rgba(255,107,74,0);}}
+.sidebtn{width:44px;height:44px;border-radius:50%;border:none;background:var(--cream-2);color:var(--ink);font-size:18px;cursor:pointer;box-shadow:var(--shadow-sm);}
+.sidebtn:active{transform:scale(0.94);}
+.miclabel{font-size:12px;color:var(--ink-soft);text-align:center;}
+.textfallback{width:100%;display:flex;gap:8px;}
+.textfallback input{flex:1;border:2px solid var(--cream-2);border-radius:12px;padding:10px 12px;font-size:14px;font-family:inherit;outline:none;}
+.textfallback input:focus{border-color:var(--mustard);}
+.textfallback button{border:none;background:var(--coral);color:var(--white);border-radius:12px;padding:0 16px;font-weight:800;cursor:pointer;font-family:inherit;}
+.toggletext{font-size:12px;color:var(--ink-soft);text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit;font-weight:700;}
+.notice{font-size:11.5px;color:var(--ink-soft);background:var(--cream-2);border-radius:10px;padding:8px 10px;text-align:center;line-height:1.5;}
+.actionrow{display:flex;gap:10px;width:100%;}
+.btn{flex:1;border:none;border-radius:14px;padding:12px 10px;font-family:inherit;font-weight:800;font-size:13.5px;cursor:pointer;transition:transform .12s ease;}
+.btn:active{transform:scale(0.97);}
+.btn.primary{background:var(--coral);color:var(--white);}
+.btn.ghost{background:var(--cream-2);color:var(--ink-soft);}
+.btn.next{background:var(--green);color:var(--white);}
+.btn.blue{background:var(--sky);color:var(--white);}
+.btn[disabled]{opacity:0.45;cursor:not-allowed;}
+
+/* Result screen */
+.resultbox{background:var(--white);border-radius:26px;padding:32px 22px;box-shadow:var(--shadow);text-align:center;}
+.resultbox .emoji{font-size:56px;margin-bottom:8px;}
+.resultbox h2{font-family:'Jua',sans-serif;font-size:22px;margin-bottom:6px;}
+.resultbox .scoreline{font-family:'Fredoka',sans-serif;font-size:36px;font-weight:700;color:var(--coral-dark);margin:12px 0 4px;}
+.resultbox .scoresub{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
+.resultbox .time-line{font-size:13px;color:var(--ink-soft);font-weight:700;margin-bottom:20px;}
+.resultactions{display:flex;flex-direction:column;gap:8px;}
+.saved-badge{background:var(--green);color:var(--white);border-radius:14px;padding:8px 14px;font-size:12.5px;font-weight:700;margin-bottom:14px;display:inline-block;}
+
+/* Multiplication styles */
+.question{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 16px;flex-wrap:wrap;}
+.num-box, .answer-box{min-width:64px;height:76px;background:var(--cream);border-radius:16px;font-family:'Fredoka',sans-serif;font-size:36px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 14px;}
+.answer-box.empty{color:var(--ink-soft);opacity:0.5;}
+.answer-box.filled{background:var(--mustard);color:var(--ink);}
+.answer-box.wrong{background:rgba(255,107,74,0.15);color:var(--coral-dark);}
+.op{font-family:'Fredoka',sans-serif;font-size:26px;color:var(--ink-soft);}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:280px;margin:8px auto 4px;}
+.key{background:var(--white);border:2px solid var(--cream-2);border-radius:14px;padding:14px 0;font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--ink);cursor:pointer;transition:transform .1s;}
+.key:active{transform:scale(0.94);}
+.key.action{font-size:12px;font-weight:800;font-family:'Nunito',sans-serif;background:var(--cream-2);}
+.key.submit{background:var(--coral);color:var(--white);border-color:var(--coral);font-size:15px;}
+.key.submit:hover{background:var(--coral-dark);}
+.key[disabled]{opacity:0.4;cursor:not-allowed;}
+.divider{font-size:11px;color:var(--ink-soft);text-align:center;margin-top:8px;font-weight:600;}
+.tablegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-top:14px;}
+.tablecard{background:var(--white);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .12s;border:none;font-family:inherit;}
+.tablecard:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.tablecard:active{transform:scale(0.96);}
+.tablecard .big{width:52px;height:52px;border-radius:14px;color:var(--white);font-family:'Fredoka',sans-serif;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.tablecard .label{font-family:'Jua',sans-serif;font-size:14px;color:var(--ink);}
+.wronglist{background:var(--cream);border-radius:16px;padding:12px 14px;margin:0 0 18px;text-align:left;}
+.wronglist h4{font-family:'Jua',sans-serif;font-size:13px;color:var(--coral-dark);margin-bottom:8px;}
+.wronglist ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;}
+.wronglist li{font-family:'Fredoka',sans-serif;font-size:14px;color:var(--ink);display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--cream-2);}
+.wronglist li:last-child{border-bottom:none;}
+.wronglist li .wanted{color:var(--green-dark);font-weight:600;}
+.wronglist li .yours{color:var(--coral-dark);font-weight:600;text-decoration:line-through;}
+.float-badge{position:fixed;pointer-events:none;font-size:26px;animation:floatUp 1s ease-out forwards;z-index:50;}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(0.6);}20%{opacity:1;transform:translateY(-10px) scale(1.1);}100%{opacity:0;transform:translateY(-70px) scale(1);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
+@keyframes popupIn{0%{opacity:0;transform:scale(0.8) translateY(20px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes celebration{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+.numkey:active{transform:scale(0.94);}
+.numkey:hover{filter:brightness(0.97);}
+.popup-backdrop{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.popup-box{background:#fff;border-radius:22px;padding:26px 22px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:popupIn 0.35s ease-out;text-align:center;}
+.popup-emoji{font-size:64px;margin-bottom:8px;display:inline-block;animation:celebration 1s ease-in-out infinite;}
+.popup-title{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:10px;font-family:'Jua','Nunito',sans-serif;}
+.popup-body{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px;font-weight:600;}
+.popup-btn{background:linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-size:15px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:var(--shadow-sm);}
+.popup-btn:active{transform:scale(0.96);}
+.popup-status{display:flex;gap:8px;justify-content:center;margin:14px 0;flex-wrap:wrap;}
+.popup-status-item{padding:10px 14px;border-radius:12px;font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;}
+
+/* Jump rope styles */
+.jr-hd{background:linear-gradient(135deg,var(--navy),var(--navy-g));color:#fff;padding:14px 16px;border-radius:20px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+.jr-hd-sub{font-size:9px;letter-spacing:2px;opacity:.6;text-transform:uppercase;}
+.jr-hd-title{font-size:18px;font-weight:900;margin:1px 0 2px;font-family:'Jua',sans-serif;}
+.jr-hd-desc{font-size:10px;opacity:.5;}
+.stats{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;font-size:10px;opacity:.85;}
+.stats strong{font-weight:800;}
+.gbsm{display:inline-block;padding:0 5px;border-radius:3px;font-size:8px;font-weight:800;color:#fff;margin-right:2px;vertical-align:middle;}
+.sync-ind{font-size:9px;opacity:.7;margin-left:auto;display:flex;align-items:center;gap:4px;}
+.sync-dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.sync-on{background:#4ADE80;}.sync-off{background:#F59E0B;}.sync-err{background:#EF4444;}
+.tabs{display:flex;gap:2px;background:rgba(255,255,255,.12);border-radius:8px;padding:2px;margin-top:10px;}
+.tab{flex:1;padding:7px 4px;border:none;border-radius:6px;cursor:pointer;font-size:10px;font-weight:700;background:transparent;color:rgba(255,255,255,.6);font-family:inherit;text-align:center;transition:.15s;}
+.tab.on{background:#fff;color:var(--navy);}
+.mbar{margin:0 0 10px;padding:8px 10px;background:var(--card);border-radius:10px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.mbar label{font-size:11px;font-weight:700;color:var(--tx2);}
+.msel{padding:4px 8px;border:1px solid var(--bdr);border-radius:5px;font-size:11px;font-family:inherit;font-weight:600;background:#fff;}
+.mbtn{padding:4px 10px;border:none;border-radius:5px;cursor:pointer;font-size:10px;font-weight:700;font-family:inherit;transition:.12s;}
+.mbtn:active{transform:scale(.96);}
+.b-am{background:var(--sky);color:#fff;}.b-dm{background:#FEE2E2;color:var(--red);}
+.date-inp{padding:3px 6px;border:1px solid var(--bdr);border-radius:5px;font-size:11px;font-family:inherit;font-weight:600;background:#fff;color:var(--tx);}
+.date-inp:focus{border-color:var(--sky);outline:none;}
+.sc{background:var(--card);border-radius:10px;box-shadow:var(--shadow-sm);margin:0 0 10px;overflow:hidden;}
+.sc-hd{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;background:#F0FAFF;border-bottom:1px solid var(--bdr);}
+.sc-info{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.sc-nm{font-size:14px;font-weight:800;color:var(--tx);}
+.sc-gd{font-size:9px;color:var(--tx3);}
+.sc-mc{font-size:9px;color:var(--sky);font-weight:700;background:var(--sky-p);padding:1px 6px;border-radius:8px;}
+.sc-res{display:flex;align-items:center;gap:8px;}
+.sc-tl{font-size:9px;color:var(--tx3);}.sc-tv{font-size:17px;font-weight:900;color:var(--tx);}
+.gbg{padding:3px 10px;border-radius:6px;font-size:12px;font-weight:900;color:#fff;}
+.sg{padding:10px;display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+@media(min-width:600px){.sg{grid-template-columns:repeat(4,1fr);}}
+.ec{background:var(--bg);border-radius:8px;padding:8px 9px;border:1px solid var(--bdr);}
+.ec-nm{font-size:10px;font-weight:800;color:var(--tx2);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ec-row{display:flex;align-items:center;gap:4px;}
+.ec-inp{flex:1;padding:8px 4px;border:1px solid #D0D8E0;border-radius:5px;font-size:16px;font-weight:700;outline:none;text-align:center;font-family:inherit;background:#fff;width:100%;transition:.15s;-webkit-appearance:none;appearance:none;color:var(--tx);}
+.ec-inp:focus{border-color:var(--sky);box-shadow:0 0 0 2px rgba(77,163,232,.15);background:#F8FCFF;}
+.ec-u{font-size:9px;color:var(--tx3);min-width:14px;}
+.ec-sr{display:flex;align-items:center;justify-content:space-between;margin-top:3px;}
+.sb{width:40px;height:4px;background:#E0E7EF;border-radius:2px;overflow:hidden;}
+.sbf{height:100%;border-radius:2px;transition:width .3s,background .3s;}
+.ec-sc{font-size:11px;font-weight:900;}
+.sum{padding:8px 10px;background:var(--sky-p);border-radius:0 0 10px 10px;display:flex;justify-content:space-between;align-items:center;}
+.sum-h{font-size:10px;color:var(--tx2);line-height:1.5;}
+.sum-t{font-size:22px;font-weight:900;color:var(--tx);}
+.sum-m{font-size:11px;color:var(--tx3);}
+.gc-1{background:#B91C1C}.gc-2{background:#DC2626}.gc-3{background:#EA580C}.gc-4{background:#D97706}.gc-5{background:#CA8A04}.gc-6{background:#65A30D}.gc-7{background:#16A34A}.gc-8{background:#0D9488}.gc-9{background:#2563EB}.gc-10{background:#7C3AED}.gc-0{background:#9CA3AF}
+
+.rs{background:var(--card);border-radius:10px;box-shadow:var(--shadow-sm);overflow:auto;margin:0 0 14px;-webkit-overflow-scrolling:touch;}
+.rh{padding:12px 14px;border-bottom:2px solid var(--bdr);}
+.rh-t{font-size:14px;font-weight:900;color:var(--tx);}
+.rh-d{font-size:10px;color:var(--tx3);margin-top:1px;}
+.rft{width:100%;border-collapse:collapse;}
+.rft thead tr{background:var(--navy);color:#fff;}
+.rft th{padding:7px 6px;font-size:9px;font-weight:800;white-space:nowrap;text-align:center;}
+.rft td{padding:6px 5px;text-align:center;font-size:11px;border-bottom:1px solid #F0F3F7;font-weight:600;color:var(--tx);}
+.rft tbody tr:nth-child(even){background:#FAFBFD;}
+.rft .ecol{font-weight:800;text-align:left;white-space:nowrap;font-size:10px;}
+.rft .ecol small{display:block;font-size:8px;color:var(--tx3);font-weight:400;}
+.gcards{padding:14px;display:flex;flex-wrap:wrap;gap:7px;}
+.gci{border-radius:8px;padding:10px 12px;text-align:center;min-width:70px;flex:1 1 70px;}
+.gci-n{font-size:16px;font-weight:900;}
+.gci-m{font-size:10px;margin-top:1px;}
+.gcb-1{background:rgba(185,28,28,.08);border:2px solid rgba(185,28,28,.2)}
+.gcb-2{background:rgba(220,38,38,.08);border:2px solid rgba(220,38,38,.2)}
+.gcb-3{background:rgba(234,88,12,.08);border:2px solid rgba(234,88,12,.2)}
+.gcb-4{background:rgba(217,119,6,.08);border:2px solid rgba(217,119,6,.2)}
+.gcb-5{background:rgba(202,138,4,.08);border:2px solid rgba(202,138,4,.2)}
+.gcb-6{background:rgba(101,163,13,.08);border:2px solid rgba(101,163,13,.2)}
+.gcb-7{background:rgba(22,163,74,.08);border:2px solid rgba(22,163,74,.2)}
+.gcb-8{background:rgba(13,148,136,.08);border:2px solid rgba(13,148,136,.2)}
+.gcb-9{background:rgba(37,99,235,.08);border:2px solid rgba(37,99,235,.2)}
+.gcb-10{background:rgba(124,58,237,.08);border:2px solid rgba(124,58,237,.2)}
+.gct-1{color:#B91C1C}.gct-2{color:#DC2626}.gct-3{color:#EA580C}.gct-4{color:#D97706}.gct-5{color:#CA8A04}.gct-6{color:#65A30D}.gct-7{color:#16A34A}.gct-8{color:#0D9488}.gct-9{color:#2563EB}.gct-10{color:#7C3AED}
+.empty{text-align:center;padding:40px 20px;color:var(--tx3);}
+.empty-i{font-size:36px;margin-bottom:12px;}
+.empty-t{font-size:14px;font-weight:700;margin-bottom:6px;}
+
+/* Detail modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-box{background:var(--white);border-radius:20px;padding:22px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,0.2);}
+.modal-box h3{font-family:'Jua',sans-serif;font-size:18px;margin-bottom:14px;color:var(--ink);}
+.modal-close{background:var(--cream-2);border:none;border-radius:12px;padding:10px;width:100%;margin-top:14px;font-family:inherit;font-weight:800;font-size:13px;color:var(--ink-soft);cursor:pointer;}
+
+@media (max-width:420px){
+  .hero h1{font-size:20px;}
+  .num-box, .answer-box{min-width:56px;height:64px;font-size:30px;padding:0 10px;}
+  .op{font-size:22px;}
+  .key{font-size:18px;padding:12px 0;}
+  .prompttext .main{font-size:26px;}
+  .word-en{font-size:20px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar">
+    <div class="brand"><span class="plate">🌻</span> 마동초 3학년</div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <div class="currentStudent hidden" id="currentStudent"></div>
+      <div class="navbtns">
+        <button class="navbtn hidden" id="menuBtn">🏠 메뉴</button>
+        <button class="navbtn hidden" id="homeBtn">👥 처음</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 0: Student selection -->
+  <div id="screen-students">
+    <div class="hero">
+      <h1>여름방학 학습장<br>이름을 선택하세요! ✨</h1>
+      <p>영어, 구구단, 줄넘기까지! 매일매일 조금씩 공부하며 실력을 쌓아봐요.</p>
+    </div>
+    <div class="student-grid" id="studentGrid"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px;">
+      <button class="navbtn" id="publicClassBtn" style="background:var(--sky);color:#fff;padding:12px 24px;font-size:14px;">👥 반 친구들 기록 보기</button>
+      <button class="navbtn" id="teacherLoginBtn" style="background:var(--navy);color:#fff;padding:12px 24px;font-size:14px;">🔑 선생님 로그인</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 0.3: Student password login -->
+  <div id="screen-student-login" class="hidden">
+    <div class="hero blue">
+      <h1 id="stuLoginTitle">🔒 비밀번호 입력</h1>
+      <p>4자리 비밀번호를 입력하고 학습장에 들어가세요!</p>
+    </div>
+    <div style="background:var(--white);border-radius:22px;padding:28px 22px;box-shadow:var(--shadow-sm);text-align:center;">
+      <div id="stuLoginAvatar" style="font-size:72px;margin-bottom:8px;">🐻</div>
+      <div id="stuLoginName" style="font-size:18px;font-weight:900;color:var(--ink);margin-bottom:18px;">학생 이름</div>
+      <div id="stuPwDisplay" style="display:flex;gap:10px;justify-content:center;margin-bottom:20px;">
+        <div class="pw-dot" style="width:44px;height:52px;border:3px solid var(--cream-2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--ink);"></div>
+        <div class="pw-dot" style="width:44px;height:52px;border:3px solid var(--cream-2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--ink);"></div>
+        <div class="pw-dot" style="width:44px;height:52px;border:3px solid var(--cream-2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--ink);"></div>
+        <div class="pw-dot" style="width:44px;height:52px;border:3px solid var(--cream-2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--ink);"></div>
+      </div>
+      <div id="stuPwErr" style="color:var(--red);font-size:13px;font-weight:800;margin-bottom:12px;display:none;">비밀번호가 틀렸어요!</div>
+      <div id="numpad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto;"></div>
+      <button class="btn ghost" id="stuLoginCancel" style="margin-top:18px;width:100%;max-width:280px;">뒤로 가기</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 0.5: Teacher login -->
+  <div id="screen-teacher-login" class="hidden">
+    <div class="hero" style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-g) 100%);">
+      <h1>선생님 로그인 🔑</h1>
+      <p>비밀번호를 입력하고 학생들의 학습 현황을 확인하세요.</p>
+    </div>
+    <div style="background:var(--white);border-radius:22px;padding:24px;box-shadow:var(--shadow-sm);">
+      <label style="display:block;font-size:13px;font-weight:800;color:var(--ink-soft);margin-bottom:8px;">비밀번호</label>
+      <input type="password" id="teacherPwInput" placeholder="비밀번호를 입력하세요" style="width:100%;border:2px solid var(--cream-2);border-radius:14px;padding:14px 16px;font-size:16px;font-family:inherit;outline:none;" autocomplete="current-password">
+      <div id="teacherPwErr" style="color:var(--red);font-size:12px;font-weight:700;margin-top:8px;display:none;">비밀번호가 틀렸어요.</div>
+      <div class="actionrow" style="margin-top:16px;">
+        <button class="btn ghost" id="teacherLoginCancel">취소</button>
+        <button class="btn primary" id="teacherLoginSubmit">로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 0.6: Teacher dashboard -->
+  <div id="screen-teacher" class="hidden">
+    <div class="hero" style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-g) 100%);">
+      <h1>선생님 대시보드 📊</h1>
+      <p>3학년 학생들의 학습 현황을 한눈에 확인하세요.</p>
+    </div>
+    <div style="background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+        <label style="font-size:13px;font-weight:800;color:var(--ink-soft);">📅 날짜:</label>
+        <input type="date" id="teacherDatePicker" style="border:1px solid var(--bdr);border-radius:8px;padding:6px 10px;font-family:inherit;font-size:13px;font-weight:600;">
+        <button class="navbtn" id="teacherToday" style="background:var(--sky);color:#fff;">오늘</button>
+        <button class="navbtn" id="teacherCsvBtn" style="background:var(--green);color:#fff;margin-left:auto;">📥 CSV 내보내기</button>
+      </div>
+      <div class="records-title" style="margin-bottom:12px;">✅ 오늘 숙제 현황</div>
+      <div id="teacherStatusTable" style="overflow-x:auto;"></div>
+    </div>
+    <div style="background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <div class="records-title">📈 전체 누적 학습 현황</div>
+      <div id="teacherOverallTable" style="overflow-x:auto;"></div>
+    </div>
+    <div style="background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <div class="records-title">🔥 연속 출석 현황</div>
+      <div id="teacherStreakTable"></div>
+    </div>
+    <div style="background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <div class="records-title">🔐 학생 비밀번호 관리</div>
+      <div style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;">학생들이 로그인할 때 사용하는 4자리 비밀번호입니다. 변경하려면 옆의 <b>수정</b> 버튼을 누르세요.</div>
+      <div id="teacherPasswordTable"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: Main menu -->
+  <div id="screen-menu" class="hidden">
+    <div class="hero blue">
+      <h1 id="menuGreeting">환영해요! 🎉</h1>
+      <p>오늘은 어떤 공부를 해볼까요? 아래에서 하나를 골라주세요.</p>
+    </div>
+    <div id="todayStatusCard" style="background:var(--white);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div style="font-size:14px;font-weight:900;color:var(--ink);">📋 오늘의 숙제 현황</div>
+        <div id="streakBadge" style="font-size:12px;font-weight:800;color:var(--red);"></div>
+      </div>
+      <div id="todayStatusRow" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+    </div>
+    <div class="activity-grid">
+      <button class="activitycard eng" onclick="startEnglish()">
+        <span class="icon-big">🍽️</span>
+        <h3>맛있는 영어</h3>
+        <p>3학년 영어 단어와 표현을 재미있게 배워요. 마이크로 말하면서 연습해요!</p>
+      </button>
+      <button class="activitycard mult" onclick="startMultiplication()">
+        <span class="icon-big">🧮</span>
+        <h3>맛있는 구구단</h3>
+        <p>2단부터 9단까지! 말하거나 눌러서 정답을 입력하며 구구단을 익혀요.</p>
+      </button>
+      <button class="activitycard rope" onclick="startJumpRope()">
+        <span class="icon-big">🏃</span>
+        <h3>줄넘기 급수제</h3>
+        <p>대한줄넘기협회 기준으로 8종목 급수를 측정하고 기록해요. 친구들과 함께!</p>
+      </button>
+      <button class="activitycard record" onclick="startRecords()">
+        <span class="icon-big">📅</span>
+        <h3>내 기록 보기</h3>
+        <p>달력에서 공부한 날을 확인하고 몇 문제 맞췄는지 그래프로 봐요!</p>
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: English quiz -->
+  <div id="screen-english" class="hidden">
+    <!-- Sub-screen: Unit list -->
+    <div id="eng-units">
+      <div class="hero blue">
+        <h1>영어 단원 선택 📚</h1>
+        <p>3학년 영어 교과서 단원 중 하나를 골라주세요.</p>
+      </div>
+      <div class="listcards" id="engUnitList"></div>
+    </div>
+    <!-- Sub-screen: Mode list -->
+    <div id="eng-modes" class="hidden">
+      <div class="hero blue" style="padding:20px 22px;">
+        <span class="kotag" id="engUnitChip">Lesson 1</span>
+        <h1 id="engUnitTitle" style="font-size:20px;margin-top:6px;">Hello!</h1>
+      </div>
+      <div class="listcards" id="engModeList"></div>
+    </div>
+    <!-- Sub-screen: Game -->
+    <div id="eng-game" class="hidden">
+      <div class="gamehead">
+        <div class="titlewrap">
+          <h2 id="engGameTitle">게임</h2>
+          <div class="gameTitleEn" id="engGameTitleEn"></div>
+          <div class="progresswrap">
+            <div class="progressbar"><div class="fill" id="engProgressFill"></div></div>
+            <span id="engProgressText">1 / 10</span>
+          </div>
+        </div>
+        <div class="score">⭐ <span id="engScoreText">0</span></div>
+      </div>
+      <div class="stage">
+        <div class="prompttext" id="engPromptWrap">
+          <span class="kotag hidden" id="engPromptTag"></span>
+          <div class="main" id="engPromptMain"></div>
+        </div>
+        <div class="word-en hidden" id="engWordEn"></div>
+        <div class="sentence-en hidden" id="engSentenceEn"></div>
+        <div class="controls">
+          <div class="transcript" id="engTranscript"></div>
+          <div class="feedback" id="engFeedback"></div>
+          <div class="microw" id="engMicRow">
+            <button class="sidebtn" id="engListenBtn" title="정답 듣기">🔊</button>
+            <button class="micbtn" id="engMicBtn" title="눌러서 말하기">🎤</button>
+            <button class="sidebtn" id="engRetryBtn" title="다시 듣기">↺</button>
+          </div>
+          <div class="miclabel" id="engMicLabel">마이크를 눌러 말해보세요</div>
+          <div class="textfallback hidden" id="engTextFallback">
+            <input type="text" id="engTextInput" placeholder="여기에 답을 입력하세요">
+            <button id="engTextSubmit">확인</button>
+          </div>
+          <button class="toggletext" id="engToggleText">텍스트로 입력할래요</button>
+          <div class="actionrow">
+            <button class="btn ghost" id="engShowAnswerBtn">정답 보기</button>
+            <button class="btn next" id="engNextBtn" disabled>다음 →</button>
+          </div>
+          <div class="notice hidden" id="engMicNotice">이 브라우저는 음성 인식을 지원하지 않아요. 텍스트로 입력해서 연습해보세요!</div>
+        </div>
+      </div>
+    </div>
+    <!-- Sub-screen: Result -->
+    <div id="eng-result" class="hidden">
+      <div class="resultbox">
+        <div class="emoji" id="engResultEmoji">🎉</div>
+        <h2 id="engResultTitle">완료했어요!</h2>
+        <div class="saved-badge">✅ 기록이 저장되었어요</div>
+        <div class="scoreline"><span id="engResultScore">0</span> / <span id="engResultTotal">10</span></div>
+        <div class="scoresub">정답을 맞춘 개수예요</div>
+        <div class="resultactions">
+          <button class="btn primary" id="engResultRetryBtn">🔁 이 게임 다시 하기</button>
+          <button class="btn ghost" id="engResultUnitBtn">📚 다른 게임 고르기</button>
+          <button class="btn ghost" id="engResultHomeBtn">🏠 메뉴로</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: Multiplication -->
+  <div id="screen-mult" class="hidden">
+    <div id="mult-home">
+      <div class="hero" style="background:linear-gradient(135deg, var(--mustard-dark) 0%, var(--mustard) 100%);color:var(--ink);">
+        <h1>구구단 연습 🧮<br>어느 단부터 해볼까요?</h1>
+        <p>말하거나 눌러서 답을 입력해요. 한 글자 답은 "이십사"처럼 또렷하게 말하면 잘 인식돼요!</p>
+      </div>
+      <div class="listcards" id="multRandomList"></div>
+      <div class="tablegrid" id="multTableGrid"></div>
+    </div>
+    <div id="mult-game" class="hidden">
+      <div class="gamehead">
+        <div class="titlewrap">
+          <h2 id="multGameTitle">2단</h2>
+          <div class="gameTitleEn" id="multGameTitleEn">Times Table of 2</div>
+          <div class="progresswrap">
+            <div class="progressbar"><div class="fill" id="multProgressFill"></div></div>
+            <span id="multProgressText">0 / 8</span>
+          </div>
+        </div>
+        <div class="score">⭐ <span id="multScoreText">0</span></div>
+      </div>
+      <div class="stage">
+        <div class="question">
+          <div class="num-box" id="multQA">2</div>
+          <div class="op">×</div>
+          <div class="num-box" id="multQB">2</div>
+          <div class="op">=</div>
+          <div class="answer-box empty" id="multQAns">?</div>
+        </div>
+        <div class="transcript" id="multTranscript">답을 말하거나 눌러보세요</div>
+        <div class="controls">
+          <div class="feedback" id="multFeedback"></div>
+          <div class="miclabel" id="multMicLabel">🎤 눌러서 답을 말해보세요</div>
+          <div class="microw" id="multMicRow">
+            <button class="micbtn" id="multMicBtn" title="눌러서 말하기">🎤</button>
+          </div>
+          <div class="notice hidden" id="multMicNotice">이 브라우저는 음성 인식을 지원하지 않아요. 아래 숫자 키패드로 입력해주세요!</div>
+          <div class="divider">또는 눌러서 입력</div>
+          <div class="keypad" id="multKeypad">
+            <button class="key" data-k="1">1</button>
+            <button class="key" data-k="2">2</button>
+            <button class="key" data-k="3">3</button>
+            <button class="key" data-k="4">4</button>
+            <button class="key" data-k="5">5</button>
+            <button class="key" data-k="6">6</button>
+            <button class="key" data-k="7">7</button>
+            <button class="key" data-k="8">8</button>
+            <button class="key" data-k="9">9</button>
+            <button class="key action" data-k="clear">← 지우기</button>
+            <button class="key" data-k="0">0</button>
+            <button class="key action submit" data-k="submit">확인</button>
+          </div>
+          <div class="actionrow">
+            <button class="btn ghost" id="multShowAnswerBtn">정답 보기</button>
+            <button class="btn next" id="multNextBtn" disabled>다음 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="mult-result" class="hidden">
+      <div class="resultbox">
+        <div class="emoji" id="multResultEmoji">🎉</div>
+        <h2 id="multResultTitle">잘했어요!</h2>
+        <div class="saved-badge">✅ 기록이 저장되었어요</div>
+        <div class="scoreline"><span id="multResultScore">0</span> / <span id="multResultTotal">8</span></div>
+        <div class="scoresub">정답을 맞춘 개수예요</div>
+        <div class="time-line" id="multResultTime">⏱️ 걸린 시간: 0초</div>
+        <div id="multWrongListWrap"></div>
+        <div class="resultactions">
+          <button class="btn primary" id="multResultRetryBtn">🔁 이 단 다시 풀기</button>
+          <button class="btn ghost" id="multResultHomeBtn">🏠 메뉴로</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: Jump Rope -->
+  <div id="screen-jumprope" class="hidden">
+    <div class="jr-hd">
+      <div class="jr-hd-sub">2026학년도 · 마동초 3학년</div>
+      <div class="jr-hd-title">🏃 줄넘기 급수 계산기</div>
+      <div class="jr-hd-desc">대한줄넘기협회 기준 · 실시간 클라우드 동기화</div>
+      <div class="stats" id="jrStats"></div>
+      <div class="tabs" id="jrTabs">
+        <button class="tab on" data-v="input">✏️ 입력</button>
+        <button class="tab" data-v="history">📈 이력</button>
+        <button class="tab" data-v="ref">📋 급수표</button>
+      </div>
+    </div>
+    <div id="jrInput"></div>
+    <div id="jrHistory" class="hidden"></div>
+    <div id="jrRef" class="hidden"></div>
+  </div>
+
+  <!-- SCREEN 5: Personal Records / Calendar -->
+  <div id="screen-records" class="hidden">
+    <div class="hero" style="background:linear-gradient(135deg,#B15CFF 0%,#D394FF 100%);">
+      <h1 id="recordsHeader">내 학습 달력 📅</h1>
+      <p>공부한 날짜를 확인하고 자세한 기록을 봐요!</p>
+    </div>
+    <div class="calendar-wrap">
+      <div class="calendar-nav">
+        <button id="calPrev">← 이전달</button>
+        <div class="calendar-title" id="calTitle">2026년 7월</div>
+        <button id="calNext">다음달 →</button>
+      </div>
+      <div class="calendar-grid" id="calGrid"></div>
+      <div style="margin-top:12px;display:flex;gap:14px;justify-content:center;font-size:11px;color:var(--ink-soft);flex-wrap:wrap;">
+        <span><span style="display:inline-block;width:10px;height:10px;background:var(--sky);border-radius:50%;vertical-align:middle;margin-right:4px;"></span>영어</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:var(--mustard);border-radius:50%;vertical-align:middle;margin-right:4px;"></span>구구단</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg, var(--coral) 0%, #FF8A63 100%);border-radius:4px;vertical-align:middle;margin-right:4px;"></span>공부한 날</span>
+      </div>
+    </div>
+    <div class="chart-panel">
+      <div class="chart-title">📊 최근 30일 정답 갯수</div>
+      <div id="recordsChart"></div>
+    </div>
+    <div class="records-panel" id="recordsSummary">
+      <div class="records-title">📋 전체 통계</div>
+      <div id="recordsSummaryContent"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: Class Records -->
+  <div id="screen-class" class="hidden">
+    <div class="hero" style="background:linear-gradient(135deg,var(--red) 0%,#E86885 100%);">
+      <h1>우리반 랭킹 👥</h1>
+      <p>우리반 3학년 친구들의 학습 기록을 활동별로 비교해봐요!</p>
+    </div>
+
+    <!-- Activity tab bar -->
+    <div id="classTabs" style="display:flex;gap:8px;margin-bottom:16px;background:var(--white);border-radius:16px;padding:6px;box-shadow:var(--shadow-sm);">
+      <button class="ctab on" data-tab="english" style="flex:1;padding:10px 8px;border:none;background:linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%);color:#fff;border-radius:12px;font-weight:900;font-size:13px;font-family:inherit;cursor:pointer;">🍽️ 영어</button>
+      <button class="ctab" data-tab="multiplication" style="flex:1;padding:10px 8px;border:none;background:transparent;color:var(--ink-soft);border-radius:12px;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🧮 구구단</button>
+      <button class="ctab" data-tab="jumprope" style="flex:1;padding:10px 8px;border:none;background:transparent;color:var(--ink-soft);border-radius:12px;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🏃 줄넘기</button>
+    </div>
+
+    <!-- English section -->
+    <div id="classPanel-english">
+      <div class="rank-panel">
+        <div class="records-title">🍽️ 영어 - 학습 횟수</div>
+        <div id="classEngSessions"></div>
+      </div>
+      <div class="rank-panel">
+        <div class="records-title">🎯 영어 - 맞춘 문제수</div>
+        <div id="classEngCorrect"></div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-title">📊 영어 정답 비교</div>
+        <div id="classEngChart"></div>
+      </div>
+    </div>
+
+    <!-- Multiplication section -->
+    <div id="classPanel-multiplication" class="hidden">
+      <div class="rank-panel">
+        <div class="records-title">🧮 구구단 - 학습 횟수</div>
+        <div id="classMultSessions"></div>
+      </div>
+      <div class="rank-panel">
+        <div class="records-title">🎯 구구단 - 맞춘 문제수</div>
+        <div id="classMultCorrect"></div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-title">📊 구구단 정답 비교</div>
+        <div id="classMultChart"></div>
+      </div>
+    </div>
+
+    <!-- Jump rope section -->
+    <div id="classPanel-jumprope" class="hidden">
+      <div class="rank-panel">
+        <div class="records-title">🏃 줄넘기 - 측정 횟수</div>
+        <div id="classJrSessions"></div>
+      </div>
+      <div class="rank-panel">
+        <div class="records-title">🏆 줄넘기 - 최고 점수</div>
+        <div id="classJrBest"></div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-title">📊 줄넘기 최고 점수 비교</div>
+        <div id="classJrChart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modalRoot"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/* ================================================================
+   마동초 3학년 방학 학습장 - Main Application
+================================================================ */
+
+// ----- STUDENT DATA -----
+const STUDENTS = [
+  {id:'kim',   no:1, name:'김대현', emoji:'🐻'},  // 곰
+  {id:'na',    no:2, name:'나대한', emoji:'🐆'},  // 치타
+  {id:'min',   no:3, name:'민주은', emoji:'🦦'},  // 해달
+  {id:'baek',  no:4, name:'백은성', emoji:'🐶'},  // 강아지
+  {id:'shin',  no:5, name:'신서희', emoji:'🐰'},  // 토끼
+];
+
+// Default student passwords (teacher can change from dashboard)
+const DEFAULT_STUDENT_PW = {
+  kim:  '1111',
+  na:   '2222',
+  min:  '3333',
+  baek: '4444',
+  shin: '5555',
+};
+
+let currentStudent = null;
+let studentPasswords = {...DEFAULT_STUDENT_PW}; // synced from Firebase
+
+// ----- FIREBASE SETUP -----
+firebase.initializeApp({
+  apiKey: "AIzaSyAKbtiQ1UutXkGI2ozyTNDO3N20NQ9vjDE",
+  authDomain: "jump-rope-43833.firebaseapp.com",
+  databaseURL: "https://jump-rope-43833-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "jump-rope-43833",
+  storageBucket: "jump-rope-43833.firebasestorage.app",
+  messagingSenderId: "870652268913",
+  appId: "1:870652268913:web:6b45cabb7e317827b1a6d0"
+});
+const db = firebase.database();
+const recordsRef = db.ref('mado3_records');   // { studentId: { date: [ {time, activity, ...} ] } }
+const jumpRopeRef = db.ref('jumprope_data');   // existing jump rope data
+const passwordsRef = db.ref('mado3_passwords'); // { studentId: 'pwString' }
+
+// Listen for password changes
+passwordsRef.on('value', (snapshot) => {
+  const data = snapshot.val() || {};
+  STUDENTS.forEach(s => {
+    if (data[s.id]) studentPasswords[s.id] = String(data[s.id]);
+    else studentPasswords[s.id] = DEFAULT_STUDENT_PW[s.id];
+  });
+  // Refresh teacher password table if visible
+  if (!document.getElementById('screen-teacher').classList.contains('hidden')) {
+    renderTeacherPasswordTable();
+  }
+});
+
+let allRecords = {}; // { studentId: { 'YYYY-MM-DD': [entries...] } }
+let syncStatus = 'connecting';
+
+// Listen for records changes
+recordsRef.on('value', (snapshot) => {
+  const data = snapshot.val();
+  allRecords = data || {};
+  syncStatus = 'online';
+  // Re-render current screen if it displays records
+  if (!document.getElementById('screen-records').classList.contains('hidden')) {
+    renderCalendar();
+    renderRecordsChart();
+    renderRecordsSummary();
+  }
+  if (!document.getElementById('screen-class').classList.contains('hidden')) {
+    renderClassRanking();
+  }
+});
+
+// Save an activity record
+function saveRecord(studentId, activity, correct, total, details = {}) {
+  const now = new Date();
+  const dateStr = now.getFullYear() + '-' +
+    String(now.getMonth() + 1).padStart(2, '0') + '-' +
+    String(now.getDate()).padStart(2, '0');
+  const timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+    String(now.getMinutes()).padStart(2, '0');
+  const entry = {
+    time: timeStr,
+    timestamp: now.getTime(),
+    activity: activity, // 'english' | 'multiplication'
+    correct: correct,
+    total: total,
+    ...details
+  };
+  const ref = recordsRef.child(studentId).child(dateStr).push();
+  return ref.set(entry).catch(err => console.warn('save failed', err));
+}
+
+// ----- SCREEN NAVIGATION -----
+function showScreen(id) {
+  ['screen-students', 'screen-student-login', 'screen-teacher-login', 'screen-teacher',
+   'screen-menu', 'screen-english', 'screen-mult',
+   'screen-jumprope', 'screen-records', 'screen-class'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+  const isTeacherView = (id === 'screen-teacher' || id === 'screen-teacher-login');
+  const isEntryView = (id === 'screen-students' || id === 'screen-student-login' || id === 'screen-teacher-login');
+  document.getElementById('menuBtn').classList.toggle('hidden',
+    isEntryView || id === 'screen-menu' || isTeacherView);
+  document.getElementById('homeBtn').classList.toggle('hidden', id === 'screen-students');
+  document.getElementById('currentStudent').classList.toggle('hidden', !currentStudent && !isTeacherView);
+  if (isTeacherView && id === 'screen-teacher') {
+    document.getElementById('currentStudent').textContent = '👨‍🏫 선생님';
+    document.getElementById('currentStudent').classList.remove('hidden');
+  } else if (id === 'screen-teacher-login' || id === 'screen-student-login') {
+    document.getElementById('currentStudent').classList.add('hidden');
+  }
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('menuBtn').addEventListener('click', () => {
+  stopAllAudio(); stopRecognition();
+  const wasInActivity = ['screen-english','screen-mult','screen-jumprope'].some(s => !document.getElementById(s).classList.contains('hidden'));
+  showScreen('screen-menu');
+  if (wasInActivity && currentStudent) {
+    setTimeout(checkHomeworkAfterActivity, 500);
+  }
+});
+document.getElementById('homeBtn').addEventListener('click', () => {
+  stopAllAudio(); stopRecognition();
+  currentStudent = null;
+  document.getElementById('currentStudent').textContent = '';
+  document.getElementById('currentStudent').classList.add('hidden');
+  showScreen('screen-students');
+});
+
+// ----- STUDENT SELECTION -----
+function renderStudents() {
+  const grid = document.getElementById('studentGrid');
+  grid.innerHTML = '';
+  STUDENTS.forEach(s => {
+    const card = document.createElement('button');
+    card.className = 'studentcard';
+    card.innerHTML = `
+      <div class="avatar">${s.emoji}</div>
+      <div class="no">${s.no}번</div>
+      <div class="name">${s.name}</div>
+    `;
+    card.addEventListener('click', () => selectStudent(s));
+    grid.appendChild(card);
+  });
+}
+
+// ----- STUDENT PASSWORD LOGIN -----
+let pendingStudent = null;
+let pwEntry = '';
+
+function selectStudent(s) {
+  // Show password screen first
+  pendingStudent = s;
+  pwEntry = '';
+  document.getElementById('stuLoginAvatar').textContent = s.emoji;
+  document.getElementById('stuLoginName').textContent = `${s.no}번 ${s.name}`;
+  document.getElementById('stuPwErr').style.display = 'none';
+  updatePwDisplay();
+  renderNumpad();
+  showScreen('screen-student-login');
+}
+
+function updatePwDisplay() {
+  const dots = document.querySelectorAll('#stuPwDisplay .pw-dot');
+  dots.forEach((d, i) => {
+    if (i < pwEntry.length) {
+      d.textContent = '●';
+      d.style.borderColor = 'var(--sky)';
+      d.style.background = 'var(--sky)';
+      d.style.color = '#fff';
+    } else {
+      d.textContent = '';
+      d.style.borderColor = 'var(--cream-2)';
+      d.style.background = 'transparent';
+      d.style.color = 'var(--ink)';
+    }
+  });
+}
+
+function renderNumpad() {
+  const pad = document.getElementById('numpad');
+  const keys = ['1','2','3','4','5','6','7','8','9','⌫','0','↵'];
+  pad.innerHTML = keys.map(k => {
+    let bg = 'var(--white)', color = 'var(--ink)', bd = '2px solid var(--cream-2)';
+    if (k === '⌫') { bg = 'var(--yellow-soft)'; }
+    if (k === '↵') { bg = 'var(--green)'; color = '#fff'; bd = 'none'; }
+    return `<button class="numkey" data-k="${k}" style="padding:16px 0;font-size:22px;font-weight:900;border-radius:14px;border:${bd};background:${bg};color:${color};font-family:inherit;cursor:pointer;box-shadow:var(--shadow-sm);">${k}</button>`;
+  }).join('');
+  pad.querySelectorAll('.numkey').forEach(btn => {
+    btn.addEventListener('click', () => handleNumKey(btn.dataset.k));
+  });
+}
+
+function handleNumKey(k) {
+  document.getElementById('stuPwErr').style.display = 'none';
+  if (k === '⌫') {
+    pwEntry = pwEntry.slice(0, -1);
+    updatePwDisplay();
+  } else if (k === '↵') {
+    submitStudentPw();
+  } else if (/[0-9]/.test(k) && pwEntry.length < 4) {
+    pwEntry += k;
+    updatePwDisplay();
+    if (pwEntry.length === 4) {
+      // Auto-submit when 4 digits entered
+      setTimeout(submitStudentPw, 200);
+    }
+  }
+}
+
+function submitStudentPw() {
+  if (!pendingStudent) return;
+  const correct = String(studentPasswords[pendingStudent.id] || DEFAULT_STUDENT_PW[pendingStudent.id]);
+  if (pwEntry === correct) {
+    // Success
+    const s = pendingStudent;
+    pendingStudent = null;
+    pwEntry = '';
+    loginStudent(s);
+  } else {
+    // Wrong password - shake and reset
+    document.getElementById('stuPwErr').style.display = 'block';
+    const dots = document.querySelector('#stuPwDisplay');
+    dots.style.animation = 'shake 0.4s';
+    setTimeout(() => { dots.style.animation = ''; }, 400);
+    pwEntry = '';
+    updatePwDisplay();
+  }
+}
+
+document.getElementById('stuLoginCancel').addEventListener('click', () => {
+  pendingStudent = null;
+  pwEntry = '';
+  showScreen('screen-students');
+});
+
+// Keyboard support for password entry
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('screen-student-login').classList.contains('hidden')) return;
+  if (e.key >= '0' && e.key <= '9') handleNumKey(e.key);
+  else if (e.key === 'Backspace') handleNumKey('⌫');
+  else if (e.key === 'Enter') handleNumKey('↵');
+  else if (e.key === 'Escape') {
+    pendingStudent = null;
+    pwEntry = '';
+    showScreen('screen-students');
+  }
+});
+
+function loginStudent(s) {
+  currentStudent = s;
+  document.getElementById('currentStudent').textContent = `${s.emoji} ${s.name}`;
+  document.getElementById('menuGreeting').innerHTML =
+    `${s.emoji} ${s.name} 환영해요!<br>오늘도 화이팅! 🎉`;
+  renderTodayStatus();
+  showScreen('screen-menu');
+  // Show today's homework popup on first entry
+  showTodayHomeworkPopup();
+}
+
+/* ================================================================
+   TODAY STATUS + STREAK CALCULATION
+================================================================ */
+function todayStr() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dd}`;
+}
+
+function studentActivitiesOnDate(studentId, dateStr) {
+  const sr = allRecords[studentId] || {};
+  const day = sr[dateStr] || {};
+  const acts = new Set();
+  Object.values(day).forEach(entry => {
+    if (entry.activity) acts.add(entry.activity);
+  });
+  // Check jump rope data for that date
+  if (typeof jrData !== 'undefined' && jrData) {
+    const jrStudent = jrData.find(j => j.sid === studentId);
+    if (jrStudent && jrStudent.ms) {
+      jrStudent.ms.forEach(m => {
+        if (m.date === dateStr) {
+          const hasScore = m.scores && Object.values(m.scores).some(v => v !== "" && v != null);
+          if (hasScore) acts.add('jumprope');
+        }
+      });
+    }
+  }
+  return acts;
+}
+
+function calcStreak(studentId) {
+  // Count consecutive days (going backward from today) with any activity
+  const d = new Date();
+  let streak = 0;
+  for (let i = 0; i < 365; i++) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const ds = `${y}-${m}-${dd}`;
+    const acts = studentActivitiesOnDate(studentId, ds);
+    if (acts.size > 0) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else {
+      // Allow streak to start from yesterday if today has no records yet
+      if (i === 0) { d.setDate(d.getDate() - 1); continue; }
+      break;
+    }
+  }
+  return streak;
+}
+
+function streakMedal(days) {
+  if (days >= 30) return {emoji: '🏆', label: `${days}일 연속 · 전설의 학습왕!`, color: '#FFB800'};
+  if (days >= 14) return {emoji: '🥇', label: `${days}일 연속 · 금메달!`, color: '#FFB800'};
+  if (days >= 7)  return {emoji: '🥈', label: `${days}일 연속 · 은메달!`, color: '#B0BEC5'};
+  if (days >= 3)  return {emoji: '🥉', label: `${days}일 연속 · 동메달!`, color: '#CD7F32'};
+  if (days >= 1)  return {emoji: '🔥', label: `${days}일 연속 도전 중!`, color: '#FF6B4A'};
+  return {emoji: '💤', label: '오늘부터 시작해봐요!', color: '#A4B3C2'};
+}
+
+function renderTodayStatus() {
+  if (!currentStudent) return;
+  const today = todayStr();
+  const acts = studentActivitiesOnDate(currentStudent.id, today);
+  const items = [
+    {key: 'english', label: '영어', emoji: '🍽️'},
+    {key: 'multiplication', label: '구구단', emoji: '🧮'},
+    {key: 'jumprope', label: '줄넘기', emoji: '🏃'},
+  ];
+  const html = items.map(it => {
+    const done = acts.has(it.key);
+    const bg = done ? 'linear-gradient(135deg,#66BB6A 0%,#4CAF50 100%)' : 'var(--cream-2)';
+    const color = done ? '#fff' : 'var(--ink-soft)';
+    const mark = done ? '✅' : '⬜';
+    return `<div style="flex:1;min-width:90px;background:${bg};border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:8px;color:${color};font-weight:800;font-size:13px;">
+      <span style="font-size:18px;">${it.emoji}</span>
+      <span>${it.label}</span>
+      <span style="margin-left:auto;font-size:16px;">${mark}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('todayStatusRow').innerHTML = html;
+
+  const streak = calcStreak(currentStudent.id);
+  const medal = streakMedal(streak);
+  document.getElementById('streakBadge').innerHTML =
+    `<span style="color:${medal.color};">${medal.emoji} ${medal.label}</span>`;
+}
+
+// ----- MAIN ACTIVITY ENTRY POINTS -----
+function startEnglish() {
+  engResetToUnits();
+  showScreen('screen-english');
+}
+function startMultiplication() {
+  document.getElementById('mult-home').classList.remove('hidden');
+  document.getElementById('mult-game').classList.add('hidden');
+  document.getElementById('mult-result').classList.add('hidden');
+  showScreen('screen-mult');
+}
+function startJumpRope() {
+  jrRender();
+  showScreen('screen-jumprope');
+}
+function startRecords() {
+  document.getElementById('recordsHeader').textContent = `${currentStudent.name}의 학습 달력 📅`;
+  calCurrentYear = new Date().getFullYear();
+  calCurrentMonth = new Date().getMonth();
+  calSelectedDate = null;
+  renderCalendar();
+  renderRecordsChart();
+  renderRecordsSummary();
+  showScreen('screen-records');
+}
+function resetClassTabs() {
+  // Reset to English tab
+  document.querySelectorAll('#classTabs .ctab').forEach(b => {
+    const isOn = b.dataset.tab === 'english';
+    b.classList.toggle('on', isOn);
+    if (isOn) {
+      b.style.background = 'linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%)';
+      b.style.color = '#fff';
+    } else {
+      b.style.background = 'transparent';
+      b.style.color = 'var(--ink-soft)';
+    }
+  });
+  ['english','multiplication','jumprope'].forEach(t => {
+    document.getElementById('classPanel-' + t).classList.toggle('hidden', t !== 'english');
+  });
+}
+
+function startClassRecords() {
+  resetClassTabs();
+  renderClassRanking();
+  showScreen('screen-class');
+}
+
+// Public class records button (visible from student selection screen, no login required)
+document.getElementById('publicClassBtn').addEventListener('click', () => {
+  resetClassTabs();
+  renderClassRanking();
+  showScreen('screen-class');
+});
+
+/* ================================================================
+   POPUP MODAL SYSTEM
+================================================================ */
+function showPopup(html) {
+  closePopup();
+  const div = document.createElement('div');
+  div.className = 'popup-backdrop';
+  div.id = 'popup-active';
+  div.innerHTML = `<div class="popup-box">${html}</div>`;
+  div.addEventListener('click', (e) => {
+    if (e.target === div) closePopup();
+  });
+  document.body.appendChild(div);
+}
+function closePopup() {
+  const p = document.getElementById('popup-active');
+  if (p) p.remove();
+}
+
+function showTodayHomeworkPopup() {
+  if (!currentStudent) return;
+  const acts = studentActivitiesOnDate(currentStudent.id, todayStr());
+  const items = [
+    {key: 'english',        label: '맛있는 영어',    emoji: '🍽️'},
+    {key: 'multiplication', label: '맛있는 구구단', emoji: '🧮'},
+    {key: 'jumprope',       label: '줄넘기',          emoji: '🏃'},
+  ];
+  const doneCount = items.filter(it => acts.has(it.key)).length;
+
+  if (doneCount === 3) {
+    // Celebration
+    const key = `celebrated_${currentStudent.id}_${todayStr()}`;
+    const alreadyCelebrated = localStorage.getItem(key);
+    const statusHtml = items.map(it =>
+      `<div class="popup-status-item" style="background:#E8F5E9;color:#2E7D32;">
+        <span style="font-size:18px;">${it.emoji}</span>${it.label} ✅
+      </div>`
+    ).join('');
+    showPopup(`
+      <div class="popup-emoji">🎉</div>
+      <div class="popup-title">${alreadyCelebrated ? '오늘도 최고예요!' : '3가지 다 완료했어요!'}</div>
+      <div class="popup-body">
+        ${currentStudent.name} 학생, 오늘의 숙제 3가지를 모두 끝냈어요!<br>
+        정말 대단해요! 👏
+      </div>
+      <div class="popup-status">${statusHtml}</div>
+      <button class="popup-btn" onclick="closePopup()">신난다! 🥳</button>
+    `);
+    localStorage.setItem(key, '1');
+  } else {
+    // Show remaining tasks
+    const statusHtml = items.map(it => {
+      const done = acts.has(it.key);
+      return `<div class="popup-status-item" style="background:${done ? '#E8F5E9' : '#FFF3E0'};color:${done ? '#2E7D32' : '#E65100'};">
+        <span style="font-size:18px;">${it.emoji}</span>${it.label} ${done ? '✅' : '⬜'}
+      </div>`;
+    }).join('');
+    const remainingItems = items.filter(it => !acts.has(it.key)).map(it => it.label).join(', ');
+    showPopup(`
+      <div class="popup-emoji" style="animation:none;">📋</div>
+      <div class="popup-title">오늘의 숙제 확인</div>
+      <div class="popup-body">
+        오늘은 <b style="color:var(--red);">${3 - doneCount}가지</b> 더 하면 완료예요!<br>
+        남은 숙제: <b>${remainingItems}</b>
+      </div>
+      <div class="popup-status">${statusHtml}</div>
+      <button class="popup-btn" onclick="closePopup()">지금 시작할게요! 💪</button>
+    `);
+  }
+}
+
+// Called after an activity is completed
+function checkHomeworkAfterActivity() {
+  if (!currentStudent) return;
+  const acts = studentActivitiesOnDate(currentStudent.id, todayStr());
+  const doneCount = ['english','multiplication','jumprope'].filter(k => acts.has(k)).length;
+
+  if (doneCount === 3) {
+    const key = `celebrated_${currentStudent.id}_${todayStr()}`;
+    if (!localStorage.getItem(key)) {
+      // First time completing all 3 today - big celebration
+      showPopup(`
+        <div class="popup-emoji">🏆</div>
+        <div class="popup-title">🎊 3가지 다 완료! 🎊</div>
+        <div class="popup-body">
+          ${currentStudent.name} 학생, 오늘의 숙제<br>
+          <b style="color:var(--green);font-size:16px;">영어 · 구구단 · 줄넘기</b><br>
+          모두 완료했어요!<br><br>
+          <b style="color:var(--red);">정말 자랑스러워요! 👏✨</b>
+        </div>
+        <button class="popup-btn" onclick="closePopup()">최고예요! 🥳</button>
+      `);
+      localStorage.setItem(key, '1');
+    }
+  } else {
+    // Show reminder of remaining
+    showTodayHomeworkPopup();
+  }
+}
+
+/* ================================================================
+   ENGLISH QUIZ MODULE
+================================================================ */
+const ENG_GRADES = {
+  "3": {
+    "label": "3학년",
+    "units": {
+      "1": {
+        "titleEn": "Hello! I'm Dito",
+        "expressions": [
+          {
+            "en": "Hello!",
+            "ko": "만날 때 인사하기"
+          },
+          {
+            "en": "Hi!",
+            "ko": "만날 때 인사하기"
+          },
+          {
+            "en": "I'm Siyun.",
+            "ko": "소개하기"
+          },
+          {
+            "en": "Nice to meet you.",
+            "ko": "소개에 답하기"
+          },
+          {
+            "en": "What's your name?",
+            "ko": "이름 묻기"
+          },
+          {
+            "en": "My name is Yeji.",
+            "ko": "이름 답하기"
+          },
+          {
+            "en": "Goodbye.",
+            "ko": "헤어질 때 인사하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "be",
+            "ko": "~이 있다, 이다",
+            "mediaKey": "g3_u01_be",
+            "game2Sentence": null
+          },
+          {
+            "en": "everyone",
+            "ko": "모두",
+            "mediaKey": "g3_u01_everyone",
+            "game2Sentence": null
+          },
+          {
+            "en": "goodbye",
+            "ko": "잘 가(헤어질 때 인사)",
+            "mediaKey": "g3_u01_goodbye",
+            "game2Sentence": null
+          },
+          {
+            "en": "hello",
+            "ko": "안녕(만나서 하는 인사)",
+            "mediaKey": "g3_u01_hello",
+            "game2Sentence": null
+          },
+          {
+            "en": "I",
+            "ko": "나",
+            "mediaKey": "g3_u01_I",
+            "game2Sentence": null
+          },
+          {
+            "en": "meet",
+            "ko": "만나다",
+            "mediaKey": "g3_u01_meet",
+            "game2Sentence": null
+          },
+          {
+            "en": "name",
+            "ko": "이름",
+            "mediaKey": "g3_u01_name",
+            "game2Sentence": null
+          },
+          {
+            "en": "nice",
+            "ko": "좋은",
+            "mediaKey": "g3_u01_nice",
+            "game2Sentence": null
+          },
+          {
+            "en": "to",
+            "ko": "~에, ~에게",
+            "mediaKey": "g3_u01_to",
+            "game2Sentence": null
+          },
+          {
+            "en": "too",
+            "ko": "~도 역시",
+            "mediaKey": "g3_u01_too",
+            "game2Sentence": null
+          },
+          {
+            "en": "what",
+            "ko": "무엇",
+            "mediaKey": "g3_u01_what",
+            "game2Sentence": null
+          },
+          {
+            "en": "you",
+            "ko": "너",
+            "mediaKey": "g3_u01_you",
+            "game2Sentence": null
+          }
+        ]
+      },
+      "2": {
+        "titleEn": "Sit Down, Please",
+        "expressions": [
+          {
+            "en": "Sit down, please.",
+            "ko": "요청하기"
+          },
+          {
+            "en": "Okay.",
+            "ko": "요청에 답하기"
+          },
+          {
+            "en": "Thank you.",
+            "ko": "감사하기"
+          },
+          {
+            "en": "You're welcome.",
+            "ko": "감사에 답하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "close",
+            "ko": "닫다",
+            "mediaKey": "g3_u02_close",
+            "game2Sentence": null
+          },
+          {
+            "en": "door",
+            "ko": "문",
+            "mediaKey": "g3_u02_door",
+            "game2Sentence": null
+          },
+          {
+            "en": "down",
+            "ko": "아래로",
+            "mediaKey": "g3_u02_down",
+            "game2Sentence": null
+          },
+          {
+            "en": "great",
+            "ko": "아주 좋은, 멋진",
+            "mediaKey": "g3_u02_great",
+            "game2Sentence": null
+          },
+          {
+            "en": "no",
+            "ko": "아니, 안 돼",
+            "mediaKey": "g3_u02_no",
+            "game2Sentence": null
+          },
+          {
+            "en": "okay",
+            "ko": "네, 응, 좋아",
+            "mediaKey": "g3_u02_okay",
+            "game2Sentence": null
+          },
+          {
+            "en": "open",
+            "ko": "열다",
+            "mediaKey": "g3_u02_open",
+            "game2Sentence": null
+          },
+          {
+            "en": "please",
+            "ko": "제발",
+            "mediaKey": "g3_u02_please",
+            "game2Sentence": null
+          },
+          {
+            "en": "sit",
+            "ko": "앉다",
+            "mediaKey": "g3_u02_sit",
+            "game2Sentence": null
+          },
+          {
+            "en": "stand",
+            "ko": "서다",
+            "mediaKey": "g3_u02_stand",
+            "game2Sentence": null
+          },
+          {
+            "en": "thank",
+            "ko": "감사하다",
+            "mediaKey": "g3_u02_thank",
+            "game2Sentence": null
+          },
+          {
+            "en": "the",
+            "ko": "그",
+            "mediaKey": "g3_u02_the",
+            "game2Sentence": null
+          },
+          {
+            "en": "up",
+            "ko": "위로",
+            "mediaKey": "g3_u02_up",
+            "game2Sentence": null
+          },
+          {
+            "en": "welcome",
+            "ko": "환영하다",
+            "mediaKey": "g3_u02_welcome",
+            "game2Sentence": null
+          },
+          {
+            "en": "window",
+            "ko": "창문",
+            "mediaKey": "g3_u02_window",
+            "game2Sentence": null
+          }
+        ]
+      },
+      "3": {
+        "titleEn": "What's This?",
+        "expressions": [
+          {
+            "en": "What's this?",
+            "ko": "물건 묻기(가까이)"
+          },
+          {
+            "en": "What's that?",
+            "ko": "물건 묻기(멀리)"
+          },
+          {
+            "en": "It's a bag.",
+            "ko": "물건 답하기"
+          },
+          {
+            "en": "Look!",
+            "ko": "주의 끌기"
+          }
+        ],
+        "words": [
+          {
+            "en": "a",
+            "ko": "하나의",
+            "mediaKey": "g3_u03_a",
+            "game2Sentence": null
+          },
+          {
+            "en": "bag",
+            "ko": "가방",
+            "mediaKey": "g3_u03_bag",
+            "game2Sentence": "What's this? It's a bag."
+          },
+          {
+            "en": "ball",
+            "ko": "공",
+            "mediaKey": "g3_u03_ball",
+            "game2Sentence": "What's this? It's a ball."
+          },
+          {
+            "en": "book",
+            "ko": "책",
+            "mediaKey": "g3_u03_book",
+            "game2Sentence": "What's this? It's a book."
+          },
+          {
+            "en": "clock",
+            "ko": "시계",
+            "mediaKey": "g3_u03_clock",
+            "game2Sentence": "What's this? It's a clock."
+          },
+          {
+            "en": "doll",
+            "ko": "인형",
+            "mediaKey": "g3_u03_doll",
+            "game2Sentence": "What's this? It's a doll."
+          },
+          {
+            "en": "hat",
+            "ko": "모자",
+            "mediaKey": "g3_u03_hat",
+            "game2Sentence": "What's this? It's a hat."
+          },
+          {
+            "en": "help",
+            "ko": "돕다",
+            "mediaKey": "g3_u03_help",
+            "game2Sentence": null
+          },
+          {
+            "en": "it",
+            "ko": "그것",
+            "mediaKey": "g3_u03_it",
+            "game2Sentence": null
+          },
+          {
+            "en": "look",
+            "ko": "보다",
+            "mediaKey": "g3_u03_look",
+            "game2Sentence": null
+          },
+          {
+            "en": "pencil",
+            "ko": "연필",
+            "mediaKey": "g3_u03_pencil",
+            "game2Sentence": "What's this? It's a pencil."
+          },
+          {
+            "en": "that",
+            "ko": "저것",
+            "mediaKey": "g3_u03_that",
+            "game2Sentence": null
+          },
+          {
+            "en": "this",
+            "ko": "이것",
+            "mediaKey": "g3_u03_this",
+            "game2Sentence": null
+          },
+          {
+            "en": "violin",
+            "ko": "바이올린",
+            "mediaKey": "g3_u03_violin",
+            "game2Sentence": "What's this? It's a violin."
+          }
+        ]
+      },
+      "4": {
+        "titleEn": "I Like Pizza",
+        "expressions": [
+          {
+            "en": "Do you like chicken?",
+            "ko": "좋아하는 음식 묻기"
+          },
+          {
+            "en": "Yes, I do.",
+            "ko": "좋아하는 음식 답하기(긍정)"
+          },
+          {
+            "en": "No, I don't.",
+            "ko": "좋아하는 음식 답하기(부정)"
+          },
+          {
+            "en": "I like pizza.",
+            "ko": "좋아하는 음식 말하기"
+          },
+          {
+            "en": "I don't like pizza.",
+            "ko": "싫어하는 음식 말하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "apple",
+            "ko": "사과",
+            "mediaKey": "g3_u04_apple",
+            "game2Sentence": "Do you like apple?"
+          },
+          {
+            "en": "candy",
+            "ko": "사탕",
+            "mediaKey": "g3_u04_candy",
+            "game2Sentence": "Do you like candy?"
+          },
+          {
+            "en": "chicken",
+            "ko": "치킨",
+            "mediaKey": "g3_u04_chicken",
+            "game2Sentence": "Do you like chicken?"
+          },
+          {
+            "en": "cookie",
+            "ko": "쿠키",
+            "mediaKey": "g3_u04_cookie",
+            "game2Sentence": "Do you like cookie?"
+          },
+          {
+            "en": "do",
+            "ko": "~하다",
+            "mediaKey": "g3_u04_do",
+            "game2Sentence": null
+          },
+          {
+            "en": "good",
+            "ko": "좋은",
+            "mediaKey": "g3_u04_good",
+            "game2Sentence": null
+          },
+          {
+            "en": "ice cream",
+            "ko": "아이스크림",
+            "mediaKey": "g3_u04_ice_cream",
+            "game2Sentence": "Do you like ice cream?"
+          },
+          {
+            "en": "kiwi",
+            "ko": "키위",
+            "mediaKey": "g3_u04_kiwi",
+            "game2Sentence": "Do you like kiwi?"
+          },
+          {
+            "en": "like",
+            "ko": "좋아하다",
+            "mediaKey": "g3_u04_like",
+            "game2Sentence": null
+          },
+          {
+            "en": "milk",
+            "ko": "우유",
+            "mediaKey": "g3_u04_milk",
+            "game2Sentence": "Do you like milk?"
+          },
+          {
+            "en": "not",
+            "ko": "아닌",
+            "mediaKey": "g3_u04_not",
+            "game2Sentence": null
+          },
+          {
+            "en": "pizza",
+            "ko": "피자",
+            "mediaKey": "g3_u04_pizza",
+            "game2Sentence": "Do you like pizza?"
+          },
+          {
+            "en": "salad",
+            "ko": "샐러드",
+            "mediaKey": "g3_u04_salad",
+            "game2Sentence": "Do you like salad?"
+          },
+          {
+            "en": "vegetable",
+            "ko": "채소",
+            "mediaKey": "g3_u04_vegetable",
+            "game2Sentence": "Do you like vegetable?"
+          },
+          {
+            "en": "yes",
+            "ko": "네",
+            "mediaKey": "g3_u04_yes",
+            "game2Sentence": null
+          }
+        ]
+      },
+      "5": {
+        "titleEn": "How Many Tigers?",
+        "expressions": [
+          {
+            "en": "How many tigers?",
+            "ko": "동물의 수 묻기"
+          },
+          {
+            "en": "Three tigers.",
+            "ko": "동물의 수 답하기"
+          },
+          {
+            "en": "It's big.",
+            "ko": "크기 말하기(큼)"
+          },
+          {
+            "en": "It's small.",
+            "ko": "크기 말하기(작음)"
+          }
+        ],
+        "words": [
+          {
+            "en": "cat",
+            "ko": "고양이",
+            "mediaKey": "g3_u05_cat",
+            "game2Sentence": "How many cats?"
+          },
+          {
+            "en": "dog",
+            "ko": "개",
+            "mediaKey": "g3_u05_dog",
+            "game2Sentence": "How many dogs?"
+          },
+          {
+            "en": "how",
+            "ko": "어떻게",
+            "mediaKey": "g3_u05_how",
+            "game2Sentence": null
+          },
+          {
+            "en": "kangaroo",
+            "ko": "캥거루",
+            "mediaKey": "g3_u05_kangaroo",
+            "game2Sentence": "How many kangaroos?"
+          },
+          {
+            "en": "many",
+            "ko": "많은",
+            "mediaKey": "g3_u05_many",
+            "game2Sentence": null
+          },
+          {
+            "en": "pig",
+            "ko": "돼지",
+            "mediaKey": "g3_u05_pig",
+            "game2Sentence": "How many pigs?"
+          },
+          {
+            "en": "tiger",
+            "ko": "호랑이",
+            "mediaKey": "g3_u05_tiger",
+            "game2Sentence": "How many tigers?"
+          },
+          {
+            "en": "zebra",
+            "ko": "얼룩말",
+            "mediaKey": "g3_u05_zebra",
+            "game2Sentence": "How many zebras?"
+          },
+          {
+            "en": "big",
+            "ko": "큰",
+            "mediaKey": "g3_u05_big",
+            "game2Sentence": null
+          },
+          {
+            "en": "small",
+            "ko": "작은",
+            "mediaKey": "g3_u05_small",
+            "game2Sentence": null
+          },
+          {
+            "en": "zoo",
+            "ko": "동물원",
+            "mediaKey": "g3_u05_zoo",
+            "game2Sentence": null
+          },
+          {
+            "en": "one",
+            "ko": "하나, 1",
+            "mediaKey": "g3_u05_one",
+            "game2Sentence": null
+          },
+          {
+            "en": "two",
+            "ko": "둘, 2",
+            "mediaKey": "g3_u05_two",
+            "game2Sentence": null
+          },
+          {
+            "en": "three",
+            "ko": "셋, 3",
+            "mediaKey": "g3_u05_three",
+            "game2Sentence": null
+          },
+          {
+            "en": "four",
+            "ko": "넷, 4",
+            "mediaKey": "g3_u05_four",
+            "game2Sentence": null
+          },
+          {
+            "en": "five",
+            "ko": "다섯, 5",
+            "mediaKey": "g3_u05_five",
+            "game2Sentence": null
+          }
+        ]
+      },
+      "6": {
+        "titleEn": "Can You Swim?",
+        "expressions": [
+          {
+            "en": "Can you swim?",
+            "ko": "할 수 있는지 묻기"
+          },
+          {
+            "en": "Yes, I can.",
+            "ko": "가능함을 답하기"
+          },
+          {
+            "en": "No, I can't.",
+            "ko": "불가능함을 답하기"
+          },
+          {
+            "en": "I can swim.",
+            "ko": "할 수 있는 것 말하기"
+          },
+          {
+            "en": "I can't swim.",
+            "ko": "할 수 없는 것 말하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "bird",
+            "ko": "새",
+            "mediaKey": "g3_u06_bird",
+            "game2Sentence": null
+          },
+          {
+            "en": "can",
+            "ko": "할 수 있다",
+            "mediaKey": "g3_u06_can",
+            "game2Sentence": null
+          },
+          {
+            "en": "come",
+            "ko": "오다",
+            "mediaKey": "g3_u06_come",
+            "game2Sentence": null
+          },
+          {
+            "en": "dance",
+            "ko": "춤추다",
+            "mediaKey": "g3_u06_dance",
+            "game2Sentence": "I can dance."
+          },
+          {
+            "en": "fly",
+            "ko": "날다",
+            "mediaKey": "g3_u06_fly",
+            "game2Sentence": "I can fly."
+          },
+          {
+            "en": "foot",
+            "ko": "발",
+            "mediaKey": "g3_u06_foot",
+            "game2Sentence": null
+          },
+          {
+            "en": "fun",
+            "ko": "재미있는",
+            "mediaKey": "g3_u06_fun",
+            "game2Sentence": null
+          },
+          {
+            "en": "here",
+            "ko": "여기",
+            "mediaKey": "g3_u06_here",
+            "game2Sentence": null
+          },
+          {
+            "en": "jump",
+            "ko": "점프하다",
+            "mediaKey": "g3_u06_jump",
+            "game2Sentence": "I can jump."
+          },
+          {
+            "en": "run",
+            "ko": "달리다",
+            "mediaKey": "g3_u06_run",
+            "game2Sentence": "I can run."
+          },
+          {
+            "en": "skate",
+            "ko": "스케이트를 타다",
+            "mediaKey": "g3_u06_skate",
+            "game2Sentence": "I can skate."
+          },
+          {
+            "en": "swim",
+            "ko": "수영하다",
+            "mediaKey": "g3_u06_swim",
+            "game2Sentence": "I can swim."
+          },
+          {
+            "en": "walk",
+            "ko": "걷다",
+            "mediaKey": "g3_u06_walk",
+            "game2Sentence": "I can walk."
+          }
+        ]
+      },
+      "7": {
+        "titleEn": "What Color Is It?",
+        "expressions": [
+          {
+            "en": "What color is it?",
+            "ko": "색깔 묻기"
+          },
+          {
+            "en": "It's green.",
+            "ko": "색깔 답하기"
+          },
+          {
+            "en": "I don't know.",
+            "ko": "모름을 나타내기"
+          }
+        ],
+        "words": [
+          {
+            "en": "and",
+            "ko": "그리고",
+            "mediaKey": "g3_u07_and",
+            "game2Sentence": null
+          },
+          {
+            "en": "at",
+            "ko": "~에(서)",
+            "mediaKey": "g3_u07_at",
+            "game2Sentence": null
+          },
+          {
+            "en": "blue",
+            "ko": "파란색",
+            "mediaKey": "g3_u07_blue",
+            "game2Sentence": "It's blue."
+          },
+          {
+            "en": "car",
+            "ko": "자동차",
+            "mediaKey": "g3_u07_car",
+            "game2Sentence": null
+          },
+          {
+            "en": "color",
+            "ko": "색깔",
+            "mediaKey": "g3_u07_color",
+            "game2Sentence": null
+          },
+          {
+            "en": "flower",
+            "ko": "꽃",
+            "mediaKey": "g3_u07_flower",
+            "game2Sentence": null
+          },
+          {
+            "en": "green",
+            "ko": "초록색",
+            "mediaKey": "g3_u07_green",
+            "game2Sentence": "It's green."
+          },
+          {
+            "en": "know",
+            "ko": "알다",
+            "mediaKey": "g3_u07_know",
+            "game2Sentence": null
+          },
+          {
+            "en": "now",
+            "ko": "지금",
+            "mediaKey": "g3_u07_now",
+            "game2Sentence": null
+          },
+          {
+            "en": "orange",
+            "ko": "주황색",
+            "mediaKey": "g3_u07_orange",
+            "game2Sentence": "It's orange."
+          },
+          {
+            "en": "pink",
+            "ko": "분홍색",
+            "mediaKey": "g3_u07_pink",
+            "game2Sentence": "It's pink."
+          },
+          {
+            "en": "pretty",
+            "ko": "예쁜, 귀여운",
+            "mediaKey": "g3_u07_pretty",
+            "game2Sentence": null
+          },
+          {
+            "en": "red",
+            "ko": "빨간색",
+            "mediaKey": "g3_u07_red",
+            "game2Sentence": "It's red."
+          },
+          {
+            "en": "right",
+            "ko": "옳은",
+            "mediaKey": "g3_u07_right",
+            "game2Sentence": null
+          },
+          {
+            "en": "yellow",
+            "ko": "노란색",
+            "mediaKey": "g3_u07_yellow",
+            "game2Sentence": "It's yellow."
+          }
+        ]
+      },
+      "8": {
+        "titleEn": "Do You Have a Ruler?",
+        "expressions": [
+          {
+            "en": "Do you have a ruler?",
+            "ko": "소지 여부 묻기"
+          },
+          {
+            "en": "Yes, I do.",
+            "ko": "소지 여부 답하기(있음)"
+          },
+          {
+            "en": "No, I don't.",
+            "ko": "소지 여부 답하기(없음)"
+          },
+          {
+            "en": "Here you are.",
+            "ko": "물건 건네기"
+          }
+        ],
+        "words": [
+          {
+            "en": "any",
+            "ko": "어떤, 아무 것도",
+            "mediaKey": "g3_u08_any",
+            "game2Sentence": null
+          },
+          {
+            "en": "crayon",
+            "ko": "크레용",
+            "mediaKey": "g3_u08_crayon",
+            "game2Sentence": "Do you have a crayon?"
+          },
+          {
+            "en": "doughnut",
+            "ko": "도넛",
+            "mediaKey": "g3_u08_doughnut",
+            "game2Sentence": "Do you have a doughnut?"
+          },
+          {
+            "en": "eraser",
+            "ko": "지우개",
+            "mediaKey": "g3_u08_eraser",
+            "game2Sentence": "Do you have an eraser?"
+          },
+          {
+            "en": "glue stick",
+            "ko": "막대 풀",
+            "mediaKey": "g3_u08_glue_stick",
+            "game2Sentence": "Do you have a glue stick?"
+          },
+          {
+            "en": "have",
+            "ko": "가지다",
+            "mediaKey": "g3_u08_have",
+            "game2Sentence": null
+          },
+          {
+            "en": "long",
+            "ko": "긴",
+            "mediaKey": "g3_u08_long",
+            "game2Sentence": null
+          },
+          {
+            "en": "love",
+            "ko": "사랑하다",
+            "mediaKey": "g3_u08_love",
+            "game2Sentence": null
+          },
+          {
+            "en": "notebook",
+            "ko": "공책",
+            "mediaKey": "g3_u08_notebook",
+            "game2Sentence": "Do you have a notebook?"
+          },
+          {
+            "en": "pen",
+            "ko": "펜",
+            "mediaKey": "g3_u08_pen",
+            "game2Sentence": "Do you have a pen?"
+          },
+          {
+            "en": "ruler",
+            "ko": "자",
+            "mediaKey": "g3_u08_ruler",
+            "game2Sentence": "Do you have a ruler?"
+          },
+          {
+            "en": "scissors",
+            "ko": "가위",
+            "mediaKey": "g3_u08_scissors",
+            "game2Sentence": null
+          }
+        ]
+      },
+      "9": {
+        "titleEn": "How Old Are You?",
+        "expressions": [
+          {
+            "en": "How old are you?",
+            "ko": "나이 묻기"
+          },
+          {
+            "en": "I'm nine years old.",
+            "ko": "나이 답하기"
+          },
+          {
+            "en": "Happy Birthday!",
+            "ko": "생일 축하하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "birthday",
+            "ko": "생일",
+            "mediaKey": "g3_u09_birthday",
+            "game2Sentence": null
+          },
+          {
+            "en": "eat",
+            "ko": "먹다",
+            "mediaKey": "g3_u09_eat",
+            "game2Sentence": null
+          },
+          {
+            "en": "happy",
+            "ko": "행복한",
+            "mediaKey": "g3_u09_happy",
+            "game2Sentence": null
+          },
+          {
+            "en": "in",
+            "ko": "~안에",
+            "mediaKey": "g3_u09_in",
+            "game2Sentence": null
+          },
+          {
+            "en": "menu",
+            "ko": "메뉴",
+            "mediaKey": "g3_u09_menu",
+            "game2Sentence": null
+          },
+          {
+            "en": "old",
+            "ko": "나이가~인, 나이 많은",
+            "mediaKey": "g3_u09_old",
+            "game2Sentence": null
+          },
+          {
+            "en": "play",
+            "ko": "놀다",
+            "mediaKey": "g3_u09_play",
+            "game2Sentence": null
+          },
+          {
+            "en": "year",
+            "ko": "(1년 열두 달로 이뤄진) 해, 나이",
+            "mediaKey": "g3_u09_year",
+            "game2Sentence": null
+          },
+          {
+            "en": "six",
+            "ko": "여섯, 6",
+            "mediaKey": "g3_u09_six",
+            "game2Sentence": "I'm six years old."
+          },
+          {
+            "en": "seven",
+            "ko": "일곱, 7",
+            "mediaKey": "g3_u09_seven",
+            "game2Sentence": "I'm seven years old."
+          },
+          {
+            "en": "eight",
+            "ko": "여덟, 8",
+            "mediaKey": "g3_u09_eight",
+            "game2Sentence": "I'm eight years old."
+          },
+          {
+            "en": "nine",
+            "ko": "아홉, 9",
+            "mediaKey": "g3_u09_nine",
+            "game2Sentence": "I'm nine years old."
+          },
+          {
+            "en": "ten",
+            "ko": "열, 10",
+            "mediaKey": "g3_u09_ten",
+            "game2Sentence": "I'm ten years old."
+          }
+        ]
+      },
+      "10": {
+        "titleEn": "He's My Dad",
+        "expressions": [
+          {
+            "en": "Who is he?",
+            "ko": "누구인지 묻기(남)"
+          },
+          {
+            "en": "Who is she?",
+            "ko": "누구인지 묻기(여)"
+          },
+          {
+            "en": "He's my dad.",
+            "ko": "누구인지 답하기(남)"
+          },
+          {
+            "en": "She's my mom.",
+            "ko": "누구인지 답하기(여)"
+          },
+          {
+            "en": "Well done!",
+            "ko": "칭찬하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "brother",
+            "ko": "형, 오빠, 남동생",
+            "mediaKey": "g3_u10_brother",
+            "game2Sentence": "He's my brother."
+          },
+          {
+            "en": "beautiful",
+            "ko": "아름다운",
+            "mediaKey": "g3_u10_beautiful",
+            "game2Sentence": null
+          },
+          {
+            "en": "dad",
+            "ko": "아빠",
+            "mediaKey": "g3_u10_dad",
+            "game2Sentence": "He's my dad."
+          },
+          {
+            "en": "grandfather",
+            "ko": "할아버지",
+            "mediaKey": "g3_u10_grandfather",
+            "game2Sentence": "He's my grandfather."
+          },
+          {
+            "en": "grandmother",
+            "ko": "할머니",
+            "mediaKey": "g3_u10_grandmother",
+            "game2Sentence": "She's my grandmother."
+          },
+          {
+            "en": "he",
+            "ko": "그",
+            "mediaKey": "g3_u10_he",
+            "game2Sentence": null
+          },
+          {
+            "en": "mom",
+            "ko": "엄마",
+            "mediaKey": "g3_u10_mom",
+            "game2Sentence": "She's my mom."
+          },
+          {
+            "en": "she",
+            "ko": "그녀",
+            "mediaKey": "g3_u10_she",
+            "game2Sentence": null
+          },
+          {
+            "en": "show",
+            "ko": "공연, 쇼",
+            "mediaKey": "g3_u10_show",
+            "game2Sentence": null
+          },
+          {
+            "en": "sister",
+            "ko": "언니, 누나, 여동생",
+            "mediaKey": "g3_u10_sister",
+            "game2Sentence": "She's my sister."
+          },
+          {
+            "en": "tall",
+            "ko": "키가 큰",
+            "mediaKey": "g3_u10_tall",
+            "game2Sentence": null
+          },
+          {
+            "en": "well",
+            "ko": "잘",
+            "mediaKey": "g3_u10_well",
+            "game2Sentence": null
+          },
+          {
+            "en": "who",
+            "ko": "누구",
+            "mediaKey": "g3_u10_who",
+            "game2Sentence": null
+          }
+        ]
+      },
+      "11": {
+        "titleEn": "How's the Weather?",
+        "expressions": [
+          {
+            "en": "How's the weather?",
+            "ko": "날씨 묻기"
+          },
+          {
+            "en": "It's sunny.",
+            "ko": "날씨 답하기"
+          },
+          {
+            "en": "Let's go outside.",
+            "ko": "제안하기"
+          }
+        ],
+        "words": [
+          {
+            "en": "cloudy",
+            "ko": "흐린, 구름이 잔뜩 낀",
+            "mediaKey": "g3_u11_cloudy",
+            "game2Sentence": "It's cloudy."
+          },
+          {
+            "en": "cold",
+            "ko": "추운",
+            "mediaKey": "g3_u11_cold",
+            "game2Sentence": "It's cold."
+          },
+          {
+            "en": "go",
+            "ko": "가다",
+            "mediaKey": "g3_u11_go",
+            "game2Sentence": null
+          },
+          {
+            "en": "hot",
+            "ko": "더운",
+            "mediaKey": "g3_u11_hot",
+            "game2Sentence": "It's hot."
+          },
+          {
+            "en": "let",
+            "ko": "~하게 하다",
+            "mediaKey": "g3_u11_let",
+            "game2Sentence": null
+          },
+          {
+            "en": "outside",
+            "ko": "밖, 바깥",
+            "mediaKey": "g3_u11_outside",
+            "game2Sentence": null
+          },
+          {
+            "en": "raining",
+            "ko": "비가 오는",
+            "mediaKey": "g3_u11_raining",
+            "game2Sentence": "It's raining."
+          },
+          {
+            "en": "see",
+            "ko": "보다",
+            "mediaKey": "g3_u11_see",
+            "game2Sentence": null
+          },
+          {
+            "en": "snowing",
+            "ko": "눈이 오는",
+            "mediaKey": "g3_u11_snowing",
+            "game2Sentence": "It's snowing."
+          },
+          {
+            "en": "sunny",
+            "ko": "맑은, 화창한",
+            "mediaKey": "g3_u11_sunny",
+            "game2Sentence": "It's sunny."
+          },
+          {
+            "en": "we",
+            "ko": "우리",
+            "mediaKey": "g3_u11_we",
+            "game2Sentence": null
+          },
+          {
+            "en": "weather",
+            "ko": "날씨",
+            "mediaKey": "g3_u11_weather",
+            "game2Sentence": null
+          },
+          {
+            "en": "windy",
+            "ko": "바람 부는",
+            "mediaKey": "g3_u11_windy",
+            "game2Sentence": "It's windy."
+          }
+        ]
+      }
+    }
+  }
+}; // Replaced during build
+const ENG_UNIT_COLORS = ['#FF6B4A','#FFB23C','#3FA772','#3C9EE8','#B15CFF','#FF5C93','#2BB0A6','#F2994A','#7C6EF2','#4ABF6B','#E85D75'];
+const ENG_MODE_META = [
+  {id:1, color:'var(--coral)', title:'단어 뜻 맞히기', titleEn:'Word Meaning', desc:'영어 단어를 보고 한글 뜻을 말해요', tag:'영→한'},
+  {id:2, color:'var(--mustard-dark)', title:'단어 말하기', titleEn:'Say the Word', desc:'한글 뜻을 보고 영어 단어를 말해요', tag:'한→영'},
+  {id:3, color:'var(--green)', title:'영어 문장 읽기', titleEn:'Read Aloud', desc:'영어 단어와 표현을 소리내어 읽어봐요', tag:'말하기'},
+  {id:4, color:'#B15CFF', title:'표현 배우기', titleEn:'Learn Expressions', desc:'단원 대화 표현을 한글로 뜻을 말해요', tag:'표현'},
+];
+
+let engState = {
+  currentGrade:'3',
+  currentUnit:null,
+  modeId:null,
+  pool:[],
+  idx:0,
+  score:0,
+  answered:false,
+  recognizing:false,
+  usingText:false,
+  micBlocked:false,
+};
+
+function engResetToUnits() {
+  document.getElementById('eng-units').classList.remove('hidden');
+  document.getElementById('eng-modes').classList.add('hidden');
+  document.getElementById('eng-game').classList.add('hidden');
+  document.getElementById('eng-result').classList.add('hidden');
+  renderEngUnits();
+}
+function engShowModes() {
+  document.getElementById('eng-units').classList.add('hidden');
+  document.getElementById('eng-modes').classList.remove('hidden');
+  document.getElementById('eng-game').classList.add('hidden');
+  document.getElementById('eng-result').classList.add('hidden');
+  renderEngModes();
+}
+function engShowGame() {
+  document.getElementById('eng-units').classList.add('hidden');
+  document.getElementById('eng-modes').classList.add('hidden');
+  document.getElementById('eng-game').classList.remove('hidden');
+  document.getElementById('eng-result').classList.add('hidden');
+}
+function engShowResult() {
+  document.getElementById('eng-units').classList.add('hidden');
+  document.getElementById('eng-modes').classList.add('hidden');
+  document.getElementById('eng-game').classList.add('hidden');
+  document.getElementById('eng-result').classList.remove('hidden');
+}
+
+function renderEngUnits() {
+  const units = ENG_GRADES['3'].units;
+  const list = document.getElementById('engUnitList');
+  list.innerHTML = '';
+  Object.keys(units).forEach((uid, i) => {
+    const unit = units[uid];
+    const color = ENG_UNIT_COLORS[i % ENG_UNIT_COLORS.length];
+    const card = document.createElement('button');
+    card.className = 'listcard';
+    card.innerHTML = `
+      <div class="num" style="background:${color}">${uid}</div>
+      <div class="body">
+        <h3>Lesson ${uid} <span class="titleEn">${unit.titleEn}</span></h3>
+        <p>단어 ${unit.words.length}개 · 표현 ${unit.expressions.length}개</p>
+      </div>
+      <div class="tag" style="background:${color}">L${uid}</div>
+    `;
+    card.addEventListener('click', () => {
+      engState.currentUnit = uid;
+      engShowModes();
+    });
+    list.appendChild(card);
+  });
+}
+
+function renderEngModes() {
+  const unit = ENG_GRADES['3'].units[engState.currentUnit];
+  document.getElementById('engUnitChip').textContent = `Lesson ${engState.currentUnit}`;
+  document.getElementById('engUnitTitle').textContent = unit.titleEn;
+  const list = document.getElementById('engModeList');
+  list.innerHTML = '';
+  ENG_MODE_META.forEach(m => {
+    const card = document.createElement('button');
+    card.className = 'listcard';
+    card.innerHTML = `
+      <div class="num" style="background:${m.color}">${m.id}</div>
+      <div class="body">
+        <h3>${m.title} <span class="titleEn">${m.titleEn}</span></h3>
+        <p>${m.desc}</p>
+      </div>
+      <div class="tag" style="background:${m.color}">${m.tag}</div>
+    `;
+    card.addEventListener('click', () => startEngGame(m.id));
+    list.appendChild(card);
+  });
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildEngPool(unitId, modeId) {
+  const unit = ENG_GRADES['3'].units[unitId];
+  if (modeId === 1) {
+    // English -> Korean (word)
+    return shuffle(unit.words.map(w => ({
+      prompt: w.en,
+      target: w.ko,
+      lang: 'ko-KR',
+      promptDisplay: 'text-en',
+      type: 'word',
+      listenText: w.en,
+      listenLang: 'en-US',
+    })));
+  }
+  if (modeId === 2) {
+    // Korean -> English (word)
+    return shuffle(unit.words.map(w => ({
+      prompt: w.ko,
+      target: w.en,
+      lang: 'en-US',
+      promptDisplay: 'text-ko',
+      type: 'word',
+      listenText: w.en,
+      listenLang: 'en-US',
+    })));
+  }
+  if (modeId === 3) {
+    // Read aloud (English)
+    const items = [
+      ...unit.words.map(w => ({
+        prompt: w.en, target: w.en, lang: 'en-US',
+        promptDisplay: 'text-en', type: 'word',
+        listenText: w.en, listenLang: 'en-US',
+        subText: w.ko,
+      })),
+      ...unit.expressions.map(e => ({
+        prompt: e.en, target: e.en, lang: 'en-US',
+        promptDisplay: 'text-en', type: 'sentence',
+        listenText: e.en, listenLang: 'en-US',
+        subText: e.ko,
+      }))
+    ];
+    return shuffle(items);
+  }
+  if (modeId === 4) {
+    // Expressions - English -> Korean situation
+    return shuffle(unit.expressions.map(e => ({
+      prompt: e.en,
+      target: e.ko,
+      lang: 'ko-KR',
+      promptDisplay: 'text-en',
+      type: 'sentence',
+      listenText: e.en,
+      listenLang: 'en-US',
+    })));
+  }
+  return [];
+}
+
+function startEngGame(modeId) {
+  engState.modeId = modeId;
+  engState.pool = buildEngPool(engState.currentUnit, modeId);
+  engState.idx = 0;
+  engState.score = 0;
+  const meta = ENG_MODE_META.find(m => m.id === modeId);
+  const unit = ENG_GRADES['3'].units[engState.currentUnit];
+  document.getElementById('engGameTitle').textContent = `L${engState.currentUnit}. ${meta.title}`;
+  document.getElementById('engGameTitleEn').textContent = `${unit.titleEn} — ${meta.titleEn}`;
+  engShowGame();
+  renderEngQuestion();
+  requestMicUpfront();
+}
+
+function currentEngItem() { return engState.pool[engState.idx]; }
+
+function renderEngQuestion() {
+  stopAllAudio();
+  engState.answered = false;
+  document.getElementById('engTranscript').textContent = '';
+  const fb = document.getElementById('engFeedback');
+  fb.className = 'feedback';
+  fb.textContent = '';
+  document.getElementById('engNextBtn').disabled = true;
+  document.getElementById('engTextInput').value = '';
+  document.getElementById('engTextFallback').classList.add('hidden');
+  document.getElementById('engToggleText').textContent = '텍스트로 입력할래요';
+  engState.usingText = false;
+
+  const item = currentEngItem();
+  document.getElementById('engScoreText').textContent = engState.score;
+  document.getElementById('engProgressText').textContent = `${engState.idx + 1} / ${engState.pool.length}`;
+  document.getElementById('engProgressFill').style.width = `${((engState.idx) / engState.pool.length) * 100}%`;
+
+  const tag = document.getElementById('engPromptTag');
+  const main = document.getElementById('engPromptMain');
+  const wordEn = document.getElementById('engWordEn');
+  const sentEn = document.getElementById('engSentenceEn');
+  wordEn.classList.add('hidden');
+  sentEn.classList.add('hidden');
+  tag.classList.remove('hidden');
+
+  if (item.promptDisplay === 'text-en') {
+    tag.textContent = item.type === 'word' ? 'WORD' : 'SENTENCE';
+    main.textContent = item.prompt;
+  } else if (item.promptDisplay === 'text-ko') {
+    tag.textContent = item.type === 'word' ? '단어' : '문장';
+    main.textContent = item.prompt;
+  }
+  if (item.subText) {
+    sentEn.textContent = `💡 뜻: ${item.subText}`;
+    sentEn.classList.remove('hidden');
+  }
+
+  const label = document.getElementById('engMicLabel');
+  label.textContent = recognitionSupported ? '마이크를 눌러 말해보세요' : '';
+  document.getElementById('engMicNotice').classList.toggle('hidden', recognitionSupported && !engState.micBlocked);
+  document.getElementById('engMicRow').classList.toggle('hidden', !recognitionSupported);
+  if (!recognitionSupported) {
+    document.getElementById('engTextFallback').classList.remove('hidden');
+    engState.usingText = true;
+  }
+}
+
+// Answer checking
+function normalizeEn(s) {
+  return s.toLowerCase()
+    .replace(/[''']/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function normalizeKo(s) {
+  return s
+    .replace(/[.,!?~"']/g, '')
+    .replace(/\s+/g, '')
+    .trim();
+}
+function tokenOverlapRatio(a, b) {
+  const ta = a.split(' ').filter(Boolean);
+  const tb = b.split(' ').filter(Boolean);
+  if (tb.length === 0) return 0;
+  let hit = 0;
+  const pool = ta.slice();
+  tb.forEach(tok => {
+    const i = pool.indexOf(tok);
+    if (i > -1) { hit++; pool.splice(i, 1); }
+  });
+  return hit / tb.length;
+}
+function bigramDice(a, b) {
+  function bigrams(s) { const arr = []; for (let i = 0; i < s.length - 1; i++) arr.push(s.substr(i, 2)); return arr; }
+  const ba = bigrams(a), bb = bigrams(b);
+  if (ba.length === 0 || bb.length === 0) return a === b ? 1 : 0;
+  let matches = 0;
+  const pool = bb.slice();
+  ba.forEach(g => { const i = pool.indexOf(g); if (i > -1) { matches++; pool.splice(i, 1); } });
+  return (2 * matches) / (ba.length + bb.length);
+}
+const HOMOPHONE_GROUPS = [
+  ['do','due','dew','doo'],['to','too','two'],['i','i\'m','eye','aye'],
+  ['be','bee'],['so','sew','sow'],['no','know'],['not','knot'],
+  ['or','oar','ore'],['for','four','fore'],['see','sea','c'],
+  ['right','write','wright'],['red','read'],['blue','blew'],
+  ['here','hear'],['where','wear','ware'],['one','won'],
+  ['sun','son'],['ate','eight'],['new','knew'],['in','inn'],
+  ['buy','by','bye'],['sure','shore'],['some','sum'],['our','hour'],
+  ['bear','bare'],['flower','flour'],['pair','pear','pare'],
+  ['meat','meet'],['night','knight'],['their','there','theyre'],
+  ['week','weak'],['made','maid'],['sale','sail'],['dear','deer'],
+  ['bread','bred'],['peace','piece'],['peak','peek'],['would','wood'],
+  ['ball','bawl'],['aunt','ant'],['hi','high'],
+];
+const HOMOPHONE_MAP = {};
+HOMOPHONE_GROUPS.forEach(g => g.forEach(w => { HOMOPHONE_MAP[w] = g; }));
+function homophoneMatch(a, b) { const g = HOMOPHONE_MAP[a]; return !!g && g.includes(b); }
+
+// Korean synonym groups for translation matching
+const KO_SYNONYMS = [
+  ['안녕','안녕하세요','안녕하십니까','반가워','반가워요','반갑습니다'],
+  ['좋은아침','좋은아침이에요','좋은아침입니다','굿모닝'],
+  ['잘가','안녕히가','안녕히가세요','안녕히계세요','바이','바이바이'],
+  ['고마워','고마워요','감사해요','감사합니다','땡큐'],
+  ['미안해','미안해요','죄송해요','죄송합니다','미안'],
+  ['괜찮아','괜찮아요','괜찮습니다','노프라블럼'],
+  ['네','예','응','그래','맞아','맞아요'],
+  ['아니오','아니요','아니','싫어','싫어요'],
+  ['이름이뭐야','이름이뭐예요','이름이뭐니','너의이름은뭐야','당신의이름은무엇입니까'],
+  ['내이름은','제이름은','저는','나는'],
+  ['얼마예요','얼마에요','얼마입니까','값이얼마예요','가격이얼마예요'],
+  ['몇시예요','몇시에요','몇시입니까','지금몇시예요','지금몇시입니까'],
+  ['도와줘','도와주세요','도와주실래요','헬프'],
+  ['천만에','천만에요','별말씀을','아니에요','괜찮아요'],
+  ['만나서반가워','만나서반가워요','만나서반갑습니다','반가워','반가워요'],
+  ['일어나','일어나세요','기상','일어서','서'],
+  ['앉아','앉으세요','앉아요','착석'],
+  ['보세요','봐','바라봐','쳐다봐','보아라','바라보세요'],
+  ['들어봐','들어봐요','들으세요','들어보세요'],
+  ['조용히','조용히해','조용히해요','조용히하세요','쉿'],
+  ['빨리','빨리해','빨리해요','서둘러','서둘러요'],
+  ['천천히','천천히해','천천히해요','슬로우'],
+  ['잘했어','잘했어요','잘했다','굿잡','훌륭해','훌륭해요'],
+  ['맛있다','맛있어','맛있어요','맛있습니다','yummy','얌미'],
+  ['배고파','배고파요','배고픕니다','헝그리'],
+  ['목말라','목말라요','목마릅니다','써스티'],
+  ['졸려','졸려요','졸립니다','슬리피'],
+  ['재밌어','재밌어요','재미있어','재미있어요','재밌다','재미있다','펀'],
+  ['좋아','좋아요','좋다','굿','나이스'],
+  ['싫어','싫어요','싫다','안좋아','안좋아요','싫다','노','배드'],
+  ['크다','커','커요','큽니다','빅','라지'],
+  ['작다','작아','작아요','작습니다','스몰','리틀'],
+  ['많다','많아','많아요','많습니다','매니','머치'],
+  ['적다','적어','적어요','적습니다','피우','리틀'],
+  ['빨간색','빨강','레드','빨간'],
+  ['파란색','파랑','블루','파란'],
+  ['노란색','노랑','옐로우','노란'],
+  ['초록색','초록','그린','초록'],
+  ['검은색','검정','블랙','검은'],
+  ['하얀색','하양','흰색','화이트','흰'],
+  ['개','강아지','도그'],
+  ['고양이','냥이','캣'],
+  ['사과','애플'],
+  ['바나나','바나나'],
+  ['학교','스쿨'],
+  ['선생님','스승','티쳐'],
+  ['학생','스튜던트'],
+  ['친구','프렌드'],
+  ['가족','패밀리'],
+  ['엄마','어머니','맘'],
+  ['아빠','아버지','대드'],
+];
+const KO_SYN_MAP = {};
+KO_SYNONYMS.forEach(g => g.forEach(w => {
+  const k = w.replace(/\s+/g,'');
+  if (!KO_SYN_MAP[k]) KO_SYN_MAP[k] = new Set();
+  g.forEach(x => KO_SYN_MAP[k].add(x.replace(/\s+/g,'')));
+}));
+function koSynonymMatch(a, b) {
+  const na = a.replace(/\s+/g,''); const nb = b.replace(/\s+/g,'');
+  if (na === nb) return true;
+  const s = KO_SYN_MAP[na]; if (s && s.has(nb)) return true;
+  const s2 = KO_SYN_MAP[nb]; if (s2 && s2.has(na)) return true;
+  return false;
+}
+
+function checkAnswer(transcript, item, lang) {
+  const target = item.target;
+  if (lang === 'ko-KR') {
+    const nt = normalizeKo(transcript);
+    const ng = normalizeKo(target);
+    // Exact match
+    if (nt === ng) return true;
+    // Synonym match
+    if (koSynonymMatch(nt, ng)) return true;
+    // For short strings, allow contains matching either direction
+    if (ng.length <= 4) return nt.includes(ng) || ng.includes(nt);
+    // Substring match either direction
+    if (nt.includes(ng) || ng.includes(nt)) return true;
+    // Bigram similarity - lowered threshold for better tolerance
+    if (bigramDice(nt, ng) >= 0.4) return true;
+    // Character overlap - remove particles/endings and try again
+    const stripped_t = nt.replace(/(이에요|예요|입니다|이야|야|어요|아요|해요|해|한다|했다)$/, '');
+    const stripped_g = ng.replace(/(이에요|예요|입니다|이야|야|어요|아요|해요|해|한다|했다)$/, '');
+    if (stripped_t && stripped_g && (stripped_t === stripped_g || stripped_t.includes(stripped_g) || stripped_g.includes(stripped_t))) return true;
+    if (stripped_t && stripped_g && bigramDice(stripped_t, stripped_g) >= 0.5) return true;
+    return false;
+  } else {
+    const nt = normalizeEn(transcript);
+    const ng = normalizeEn(target);
+    const wc = ng.split(' ').filter(Boolean).length;
+    if (wc <= 2) {
+      if (nt.includes(ng) || tokenOverlapRatio(nt, ng) >= 0.9) return true;
+      const tokens = nt.split(' ').filter(Boolean);
+      if (homophoneMatch(ng, nt)) return true;
+      return tokens.some(tok => homophoneMatch(ng, tok) || homophoneMatch(tok, ng));
+    }
+    return tokenOverlapRatio(nt, ng) >= 0.55;
+  }
+}
+
+let engAutoNextTimer = null;
+function engGoNext() {
+  if (engAutoNextTimer) { clearTimeout(engAutoNextTimer); engAutoNextTimer = null; }
+  if (engState.idx < engState.pool.length - 1) {
+    engState.idx++;
+    renderEngQuestion();
+  } else {
+    finishEngGame();
+  }
+}
+
+function markEngResult(isCorrect, transcript) {
+  engState.answered = true;
+  document.getElementById('engNextBtn').disabled = false;
+  const item = currentEngItem();
+  const fb = document.getElementById('engFeedback');
+  if (isCorrect) {
+    engState.score++;
+    document.getElementById('engScoreText').textContent = engState.score;
+    fb.className = 'feedback correct';
+    fb.innerHTML = '🎉 정답이에요! <span style="font-size:12px;color:var(--ink-soft);">(1.5초 후 다음 문제)</span>';
+    document.getElementById('engMicLabel').textContent = '정답이에요! 다음으로 넘어가요...';
+    spawnFloatBadge('✨', document.getElementById('engMicBtn'));
+    // Auto-advance after correct answer
+    if (engAutoNextTimer) clearTimeout(engAutoNextTimer);
+    engAutoNextTimer = setTimeout(() => { engGoNext(); }, 1500);
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `아쉬워요! <span class="answer-reveal">정답: ${item.target}</span>`;
+    setTimeout(() => {
+      playItemAudio(item, () => { document.getElementById('engMicLabel').textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
+    }, 350);
+  }
+}
+
+document.getElementById('engShowAnswerBtn').addEventListener('click', () => {
+  const item = currentEngItem();
+  const fb = document.getElementById('engFeedback');
+  fb.className = 'feedback wrong';
+  fb.innerHTML = `정답: <b>${item.target}</b>`;
+  document.getElementById('engNextBtn').disabled = false;
+  engState.answered = true;
+});
+
+document.getElementById('engNextBtn').addEventListener('click', () => {
+  engGoNext();
+});
+
+function finishEngGame() {
+  stopRecognition();
+  stopAllAudio();
+  const total = engState.pool.length;
+  const score = engState.score;
+  const meta = ENG_MODE_META.find(m => m.id === engState.modeId);
+  const unit = ENG_GRADES['3'].units[engState.currentUnit];
+  // Save record
+  saveRecord(currentStudent.id, 'english', score, total, {
+    unit: engState.currentUnit,
+    unitTitle: unit.titleEn,
+    mode: engState.modeId,
+    modeTitle: meta.title,
+  });
+  // Show result
+  document.getElementById('engResultScore').textContent = score;
+  document.getElementById('engResultTotal').textContent = total;
+  const ratio = score / total;
+  let emoji = '🎉', title = '완료했어요!';
+  if (ratio >= 0.9) { emoji = '🏆'; title = '완벽해요! 최고예요!'; }
+  else if (ratio >= 0.7) { emoji = '🎉'; title = '정말 잘했어요!'; }
+  else if (ratio >= 0.4) { emoji = '💪'; title = '조금만 더 연습해봐요!'; }
+  else { emoji = '🌱'; title = '다시 도전해봐요!'; }
+  document.getElementById('engResultEmoji').textContent = emoji;
+  document.getElementById('engResultTitle').textContent = title;
+  engShowResult();
+}
+document.getElementById('engResultRetryBtn').addEventListener('click', () => startEngGame(engState.modeId));
+document.getElementById('engResultUnitBtn').addEventListener('click', () => engShowModes());
+document.getElementById('engResultHomeBtn').addEventListener('click', () => {
+  showScreen('screen-menu');
+  setTimeout(checkHomeworkAfterActivity, 500);
+});
+
+// Speech recognition
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognitionSupported = !!SpeechRecognitionAPI;
+let recognizer = null;
+let micPermissionGranted = false;
+
+if (recognitionSupported) {
+  recognizer = new SpeechRecognitionAPI();
+  recognizer.continuous = false;
+  recognizer.interimResults = true;
+  recognizer.maxAlternatives = 5;
+  recognizer.onstart = () => {
+    engState.recognizing = true;
+    document.getElementById('engMicBtn').classList.add('listening');
+    document.getElementById('engMicLabel').textContent = '👂 듣고 있어요... 지금 말해보세요!';
+  };
+  recognizer.onend = () => {
+    engState.recognizing = false;
+    document.getElementById('engMicBtn').classList.remove('listening');
+    if (!engState.answered) document.getElementById('engMicLabel').textContent = '마이크를 눌러 말해보세요';
+  };
+  recognizer.onerror = (e) => {
+    engState.recognizing = false;
+    document.getElementById('engMicBtn').classList.remove('listening');
+    let msg = '다시 눌러서 말해보세요';
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') msg = '🚫 마이크 권한이 꺼져 있어요.';
+    else if (e.error === 'no-speech') msg = '소리가 들리지 않았어요. 다시 시도해보세요.';
+    else if (e.error === 'audio-capture') msg = '🎤 마이크를 찾을 수 없어요.';
+    else if (e.error === 'network') msg = '📶 인터넷 연결이 필요해요.';
+    document.getElementById('engMicLabel').textContent = msg;
+  };
+  recognizer.onresult = (e) => {
+    const res = e.results[e.results.length - 1];
+    if (!res.isFinal) {
+      document.getElementById('engTranscript').textContent = `🎙️ 듣는 중: "${res[0].transcript}"`;
+      return;
+    }
+    let best = res[0].transcript;
+    const item = currentEngItem();
+    const lang = item.lang;
+    let correct = false;
+    for (let i = 0; i < res.length; i++) {
+      if (checkAnswer(res[i].transcript, item, lang)) { correct = true; best = res[i].transcript; break; }
+    }
+    document.getElementById('engTranscript').textContent = `👂 인식된 말: "${best}"`;
+    markEngResult(correct, best);
+  };
+}
+function stopRecognition() { if (recognitionSupported && engState.recognizing) try { recognizer.stop(); } catch(e){} }
+async function ensureMicPermission() {
+  if (micPermissionGranted) return true;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return true;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    stream.getTracks().forEach(t => t.stop());
+    micPermissionGranted = true;
+    engState.micBlocked = false;
+    document.getElementById('engMicNotice').classList.add('hidden');
+    return true;
+  } catch (err) { return false; }
+}
+async function requestMicUpfront() {
+  if (!recognitionSupported) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+  try {
+    if (navigator.permissions && navigator.permissions.query) {
+      const status = await navigator.permissions.query({name: 'microphone'});
+      if (status.state === 'denied') { engState.micBlocked = true; return; }
+    }
+  } catch (err) {}
+  await ensureMicPermission();
+}
+async function startEngListening() {
+  if (!recognitionSupported) return;
+  if (engState.recognizing) { recognizer.stop(); return; }
+  stopAllAudio();
+  document.getElementById('engTranscript').textContent = '';
+  document.getElementById('engFeedback').className = 'feedback';
+  document.getElementById('engFeedback').textContent = '';
+  document.getElementById('engMicLabel').textContent = '마이크 준비 중...';
+  const granted = await ensureMicPermission();
+  if (!granted) {
+    document.getElementById('engMicLabel').textContent = '🚫 마이크 권한이 필요해요.';
+    document.getElementById('engTextFallback').classList.remove('hidden');
+    return;
+  }
+  const item = currentEngItem();
+  recognizer.lang = item.lang;
+  try { recognizer.start(); } catch (e) { document.getElementById('engMicLabel').textContent = '다시 눌러주세요.'; }
+}
+document.getElementById('engMicBtn').addEventListener('click', startEngListening);
+document.getElementById('engRetryBtn').addEventListener('click', startEngListening);
+
+// Text fallback
+document.getElementById('engToggleText').addEventListener('click', () => {
+  const el = document.getElementById('engTextFallback');
+  const showing = !el.classList.contains('hidden');
+  el.classList.toggle('hidden', showing);
+  document.getElementById('engToggleText').textContent = showing ? '텍스트로 입력할래요' : '마이크로 말할래요';
+});
+function submitEngText() {
+  const val = document.getElementById('engTextInput').value.trim();
+  if (!val) return;
+  const item = currentEngItem();
+  const correct = checkAnswer(val, item, item.lang);
+  document.getElementById('engTranscript').textContent = `✍️ 입력한 답: "${val}"`;
+  markEngResult(correct, val);
+}
+document.getElementById('engTextSubmit').addEventListener('click', submitEngText);
+document.getElementById('engTextInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') submitEngText(); });
+
+// TTS audio
+let cachedVoices = [];
+function refreshVoices() { if ('speechSynthesis' in window) cachedVoices = window.speechSynthesis.getVoices() || []; }
+if ('speechSynthesis' in window) { refreshVoices(); window.speechSynthesis.onvoiceschanged = refreshVoices; }
+function pickVoice(lang) {
+  if (!cachedVoices.length) refreshVoices();
+  if (!cachedVoices.length) return null;
+  const exact = cachedVoices.find(v => v.lang === lang);
+  if (exact) return exact;
+  const short = lang.split('-')[0];
+  return cachedVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(short)) || null;
+}
+let currentAudioEl = null;
+function stopAllAudio() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (currentAudioEl) { try { currentAudioEl.pause(); } catch(e){} currentAudioEl = null; }
+}
+function speak(text, lang, onDone) {
+  if (!('speechSynthesis' in window)) { if (onDone) onDone(); return; }
+  window.speechSynthesis.cancel();
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    u.rate = 0.9; u.pitch = 1; u.volume = 1;
+    const voice = pickVoice(lang);
+    if (voice) u.voice = voice;
+    u.onend = () => { if (onDone) onDone(); };
+    u.onerror = () => { if (onDone) onDone(); };
+    window.speechSynthesis.speak(u);
+  }, 80);
+}
+function playItemAudio(item, onDone) {
+  stopAllAudio();
+  speak(item.listenText, item.listenLang, onDone);
+}
+document.getElementById('engListenBtn').addEventListener('click', () => {
+  const item = currentEngItem();
+  playItemAudio(item, () => {
+    if (!engState.answered) document.getElementById('engMicLabel').textContent = '마이크를 눌러 말해보세요';
+  });
+});
+
+function spawnFloatBadge(emoji, targetEl) {
+  const el = document.createElement('div');
+  el.className = 'float-badge';
+  el.textContent = emoji;
+  const rect = targetEl.getBoundingClientRect();
+  el.style.left = (rect.left + rect.width / 2 - 13) + 'px';
+  el.style.top = (rect.top) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
+}
+
+/* ================================================================
+   MULTIPLICATION MODULE
+================================================================ */
+const MULT_TABLE_META = [
+  {id:2, color:'#FF6B4A', label:'2단', en:'Table of 2', desc:'2를 여러 수와 곱해봐요'},
+  {id:3, color:'#FFB23C', label:'3단', en:'Table of 3', desc:'3의 배수를 익혀요'},
+  {id:4, color:'#3FA772', label:'4단', en:'Table of 4', desc:'4단은 짝수만 나와요'},
+  {id:5, color:'#3C9EE8', label:'5단', en:'Table of 5', desc:'끝자리가 5 또는 0'},
+  {id:6, color:'#B15CFF', label:'6단', en:'Table of 6', desc:'조금 어려워지는 6단'},
+  {id:7, color:'#FF5C93', label:'7단', en:'Table of 7', desc:'까다로운 7단 도전'},
+  {id:8, color:'#2BB0A6', label:'8단', en:'Table of 8', desc:'8단 완전 정복'},
+  {id:9, color:'#F2994A', label:'9단', en:'Table of 9', desc:'마지막 관문 9단'},
+  {id:'all', color:'#E85D75', label:'전체 랜덤', en:'All Mixed', desc:'2단~9단 64문제 도전!'},
+];
+
+let multState = {
+  tableId: null, pool: [], idx: 0, score: 0, answered: false,
+  currentInput: '', wrongList: [], startTime: 0, recognizing: false,
+};
+
+// Korean number parser
+const NUMBER_ALIASES = {
+  0:['영','공','제로','zero','o'],
+  1:['1','일','한','하나','one','원'],
+  2:['2','이','둘','두','two','투'],
+  3:['3','삼','셋','세','three','쓰리'],
+  4:['4','사','넷','네','four','포'],
+  5:['5','오','다섯','five','파이브'],
+  6:['6','육','여섯','six','식스'],
+  7:['7','칠','일곱','seven','세븐'],
+  8:['8','팔','여덟','eight','에잇'],
+  9:['9','구','아홉','nine','나인']
+};
+const ALIAS_LOOKUP = {};
+Object.entries(NUMBER_ALIASES).forEach(([num, list]) => list.forEach(a => { ALIAS_LOOKUP[a.toLowerCase()] = Number(num); }));
+const KO_ONE = {영:0,공:0,일:1,이:2,삼:3,사:4,오:5,육:6,륙:6,칠:7,팔:8,구:9};
+const EN_TEENS = {ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19};
+const EN_TENS = {twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+const EN_ONES = {zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9};
+
+function parseKoreanNumber(text) {
+  if (text === null || text === undefined) return null;
+  const rawLower = String(text).toLowerCase().trim();
+  if (!rawLower) return null;
+  const digitMatch = rawLower.match(/\d+/);
+  if (digitMatch) { const n = Number(digitMatch[0]); if (n >= 0 && n <= 99) return n; }
+  const s = rawLower.replace(/[\s,.\-!?'"·]/g, '');
+  if (ALIAS_LOOKUP[s] !== undefined) return ALIAS_LOOKUP[s];
+  if (EN_TEENS[s] !== undefined) return EN_TEENS[s];
+  if (EN_TENS[s] !== undefined) return EN_TENS[s];
+  const enTwo = s.match(/^(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(one|two|three|four|five|six|seven|eight|nine)?$/);
+  if (enTwo) { const tens = EN_TENS[enTwo[1]]; const ones = enTwo[2] ? EN_ONES[enTwo[2]] : 0; return tens + ones; }
+  if (s === '십') return 10;
+  const koTwo = s.match(/^([일이삼사오육륙칠팔구])?십([일이삼사오육륙칠팔구])?$/);
+  if (koTwo) {
+    const tens = koTwo[1] ? KO_ONE[koTwo[1]] : 1;
+    const ones = koTwo[2] ? KO_ONE[koTwo[2]] : 0;
+    return tens * 10 + ones;
+  }
+  const anyKo = rawLower.match(/([일이삼사오육륙칠팔구])?\s*십\s*([일이삼사오육륙칠팔구])?/);
+  if (anyKo) {
+    const tens = anyKo[1] ? KO_ONE[anyKo[1]] : 1;
+    const ones = anyKo[2] ? KO_ONE[anyKo[2]] : 0;
+    const v = tens * 10 + ones;
+    if (v >= 10 && v <= 99) return v;
+  }
+  for (const [alias, num] of Object.entries(ALIAS_LOOKUP)) {
+    if (alias.length >= 2 && s.includes(alias)) return num;
+  }
+  const singleKo = rawLower.match(/[영공일이삼사오육륙칠팔구]/);
+  if (singleKo) return KO_ONE[singleKo[0]];
+  return null;
+}
+
+let multRecognition = null;
+function initMultSpeech() {
+  if (!SpeechRecognitionAPI) {
+    document.getElementById('multMicRow').classList.add('hidden');
+    document.getElementById('multMicLabel').classList.add('hidden');
+    document.getElementById('multMicNotice').classList.remove('hidden');
+    return;
+  }
+  multRecognition = new SpeechRecognitionAPI();
+  multRecognition.lang = 'ko-KR';
+  multRecognition.interimResults = false;
+  multRecognition.continuous = false;
+  multRecognition.maxAlternatives = 10;
+  multRecognition.onstart = () => {
+    multState.recognizing = true;
+    document.getElementById('multMicBtn').classList.add('listening');
+    document.getElementById('multMicBtn').textContent = '👂';
+    document.getElementById('multMicLabel').textContent = '듣고 있어요... 답을 말해주세요';
+    document.getElementById('multTranscript').textContent = '';
+  };
+  multRecognition.onend = () => {
+    multState.recognizing = false;
+    const btn = document.getElementById('multMicBtn');
+    btn.classList.remove('listening');
+    btn.textContent = '🎤';
+    if (!multState.answered) document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
+  };
+  multRecognition.onerror = (e) => {
+    multState.recognizing = false;
+    document.getElementById('multMicBtn').classList.remove('listening');
+    document.getElementById('multMicBtn').textContent = '🎤';
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') document.getElementById('multMicLabel').textContent = '마이크 권한을 허용해주세요';
+    else if (e.error === 'no-speech') document.getElementById('multMicLabel').textContent = '소리가 들리지 않았어요. 다시 시도해보세요';
+    else document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
+  };
+  multRecognition.onresult = (e) => {
+    let parsed = null, heard = '';
+    const results = e.results[0];
+    if (results[0]) heard = results[0].transcript.trim();
+    for (let i = 0; i < results.length; i++) {
+      const alt = (results[i].transcript || '').trim();
+      if (!alt) continue;
+      const n = parseKoreanNumber(alt);
+      if (n !== null && n >= 0 && n <= 99) { parsed = n; heard = alt; break; }
+    }
+    document.getElementById('multTranscript').textContent = heard ? `들은 답: "${heard}"` : '';
+    if (parsed !== null) {
+      multState.currentInput = String(parsed);
+      updateMultAnswerDisplay();
+      setTimeout(() => submitMultAnswer(), 350);
+    } else {
+      document.getElementById('multMicLabel').textContent = '숫자로 알아듣지 못했어요. 다시 시도해보세요';
+    }
+  };
+}
+
+function buildMultPool(tableId) {
+  const problems = [];
+  if (tableId === 'all') {
+    for (let a = 2; a <= 9; a++) for (let b = 2; b <= 9; b++) problems.push({a, b, answer: a * b});
+  } else {
+    const a = Number(tableId);
+    for (let b = 2; b <= 9; b++) problems.push({a, b, answer: a * b});
+  }
+  return shuffle(problems);
+}
+
+function multShowScreen(id) {
+  ['mult-home', 'mult-game', 'mult-result'].forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
+}
+
+function renderMultHome() {
+  const randomList = document.getElementById('multRandomList');
+  randomList.innerHTML = '';
+  const allMeta = MULT_TABLE_META.find(m => m.id === 'all');
+  const randomCard = document.createElement('button');
+  randomCard.className = 'listcard';
+  randomCard.innerHTML = `
+    <div class="num" style="background:${allMeta.color}">★</div>
+    <div class="body">
+      <h3>${allMeta.label} <span class="titleEn">${allMeta.en}</span></h3>
+      <p>${allMeta.desc}</p>
+    </div>
+    <div class="tag" style="background:${allMeta.color}">64문제</div>
+  `;
+  randomCard.addEventListener('click', () => startMultGame('all'));
+  randomList.appendChild(randomCard);
+
+  const grid = document.getElementById('multTableGrid');
+  grid.innerHTML = '';
+  MULT_TABLE_META.filter(m => m.id !== 'all').forEach(m => {
+    const card = document.createElement('button');
+    card.className = 'tablecard';
+    card.innerHTML = `
+      <div class="big" style="background:${m.color}">${m.id}</div>
+      <div class="label">${m.label}</div>
+    `;
+    card.addEventListener('click', () => startMultGame(m.id));
+    grid.appendChild(card);
+  });
+}
+
+function startMultGame(tableId) {
+  multState.tableId = tableId;
+  multState.pool = buildMultPool(tableId);
+  multState.idx = 0;
+  multState.score = 0;
+  multState.wrongList = [];
+  multState.startTime = Date.now();
+  const meta = MULT_TABLE_META.find(m => m.id === tableId);
+  document.getElementById('multGameTitle').textContent = meta.label + ' 풀기';
+  document.getElementById('multGameTitleEn').textContent = meta.en;
+  document.getElementById('multScoreText').textContent = '0';
+  multShowScreen('mult-game');
+  renderMultQuestion();
+}
+
+function renderMultQuestion() {
+  const p = multState.pool[multState.idx];
+  multState.answered = false;
+  multState.currentInput = '';
+  document.getElementById('multQA').textContent = p.a;
+  document.getElementById('multQB').textContent = p.b;
+  const ansEl = document.getElementById('multQAns');
+  ansEl.textContent = '?';
+  ansEl.classList.remove('filled', 'wrong');
+  ansEl.classList.add('empty');
+  document.getElementById('multTranscript').textContent = '답을 말하거나 눌러보세요';
+  document.getElementById('multFeedback').className = 'feedback';
+  document.getElementById('multFeedback').innerHTML = '';
+  document.getElementById('multNextBtn').disabled = true;
+  const pct = (multState.idx / multState.pool.length) * 100;
+  document.getElementById('multProgressFill').style.width = pct + '%';
+  document.getElementById('multProgressText').textContent = `${multState.idx} / ${multState.pool.length}`;
+  document.querySelectorAll('#multKeypad .key').forEach(k => k.disabled = false);
+  const micBtn = document.getElementById('multMicBtn');
+  if (micBtn) {
+    micBtn.disabled = false;
+    if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
+  }
+}
+function updateMultAnswerDisplay() {
+  const ansEl = document.getElementById('multQAns');
+  if (multState.currentInput === '') {
+    ansEl.textContent = '?'; ansEl.classList.add('empty'); ansEl.classList.remove('filled');
+  } else {
+    ansEl.textContent = multState.currentInput; ansEl.classList.remove('empty'); ansEl.classList.add('filled');
+  }
+}
+function submitMultAnswer() {
+  if (multState.answered) return;
+  if (multState.currentInput === '') { document.getElementById('multTranscript').textContent = '답을 입력하고 확인을 눌러주세요'; return; }
+  const p = multState.pool[multState.idx];
+  const userAns = Number(multState.currentInput);
+  const correct = userAns === p.answer;
+  multState.answered = true;
+  const fb = document.getElementById('multFeedback');
+  if (correct) {
+    multState.score++;
+    document.getElementById('multScoreText').textContent = multState.score;
+    fb.className = 'feedback correct';
+    fb.innerHTML = `🎉 정답이에요! <span class="answer-reveal">${p.a} × ${p.b} = ${p.answer}</span>`;
+    spawnFloatBadge('⭐', document.getElementById('multQAns'));
+  } else {
+    multState.wrongList.push({a: p.a, b: p.b, correct: p.answer, yours: userAns});
+    const ansEl = document.getElementById('multQAns');
+    ansEl.classList.remove('filled'); ansEl.classList.add('wrong');
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `아쉬워요! <span class="answer-reveal">정답: ${p.a} × ${p.b} = ${p.answer}</span>`;
+  }
+  document.getElementById('multNextBtn').disabled = false;
+  document.querySelectorAll('#multKeypad .key').forEach(k => { if (k.dataset.k !== 'submit') k.disabled = true; });
+  const micBtn = document.getElementById('multMicBtn');
+  if (micBtn) micBtn.disabled = true;
+  if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = correct ? '정답! 다음 문제로 이동하세요' : '아쉬워요';
+}
+function showMultAnswer() {
+  if (multState.answered) return;
+  const p = multState.pool[multState.idx];
+  multState.answered = true;
+  multState.wrongList.push({a: p.a, b: p.b, correct: p.answer, yours: multState.currentInput === '' ? '?' : Number(multState.currentInput)});
+  const ansEl = document.getElementById('multQAns');
+  ansEl.textContent = p.answer;
+  ansEl.classList.remove('empty', 'wrong'); ansEl.classList.add('filled');
+  const fb = document.getElementById('multFeedback');
+  fb.className = 'feedback wrong';
+  fb.innerHTML = `정답을 확인했어요! <span class="answer-reveal">${p.a} × ${p.b} = ${p.answer}</span>`;
+  document.getElementById('multNextBtn').disabled = false;
+  document.querySelectorAll('#multKeypad .key').forEach(k => k.disabled = true);
+  const micBtn = document.getElementById('multMicBtn');
+  if (micBtn) micBtn.disabled = true;
+}
+function nextMultQuestion() {
+  multState.idx++;
+  if (multState.idx >= multState.pool.length) showMultResult();
+  else renderMultQuestion();
+}
+function showMultResult() {
+  const total = multState.pool.length;
+  const score = multState.score;
+  const elapsedMs = Date.now() - multState.startTime;
+  const elapsedSec = Math.round(elapsedMs / 1000);
+  const min = Math.floor(elapsedSec / 60);
+  const sec = elapsedSec % 60;
+  const timeStr = min > 0 ? `${min}분 ${sec}초` : `${sec}초`;
+  const pct = score / total;
+  let emoji, title;
+  if (pct === 1) { emoji = '🏆'; title = '완벽해요! 만점!'; }
+  else if (pct >= 0.8) { emoji = '🎉'; title = '아주 잘했어요!'; }
+  else if (pct >= 0.5) { emoji = '👍'; title = '잘했어요!'; }
+  else { emoji = '💪'; title = '조금 더 연습해봐요!'; }
+  document.getElementById('multResultEmoji').textContent = emoji;
+  document.getElementById('multResultTitle').textContent = title;
+  document.getElementById('multResultScore').textContent = score;
+  document.getElementById('multResultTotal').textContent = total;
+  document.getElementById('multResultTime').textContent = `⏱️ 걸린 시간: ${timeStr}`;
+  const wrongWrap = document.getElementById('multWrongListWrap');
+  if (multState.wrongList.length === 0) wrongWrap.innerHTML = '';
+  else {
+    const items = multState.wrongList.map(w => `<li><span>${w.a} × ${w.b} = <span class="wanted">${w.correct}</span></span><span class="yours">내 답: ${w.yours}</span></li>`).join('');
+    wrongWrap.innerHTML = `<div class="wronglist"><h4>📝 틀린 문제 다시 보기</h4><ul>${items}</ul></div>`;
+  }
+  // Save record
+  const tableName = multState.tableId === 'all' ? '전체 랜덤' : multState.tableId + '단';
+  saveRecord(currentStudent.id, 'multiplication', score, total, {
+    table: multState.tableId,
+    tableName: tableName,
+    timeSeconds: elapsedSec,
+  });
+  multShowScreen('mult-result');
+}
+
+// Event wiring for multiplication
+document.getElementById('multNextBtn').addEventListener('click', nextMultQuestion);
+document.getElementById('multShowAnswerBtn').addEventListener('click', showMultAnswer);
+document.getElementById('multResultRetryBtn').addEventListener('click', () => startMultGame(multState.tableId));
+document.getElementById('multResultHomeBtn').addEventListener('click', () => {
+  showScreen('screen-menu');
+  setTimeout(checkHomeworkAfterActivity, 500);
+});
+document.querySelectorAll('#multKeypad .key').forEach(k => {
+  k.addEventListener('click', () => {
+    const val = k.dataset.k;
+    if (multState.answered && val !== 'submit') return;
+    if (val === 'clear') { multState.currentInput = multState.currentInput.slice(0, -1); updateMultAnswerDisplay(); }
+    else if (val === 'submit') { submitMultAnswer(); }
+    else { if (multState.currentInput.length < 3) { multState.currentInput += val; updateMultAnswerDisplay(); } }
+  });
+});
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('mult-game').classList.contains('hidden')) return;
+  if (e.key >= '0' && e.key <= '9') {
+    if (multState.answered) return;
+    if (multState.currentInput.length < 3) { multState.currentInput += e.key; updateMultAnswerDisplay(); }
+  } else if (e.key === 'Backspace') {
+    if (multState.answered) return;
+    multState.currentInput = multState.currentInput.slice(0, -1);
+    updateMultAnswerDisplay();
+  } else if (e.key === 'Enter') {
+    if (multState.answered) { if (!document.getElementById('multNextBtn').disabled) nextMultQuestion(); }
+    else submitMultAnswer();
+  }
+});
+document.getElementById('multMicBtn').addEventListener('click', () => {
+  if (!multRecognition) return;
+  if (multState.answered) return;
+  if (multState.recognizing) { try { multRecognition.stop(); } catch(e){} }
+  else {
+    multState.currentInput = ''; updateMultAnswerDisplay();
+    try { multRecognition.start(); } catch(e){ console.warn(e); }
+  }
+});
+
+/* ================================================================
+   JUMP ROPE MODULE
+================================================================ */
+const JR_EV = [
+  {id:"a", nm:"오래뛰기", u:"초", t:1, th:[180,150,120,90,60,50,40,30,20,10], lb:["3분","2분30초","2분","1분30초","1분","50초","40초","30초","20초","10초"], color:"#4DA3E8"},
+  {id:"b", nm:"양발모아", u:"개", th:[300,250,200,150,100,80,50,30,20,10], lb:["300","250","200","150","100","80","50","30","20","10"], color:"#2DAA6E"},
+  {id:"c", nm:"양발번갈아", u:"개", th:[200,150,100,80,60,40,20,10,5,3], lb:["200","150","100","80","60","40","20","10","5","3"], color:"#E8833A"},
+  {id:"d", nm:"뒤로넘기", u:"개", th:[80,60,50,40,30,20,10,5,3,1], lb:["80","60","50","40","30","20","10","5","3","1"], color:"#E0465A"},
+  {id:"e", nm:"좌우벌려붙여", u:"개", th:[150,120,100,80,60,40,30,20,10,5], lb:["150","120","100","80","60","40","30","20","10","5"], color:"#8B5CF6"},
+  {id:"f", nm:"엇걸었다풀어", u:"개", th:[80,60,50,40,30,20,10,5,3,1], lb:["80","60","50","40","30","20","10","5","3","1"], color:"#EC4899"},
+  {id:"g", nm:"엇걸어뛰기", u:"개", th:[50,40,30,20,10,5,3,2,1,0], lb:["50","40","30","20","10","5","3","2","1","0"], color:"#F59E0B"},
+  {id:"h", nm:"2중뛰기", u:"개", th:[50,40,30,20,10,5,3,1,0,0], lb:["50","40","30","20","10","5","3","1","0","0"], color:"#06B6D4"},
+];
+const JR_EF = ["오래뛰기","양발 모아 뛰기","양발 번갈아 뛰기","뒤로 넘기","좌우 벌렸다 붙여 뛰기","엇걸었다 풀어뛰기","엇걸어 뛰기","2중 뛰기"];
+const JR_GT = [{m:70,g:"1급",n:1},{m:60,g:"2급",n:2},{m:50,g:"3급",n:3},{m:40,g:"4급",n:4},{m:30,g:"5급",n:5},{m:20,g:"6급",n:6},{m:10,g:"7급",n:7},{m:8,g:"8급",n:8},{m:6,g:"9급",n:9},{m:4,g:"10급",n:10}];
+
+// Only 3rd grade students (matching STUDENTS)
+let jrData = STUDENTS.map((s, i) => ({id: i, sid: s.id, nm: s.name, ms: []}));
+let jrCM = 0;
+let jrCV = 'input';
+let jrSaveTimer = null;
+let jrMyLastSaveTs = 0;
+let jrPendingRerender = false;
+
+const jrEmptyScores = () => { const o = {}; JR_EV.forEach(e => o[e.id] = ""); return o; };
+const jrDateStr = () => {
+  const d = new Date();
+  return d.getFullYear() + '-' + (d.getMonth() + 1).toString().padStart(2, '0') + '-' + d.getDate().toString().padStart(2, '0');
+};
+const jrDateDisp = d => (d || '').replace(/-/g, '.');
+const jrDateHtml = d => (d || '').replace(/\./g, '-');
+const jrEs = (ev, v) => { if (v === "" || v == null) return 0; const n = parseFloat(v); if (isNaN(n)) return 0; for (let i = 0; i < ev.th.length; i++) if (n >= ev.th[i]) return 10 - i; return 0; };
+const jrCt = sc => JR_EV.reduce((s, e) => s + jrEs(e, sc[e.id]), 0);
+const jrGg = t => { for (const g of JR_GT) if (t >= g.m) return g; return {m: 0, g: "급수 없음", n: 0}; };
+const jrGc = n => n ? "gc-" + n : "gc-0";
+const jrGcb = n => n ? "gcb-" + n : "";
+const jrGct = n => n ? "gct-" + n : "";
+const jrHm = m => m && Object.values(m.scores).some(v => v !== "");
+const jrHa = s => s.ms.some(jrHm);
+const jrSC = sc => `hsl(${(sc / 10) * 120},65%,42%)`;
+const jrMC = () => jrData[0] ? jrData[0].ms.length : 0;
+
+function jrIsUserTyping() {
+  const ae = document.activeElement;
+  return ae && ae.classList && ae.classList.contains('ec-inp');
+}
+
+function jrSaveToCloud() {
+  clearTimeout(jrSaveTimer);
+  jrSaveTimer = setTimeout(() => {
+    jrMyLastSaveTs = Date.now();
+    // Get all existing data (including other grades) and update only 3rd grade
+    jumpRopeRef.once('value').then(snapshot => {
+      const existing = snapshot.val() || {};
+      const students = existing.students || [];
+      // Update or insert 3rd grade students
+      const my3rdIds = new Set(STUDENTS.map(s => s.name));
+      const others = students.filter(s => !my3rdIds.has(s.nm) || s.gr !== '3');
+      const my3rd = jrData.map(s => ({gr: '3', nm: s.nm, gd: '', ms: s.ms}));
+      const merged = [...others, ...my3rd];
+      const data = {v: 5, cM: jrCM, ts: jrMyLastSaveTs, students: merged};
+      jumpRopeRef.set(data).catch(err => console.warn('jr save failed', err));
+    });
+  }, 500);
+}
+
+jumpRopeRef.on('value', (snapshot) => {
+  const data = snapshot.val();
+  if (!data || !data.students) return;
+  if (data.ts && Math.abs(data.ts - jrMyLastSaveTs) < 2000) return;
+  // Extract 3rd grade students matching our list
+  data.students.forEach(ld => {
+    const student = STUDENTS.find(s => s.name === ld.nm);
+    if (student && ld.gr === '3') {
+      const ex = jrData.find(x => x.sid === student.id);
+      if (ex) ex.ms = ld.ms || [];
+    }
+  });
+  if (typeof data.cM === 'number') jrCM = data.cM;
+  if (jrCM >= jrMC() && jrMC() > 0) jrCM = jrMC() - 1;
+  if (jrIsUserTyping()) { jrPendingRerender = true; }
+  else { jrPendingRerender = false; if (!document.getElementById('screen-jumprope').classList.contains('hidden')) jrRender(); }
+});
+
+document.addEventListener('focusout', function(e) {
+  if (e.target.classList && e.target.classList.contains('ec-inp') && jrPendingRerender) {
+    setTimeout(() => { if (!jrIsUserTyping()) { jrPendingRerender = false; jrRender(); } }, 100);
+  }
+});
+
+function jrAddMeasurement(dateVal) {
+  const d = dateVal || jrDateStr();
+  jrData.forEach(s => s.ms.push({date: d, scores: jrEmptyScores()}));
+  jrCM = jrMC() - 1;
+  jrSaveToCloud();
+  jrRender();
+}
+function jrDelMeasurement(i) {
+  if (jrMC() <= 1) return;
+  jrData.forEach(s => { if (i < s.ms.length) s.ms.splice(i, 1); });
+  if (jrCM >= jrMC()) jrCM = jrMC() - 1;
+  jrSaveToCloud();
+  jrRender();
+}
+function jrChangeMDate(mi, nd) {
+  if (!nd) return;
+  jrData.forEach(s => { if (s.ms[mi]) s.ms[mi].date = nd; });
+  jrSaveToCloud();
+  jrRender();
+}
+function jrEnsureMeasurements(s) {
+  while (s.ms.length < jrMC()) {
+    const idx = s.ms.length;
+    s.ms.push({date: jrData[0].ms[idx] ? jrData[0].ms[idx].date : jrDateStr(), scores: jrEmptyScores()});
+  }
+}
+
+// Tabs
+document.getElementById('jrTabs').addEventListener('click', function(e) {
+  const b = e.target.closest('.tab');
+  if (!b) return;
+  jrCV = b.dataset.v;
+  document.querySelectorAll('#jrTabs .tab').forEach(t => t.classList.toggle('on', t === b));
+  ['jrInput', 'jrHistory', 'jrRef'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById({input: 'jrInput', history: 'jrHistory', ref: 'jrRef'}[jrCV]).classList.remove('hidden');
+  jrRender();
+});
+
+function jrRender() {
+  jrRenderStats();
+  if (jrCV === 'input') jrRenderInput();
+  else if (jrCV === 'history') jrRenderHistory();
+  else if (jrCV === 'ref') jrRenderRef();
+}
+
+function jrRenderStats() {
+  const mc = jrMC(), last = mc - 1;
+  const comp = mc > 0 ? jrData.filter(s => s.ms.length > last && jrHm(s.ms[last])) : [];
+  const dist = {};
+  comp.forEach(s => { const g = jrGg(jrCt(s.ms[last].scores)); dist[g.g] = (dist[g.g] || 0) + 1; });
+  let h = `<span>👤 <strong>${jrData.length}</strong>명</span><span>📏 <strong>${mc}</strong>회차</span><span>📝 <strong>${comp.length}</strong>명</span>`;
+  Object.entries(dist).sort().slice(0, 4).forEach(([g, c]) => {
+    const n = JR_GT.find(x => x.g === g);
+    h += `<span><span class="gbsm ${jrGc(n ? n.n : 0)}">${g}</span>${c}</span>`;
+  });
+  const sl = {connecting: '연결중...', online: '☁️ 동기화', offline: '오프라인', error: '오류'};
+  const sd = {connecting: 'sync-off', online: 'sync-on', offline: 'sync-off', error: 'sync-err'};
+  h += `<span class="sync-ind"><span class="sync-dot ${sd[syncStatus]}"></span>${sl[syncStatus]}</span>`;
+  document.getElementById('jrStats').innerHTML = h;
+}
+
+function jrRenderInput() {
+  const mc = jrMC();
+  let h = '<div class="mbar"><label>📏 회차:</label>';
+  if (mc === 0) {
+    h += `<input type="date" class="date-inp" id="jrNewDate" value="${jrDateStr()}"><button class="mbtn b-am" onclick="jrAddMeasurement(document.getElementById('jrNewDate').value)">+ 1차 측정 시작</button>`;
+  } else {
+    h += '<select class="msel" id="jrMsl">';
+    for (let i = 0; i < mc; i++) h += `<option value="${i}" ${jrCM === i ? 'selected' : ''}>${i + 1}차 (${jrDateDisp(jrData[0].ms[i].date)})</option>`;
+    h += `</select><input type="date" class="date-inp" id="jrCurDate" value="${jrDateHtml(jrData[0].ms[jrCM]?.date)}"><button class="mbtn b-am" onclick="jrAddMeasurement(document.getElementById('jrCurDate').value)">+ 추가</button>`;
+    if (mc > 1) h += `<button class="mbtn b-dm" onclick="if(confirm('${jrCM + 1}차 측정을 삭제하시겠습니까?'))jrDelMeasurement(${jrCM})">🗑️</button>`;
+  }
+  h += '</div>';
+  if (mc === 0) {
+    h += '<div class="empty"><div class="empty-i">📏</div><div class="empty-t">날짜를 선택하고 측정을 시작하세요</div></div>';
+    document.getElementById('jrInput').innerHTML = h;
+    return;
+  }
+  // Only show current student's row (students can only enter their own scores)
+  const visibleStudents = currentStudent
+    ? jrData.filter(s => s.sid === currentStudent.id)
+    : jrData;
+  visibleStudents.forEach((s) => {
+    jrEnsureMeasurements(s);
+    const m = s.ms[jrCM], t = jrCt(m.scores), g = jrGg(t), hi = jrHm(m);
+    h += `<div class="sc" data-sid="${s.id}"><div class="sc-hd"><div class="sc-info"><span class="sc-nm">${s.nm}</span>`;
+    if (s.ms.length > 1) h += `<span class="sc-mc">${s.ms.length}회</span>`;
+    h += `</div><div class="sc-res"><div style="text-align:right"><div class="sc-tl">총점</div><div class="sc-tv" id="jrTv${s.id}">${hi ? t : '-'}</div></div><span class="gbg ${hi ? jrGc(g.n) : 'gc-0'}" id="jrGb${s.id}">${hi ? g.g : '-'}</span></div></div><div class="sg">`;
+    JR_EV.forEach((ev, ei) => {
+      const v = m.scores[ev.id], sc = jrEs(ev, v), pct = (sc / 10) * 100, bc = sc > 0 ? jrSC(sc) : '#E0E7EF';
+      h += `<div class="ec"><div class="ec-nm">${JR_EF[ei]}</div><div class="ec-row"><input class="ec-inp" type="text" inputmode="decimal" value="${v}" placeholder="${ev.t ? '초' : '개수'}" data-sid="${s.id}" data-eid="${ev.id}" autocomplete="off"><span class="ec-u">${ev.u}</span></div><div class="ec-sr"><div class="sb"><div class="sbf" style="width:${pct}%;background:${bc}"></div></div><span class="ec-sc" style="color:${sc > 0 ? jrSC(sc) : '#D0D8E0'}">${sc}점</span></div></div>`;
+    });
+    h += `</div><div class="sum"><div class="sum-h">오래뛰기: 초 단위 (2분30초→150)</div><div><span class="sum-t" id="jrSt${s.id}">${t}</span><span class="sum-m"> / 80</span></div></div></div>`;
+  });
+  const el = document.getElementById('jrInput');
+  el.innerHTML = h;
+  const cd = document.getElementById('jrCurDate');
+  if (cd) cd.addEventListener('change', e => jrChangeMDate(jrCM, e.target.value));
+  const ms = document.getElementById('jrMsl');
+  if (ms) ms.addEventListener('change', e => { jrCM = parseInt(e.target.value); jrRender(); });
+
+  // Input handler
+  el.addEventListener('input', function(e) {
+    if (!e.target.classList.contains('ec-inp')) return;
+    let val = e.target.value.replace(/[^0-9.]/g, '');
+    if (val !== e.target.value) { const pos = e.target.selectionStart - 1; e.target.value = val; e.target.setSelectionRange(Math.max(0, pos), Math.max(0, pos)); }
+    const sid = parseInt(e.target.dataset.sid), eid = e.target.dataset.eid;
+    const s = jrData.find(x => x.id === sid);
+    if (!s || !s.ms[jrCM]) return;
+    s.ms[jrCM].scores[eid] = val;
+    const card = e.target.closest('.ec'), ev = JR_EV.find(x => x.id === eid), sc = jrEs(ev, val);
+    card.querySelector('.sbf').style.width = (sc / 10 * 100) + '%';
+    card.querySelector('.sbf').style.background = sc > 0 ? jrSC(sc) : '#E0E7EF';
+    const scl = card.querySelector('.ec-sc');
+    scl.textContent = sc + '점';
+    scl.style.color = sc > 0 ? jrSC(sc) : '#D0D8E0';
+    const t2 = jrCt(s.ms[jrCM].scores), g2 = jrGg(t2), hi2 = jrHm(s.ms[jrCM]);
+    const tvE = document.getElementById('jrTv' + sid); if (tvE) tvE.textContent = hi2 ? t2 : '-';
+    const gbE = document.getElementById('jrGb' + sid); if (gbE) { gbE.textContent = hi2 ? g2.g : '-'; gbE.className = 'gbg ' + (hi2 ? jrGc(g2.n) : 'gc-0'); }
+    const stE = document.getElementById('jrSt' + sid); if (stE) stE.textContent = t2;
+    jrRenderStats(); jrSaveToCloud();
+  });
+  el.addEventListener('keydown', function(e) {
+    if (!e.target.classList.contains('ec-inp')) return;
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      const card = e.target.closest('.sc');
+      const inputs = Array.from(card.querySelectorAll('.ec-inp'));
+      const idx = inputs.indexOf(e.target);
+      if (idx < inputs.length - 1) { inputs[idx + 1].focus(); inputs[idx + 1].select(); }
+      else {
+        const all = Array.from(document.querySelectorAll('.sc'));
+        const ci = all.indexOf(card);
+        if (ci < all.length - 1) { const ni = all[ci + 1].querySelector('.ec-inp'); if (ni) { ni.focus(); ni.select(); ni.scrollIntoView({behavior: 'smooth', block: 'center'}); } }
+      }
+    }
+  });
+}
+
+function jrRenderHistory() {
+  const mc = jrMC();
+  if (!mc) { document.getElementById('jrHistory').innerHTML = '<div class="empty"><div class="empty-i">📈</div><div class="empty-t">측정 기록 없음</div></div>'; return; }
+  let h = '';
+  jrData.forEach(s => {
+    if (!jrHa(s)) return;
+    let bi = 0, bt = -1;
+    s.ms.forEach((m, i) => { const t = jrCt(m.scores); if (t > bt) { bt = t; bi = i; } });
+    const bestScore = bt, bg = jrGg(bestScore);
+    h += `<div class="sc"><div class="sc-hd"><div class="sc-info"><span class="sc-nm">${s.nm}</span></div><div class="sc-res"><div style="text-align:right"><div class="sc-tl">최고</div><div class="sc-tv">${bestScore}</div></div><span class="gbg ${jrGc(bg.n)}">${bg.g}</span></div></div>`;
+    h += `<div style="padding:12px"><table style="width:100%;border-collapse:collapse;font-size:10px"><thead><tr style="background:var(--navy);color:#fff"><th style="padding:6px;font-size:9px">회차</th><th style="padding:6px;font-size:9px">날짜</th><th style="padding:6px;font-size:9px">총점</th><th style="padding:6px;font-size:9px">급수</th></tr></thead><tbody>`;
+    s.ms.forEach((m, mi) => {
+      const t = jrCt(m.scores), g = jrGg(t);
+      const isBest = t === bestScore && s.ms.length > 1 && t > 0;
+      h += `<tr style="border-bottom:1px solid #F0F3F7;background:${mi % 2 === 0 ? '#fff' : '#FAFBFD'}"><td style="padding:5px;text-align:center;font-weight:700">${mi + 1}차</td><td style="padding:5px;text-align:center;color:var(--tx3);font-size:9px">${jrDateDisp(m.date)}</td><td style="padding:5px;text-align:center;font-weight:900;${isBest ? 'color:var(--green)' : ''}">${t}</td><td style="padding:5px;text-align:center"><span class="gbg ${jrGc(g.n)}" style="font-size:9px;padding:2px 7px">${g.g}</span></td></tr>`;
+    });
+    h += `</tbody></table></div></div>`;
+  });
+  if (!h) h = '<div class="empty"><div>입력된 기록이 없습니다.</div></div>';
+  document.getElementById('jrHistory').innerHTML = h;
+}
+
+function jrRenderRef() {
+  let h = '<div class="rs"><div class="rh"><div class="rh-t">📋 종목별 점수 기준표</div><div class="rh-d">대한줄넘기협회 제정</div></div><table class="rft"><thead><tr><th>종목</th>';
+  for (let i = 10; i >= 1; i--) h += `<th>${i}점</th>`;
+  h += '</tr></thead><tbody>';
+  JR_EV.forEach((e, i) => {
+    h += `<tr><td class="ecol">${JR_EF[i]}<small>(${e.u})</small></td>`;
+    e.lb.forEach(l => h += `<td>${l}</td>`);
+    h += '</tr>';
+  });
+  h += '</tbody></table></div>';
+  h += '<div class="rs"><div class="rh"><div class="rh-t">🏅 급수 기준표</div><div class="rh-d">8종목 총점 합계 (만점 80점)</div></div><div class="gcards">';
+  JR_GT.forEach(g => {
+    h += `<div class="gci ${jrGcb(g.n)}"><div class="gci-n ${jrGct(g.n)}">${g.g}</div><div class="gci-m" style="color:var(--tx2)">${g.m}점 이상</div></div>`;
+  });
+  h += '</div></div>';
+  document.getElementById('jrRef').innerHTML = h;
+}
+
+db.ref('.info/connected').on('value', (snap) => { syncStatus = snap.val() ? 'online' : 'offline'; if (!document.getElementById('screen-jumprope').classList.contains('hidden')) jrRenderStats(); });
+
+/* ================================================================
+   PERSONAL RECORDS / CALENDAR MODULE
+================================================================ */
+let calCurrentYear = 2026;
+let calCurrentMonth = 6; // July (0-indexed)
+let calSelectedDate = null;
+
+// Range: July 2026 to Feb 2027
+const CAL_MIN = {year: 2026, month: 6};  // July 2026
+const CAL_MAX = {year: 2027, month: 1};  // Feb 2027
+
+function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  const title = document.getElementById('calTitle');
+  title.textContent = `${calCurrentYear}년 ${calCurrentMonth + 1}월`;
+
+  // Disable prev/next at bounds
+  document.getElementById('calPrev').disabled = (calCurrentYear === CAL_MIN.year && calCurrentMonth === CAL_MIN.month);
+  document.getElementById('calNext').disabled = (calCurrentYear === CAL_MAX.year && calCurrentMonth === CAL_MAX.month);
+
+  // Days of week
+  const dow = ['일', '월', '화', '수', '목', '금', '토'];
+  dow.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow' + (i === 0 ? ' sun' : i === 6 ? ' sat' : '');
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const firstDay = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
+  const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+  const today = new Date();
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+  const studentRecords = allRecords[currentStudent.id] || {};
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-cell empty';
+    grid.appendChild(el);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${calCurrentYear}-${String(calCurrentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const cell = document.createElement('button');
+    cell.className = 'cal-cell';
+    const dayRecords = studentRecords[dateStr];
+    const hasRecord = dayRecords && Object.keys(dayRecords).length > 0;
+    if (hasRecord) cell.classList.add('has-record');
+    if (dateStr === todayStr) cell.classList.add('today');
+    if (calSelectedDate === dateStr) cell.classList.add('selected');
+    let inner = `<span>${day}</span>`;
+    if (hasRecord) {
+      const entries = Object.values(dayRecords);
+      const hasEng = entries.some(e => e.activity === 'english');
+      const hasMult = entries.some(e => e.activity === 'multiplication');
+      inner += '<div class="cal-dot-row">';
+      if (hasEng) inner += '<div class="cal-dot eng"></div>';
+      if (hasMult) inner += '<div class="cal-dot mult"></div>';
+      inner += '</div>';
+    }
+    cell.innerHTML = inner;
+    cell.addEventListener('click', () => {
+      calSelectedDate = dateStr;
+      renderCalendar();
+      showDateDetails(dateStr, dayRecords);
+    });
+    grid.appendChild(cell);
+  }
+}
+
+function showDateDetails(dateStr, dayRecords) {
+  const modalRoot = document.getElementById('modalRoot');
+  const [y, m, d] = dateStr.split('-');
+  const dow = ['일', '월', '화', '수', '목', '금', '토'][new Date(dateStr).getDay()];
+  let content = '';
+  if (!dayRecords || Object.keys(dayRecords).length === 0) {
+    content = `<div class="empty" style="padding:24px 20px"><div class="empty-i">📝</div><div class="empty-t">이 날은 공부 기록이 없어요</div><div style="font-size:12px;color:var(--ink-soft);margin-top:4px">공부하고 다시 확인해봐요!</div></div>`;
+  } else {
+    const entries = Object.values(dayRecords).sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+    content = entries.map(e => {
+      const icon = e.activity === 'english' ? '🍽️' : '🧮';
+      const iconClass = e.activity === 'english' ? 'eng' : 'mult';
+      let title = '';
+      if (e.activity === 'english') {
+        title = `영어: ${e.unitTitle || 'Lesson ' + e.unit} (${e.modeTitle || 'Mode ' + e.mode})`;
+      } else {
+        title = `구구단: ${e.tableName || e.table + '단'}`;
+      }
+      const timeStr = e.time || '';
+      const percent = Math.round((e.correct / e.total) * 100);
+      return `<div class="record-item">
+        <div class="record-icon ${iconClass}">${icon}</div>
+        <div class="record-info">
+          <div class="rtitle">${title}</div>
+          <div class="rmeta">⏰ ${timeStr} · 정답률 ${percent}%</div>
+        </div>
+        <div class="record-score">${e.correct}<span class="total">/${e.total}</span></div>
+      </div>`;
+    }).join('');
+  }
+  modalRoot.innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-box">
+        <h3>📅 ${y}년 ${parseInt(m)}월 ${parseInt(d)}일 (${dow})</h3>
+        <div>${content}</div>
+        <button class="modal-close" onclick="closeModal()">닫기</button>
+      </div>
+    </div>`;
+}
+function closeModal() { document.getElementById('modalRoot').innerHTML = ''; }
+window.closeModal = closeModal;
+
+document.getElementById('calPrev').addEventListener('click', () => {
+  if (calCurrentYear === CAL_MIN.year && calCurrentMonth === CAL_MIN.month) return;
+  calCurrentMonth--;
+  if (calCurrentMonth < 0) { calCurrentMonth = 11; calCurrentYear--; }
+  renderCalendar();
+});
+document.getElementById('calNext').addEventListener('click', () => {
+  if (calCurrentYear === CAL_MAX.year && calCurrentMonth === CAL_MAX.month) return;
+  calCurrentMonth++;
+  if (calCurrentMonth > 11) { calCurrentMonth = 0; calCurrentYear++; }
+  renderCalendar();
+});
+
+function renderRecordsChart() {
+  const el = document.getElementById('recordsChart');
+  const studentRecords = allRecords[currentStudent.id] || {};
+  // Get last 30 days
+  const today = new Date();
+  const days = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const entries = studentRecords[dateStr] ? Object.values(studentRecords[dateStr]) : [];
+    let engCorrect = 0, multCorrect = 0;
+    entries.forEach(e => {
+      if (e.activity === 'english') engCorrect += e.correct;
+      else if (e.activity === 'multiplication') multCorrect += e.correct;
+    });
+    days.push({dateStr, day: d.getDate(), engCorrect, multCorrect, total: engCorrect + multCorrect});
+  }
+
+  const maxVal = Math.max(10, ...days.map(d => d.total));
+  const w = 700, h = 240, padL = 30, padR = 10, padT = 20, padB = 30;
+  const barW = (w - padL - padR) / days.length - 1;
+  let svg = `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (h - padT - padB) * (1 - i / 4);
+    const val = Math.round((maxVal * i / 4));
+    svg += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="#E0E7EF" stroke-dasharray="2,2"/>`;
+    svg += `<text x="${padL - 4}" y="${y + 3}" text-anchor="end" font-size="9" fill="#A4B3C2">${val}</text>`;
+  }
+  days.forEach((d, i) => {
+    const x = padL + i * ((w - padL - padR) / days.length);
+    const engH = (d.engCorrect / maxVal) * (h - padT - padB);
+    const multH = (d.multCorrect / maxVal) * (h - padT - padB);
+    const yEng = h - padB - engH;
+    const yMult = yEng - multH;
+    if (d.engCorrect > 0) svg += `<rect x="${x + 1}" y="${yEng}" width="${barW}" height="${engH}" rx="1.5" fill="#4DA3E8"/>`;
+    if (d.multCorrect > 0) svg += `<rect x="${x + 1}" y="${yMult}" width="${barW}" height="${multH}" rx="1.5" fill="#FFC93C"/>`;
+    if (i % 5 === 0 || i === days.length - 1) {
+      svg += `<text x="${x + barW / 2}" y="${h - padB + 12}" text-anchor="middle" font-size="9" fill="#7A6A5D">${d.day}</text>`;
+    }
+  });
+  svg += `</svg>`;
+  const total = days.reduce((s, d) => s + d.total, 0);
+  el.innerHTML = svg + `<div style="margin-top:8px;font-size:11px;color:var(--ink-soft);text-align:center">최근 30일 동안 총 <b style="color:var(--coral-dark)">${total}</b>문제 맞혔어요!</div>`;
+}
+
+function renderRecordsSummary() {
+  const studentRecords = allRecords[currentStudent.id] || {};
+  let totalSessions = 0, totalCorrect = 0, totalQuestions = 0;
+  let engSessions = 0, engCorrect = 0, engTotal = 0;
+  let multSessions = 0, multCorrect = 0, multTotal = 0;
+  Object.values(studentRecords).forEach(day => {
+    Object.values(day).forEach(entry => {
+      totalSessions++; totalCorrect += entry.correct; totalQuestions += entry.total;
+      if (entry.activity === 'english') { engSessions++; engCorrect += entry.correct; engTotal += entry.total; }
+      else if (entry.activity === 'multiplication') { multSessions++; multCorrect += entry.correct; multTotal += entry.total; }
+    });
+  });
+  const daysStudied = Object.keys(studentRecords).length;
+  const engPct = engTotal > 0 ? Math.round((engCorrect / engTotal) * 100) : 0;
+  const multPct = multTotal > 0 ? Math.round((multCorrect / multTotal) * 100) : 0;
+  document.getElementById('recordsSummaryContent').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+      <div style="background:var(--cream);border-radius:14px;padding:14px;text-align:center;">
+        <div style="font-size:11px;color:var(--ink-soft);margin-bottom:4px;">📅 공부한 날</div>
+        <div style="font-family:'Fredoka',sans-serif;font-size:26px;font-weight:700;color:var(--coral-dark);">${daysStudied}일</div>
+      </div>
+      <div style="background:var(--cream);border-radius:14px;padding:14px;text-align:center;">
+        <div style="font-size:11px;color:var(--ink-soft);margin-bottom:4px;">✅ 총 정답수</div>
+        <div style="font-family:'Fredoka',sans-serif;font-size:26px;font-weight:700;color:var(--green-dark);">${totalCorrect}</div>
+      </div>
+    </div>
+    <div class="record-item">
+      <div class="record-icon eng">🍽️</div>
+      <div class="record-info">
+        <div class="rtitle">영어</div>
+        <div class="rmeta">${engSessions}번 학습 · 정답률 ${engPct}%</div>
+      </div>
+      <div class="record-score">${engCorrect}<span class="total">/${engTotal}</span></div>
+    </div>
+    <div class="record-item">
+      <div class="record-icon mult">🧮</div>
+      <div class="record-info">
+        <div class="rtitle">구구단</div>
+        <div class="rmeta">${multSessions}번 학습 · 정답률 ${multPct}%</div>
+      </div>
+      <div class="record-score">${multCorrect}<span class="total">/${multTotal}</span></div>
+    </div>
+  `;
+}
+
+/* ================================================================
+   CLASS RANKING MODULE
+================================================================ */
+function renderRankRow(s, rank, meta, countVal, countUnit) {
+  const rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
+  return `<div class="rank-row">
+    <div class="rank-badge ${rankClass}">${rank}</div>
+    <div class="record-icon">${s.emoji}</div>
+    <div class="rank-info">
+      <div class="rank-name">${s.name}</div>
+      <div class="rank-meta">${meta}</div>
+    </div>
+    <div class="rank-count">${countVal}<span style="font-size:11px;color:var(--ink-soft)">${countUnit}</span></div>
+  </div>`;
+}
+
+function renderBarChart(chartEl, students, valueKey, colorMap) {
+  const maxVal = Math.max(1, ...students.map(s => s[valueKey] || 0));
+  const w = 700, h = 240, padL = 60, padR = 20, padT = 20, padB = 40;
+  const barW = (w - padL - padR) / students.length * 0.65;
+  const gapW = (w - padL - padR) / students.length * 0.35;
+  let svg = `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (h - padT - padB) * (1 - i / 4);
+    const val = Math.round((maxVal * i / 4));
+    svg += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="#E0E7EF" stroke-dasharray="2,2"/>`;
+    svg += `<text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-size="10" fill="#A4B3C2">${val}</text>`;
+  }
+  students.forEach((s, i) => {
+    const x = padL + i * ((w - padL - padR) / students.length) + gapW / 2;
+    const val = s[valueKey] || 0;
+    const bh = (val / maxVal) * (h - padT - padB);
+    const y = h - padB - bh;
+    const color = colorMap[i % colorMap.length];
+    svg += `<rect x="${x}" y="${y}" width="${barW}" height="${bh}" rx="4" fill="${color}" opacity="0.85"/>`;
+    svg += `<text x="${x + barW / 2}" y="${y - 6}" text-anchor="middle" font-size="12" font-weight="800" fill="${color}">${val}</text>`;
+    svg += `<text x="${x + barW / 2}" y="${h - padB + 16}" text-anchor="middle" font-size="11" font-weight="700" fill="#3A2B22">${s.name}</text>`;
+    svg += `<text x="${x + barW / 2}" y="${h - padB + 28}" text-anchor="middle" font-size="14">${s.emoji}</text>`;
+  });
+  svg += `</svg>`;
+  chartEl.innerHTML = svg;
+}
+
+function renderClassRanking() {
+  const stats = STUDENTS.map(s => {
+    const sr = allRecords[s.id] || {};
+    // English stats
+    let engSess = 0, engCorrect = 0, engTotal = 0;
+    // Multiplication stats
+    let multSess = 0, multCorrect = 0, multTotal = 0;
+    Object.values(sr).forEach(day => Object.values(day).forEach(entry => {
+      if (entry.activity === 'english') {
+        engSess++; engCorrect += entry.correct; engTotal += entry.total;
+      } else if (entry.activity === 'multiplication') {
+        multSess++; multCorrect += entry.correct; multTotal += entry.total;
+      }
+    }));
+    // Jump rope stats
+    let jrSess = 0, jrBest = 0;
+    if (typeof jrData !== 'undefined' && jrData) {
+      const jrStudent = jrData.find(j => j.sid === s.id);
+      if (jrStudent && jrStudent.ms) {
+        jrStudent.ms.forEach(m => {
+          const hasScore = m.scores && Object.values(m.scores).some(v => v !== "" && v != null);
+          if (hasScore) {
+            jrSess++;
+            const total = jrCt(m.scores);
+            if (total > jrBest) jrBest = total;
+          }
+        });
+      }
+    }
+    return {...s, engSess, engCorrect, engTotal, multSess, multCorrect, multTotal, jrSess, jrBest};
+  });
+
+  const colors = ['#FF6B4A', '#FFC93C', '#3FA772', '#4DA3E8', '#B15CFF'];
+
+  // ----- ENGLISH -----
+  const engBySess = [...stats].sort((a, b) => b.engSess - a.engSess);
+  const engByCorrect = [...stats].sort((a, b) => b.engCorrect - a.engCorrect);
+  document.getElementById('classEngSessions').innerHTML = engBySess.map((s, i) =>
+    renderRankRow(s, i + 1, `${s.engCorrect}문제 정답 · 총 ${s.engTotal}문제`, s.engSess, '회')
+  ).join('');
+  document.getElementById('classEngCorrect').innerHTML = engByCorrect.map((s, i) => {
+    const pct = s.engTotal > 0 ? Math.round(s.engCorrect / s.engTotal * 100) : 0;
+    return renderRankRow(s, i + 1, `${s.engTotal}문제 중 정답률 ${pct}%`, s.engCorrect, '개');
+  }).join('');
+  renderBarChart(document.getElementById('classEngChart'), stats, 'engCorrect', colors);
+
+  // ----- MULTIPLICATION -----
+  const multBySess = [...stats].sort((a, b) => b.multSess - a.multSess);
+  const multByCorrect = [...stats].sort((a, b) => b.multCorrect - a.multCorrect);
+  document.getElementById('classMultSessions').innerHTML = multBySess.map((s, i) =>
+    renderRankRow(s, i + 1, `${s.multCorrect}문제 정답 · 총 ${s.multTotal}문제`, s.multSess, '회')
+  ).join('');
+  document.getElementById('classMultCorrect').innerHTML = multByCorrect.map((s, i) => {
+    const pct = s.multTotal > 0 ? Math.round(s.multCorrect / s.multTotal * 100) : 0;
+    return renderRankRow(s, i + 1, `${s.multTotal}문제 중 정답률 ${pct}%`, s.multCorrect, '개');
+  }).join('');
+  renderBarChart(document.getElementById('classMultChart'), stats, 'multCorrect', colors);
+
+  // ----- JUMP ROPE -----
+  const jrBySess = [...stats].sort((a, b) => b.jrSess - a.jrSess);
+  const jrByBest = [...stats].sort((a, b) => b.jrBest - a.jrBest);
+  document.getElementById('classJrSessions').innerHTML = jrBySess.map((s, i) => {
+    const gradeStr = s.jrBest > 0 ? jrGg(s.jrBest).g : '기록 없음';
+    return renderRankRow(s, i + 1, `최고 ${s.jrBest}점 (${gradeStr})`, s.jrSess, '회');
+  }).join('');
+  document.getElementById('classJrBest').innerHTML = jrByBest.map((s, i) => {
+    const gradeStr = s.jrBest > 0 ? jrGg(s.jrBest).g : '기록 없음';
+    return renderRankRow(s, i + 1, `${gradeStr} · ${s.jrSess}회 측정`, s.jrBest, '점');
+  }).join('');
+  renderBarChart(document.getElementById('classJrChart'), stats, 'jrBest', colors);
+}
+
+// Class tab switching
+document.querySelectorAll('#classTabs .ctab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    // Update tab styles
+    document.querySelectorAll('#classTabs .ctab').forEach(b => {
+      const isOn = b.dataset.tab === tab;
+      b.classList.toggle('on', isOn);
+      if (isOn) {
+        b.style.background = 'linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%)';
+        b.style.color = '#fff';
+      } else {
+        b.style.background = 'transparent';
+        b.style.color = 'var(--ink-soft)';
+      }
+    });
+    // Show corresponding panel
+    ['english','multiplication','jumprope'].forEach(t => {
+      document.getElementById('classPanel-' + t).classList.toggle('hidden', t !== tab);
+    });
+    window.scrollTo(0, 0);
+  });
+});
+
+/* ================================================================
+   TEACHER LOGIN + DASHBOARD MODULE
+================================================================ */
+const TEACHER_PASSWORD = '260301';
+
+document.getElementById('teacherLoginBtn').addEventListener('click', () => {
+  document.getElementById('teacherPwInput').value = '';
+  document.getElementById('teacherPwErr').style.display = 'none';
+  showScreen('screen-teacher-login');
+  setTimeout(() => { document.getElementById('teacherPwInput').focus(); }, 100);
+});
+
+document.getElementById('teacherLoginCancel').addEventListener('click', () => {
+  showScreen('screen-students');
+});
+
+function teacherTryLogin() {
+  const pw = document.getElementById('teacherPwInput').value.trim();
+  if (pw === TEACHER_PASSWORD) {
+    document.getElementById('teacherPwErr').style.display = 'none';
+    openTeacherDashboard();
+  } else {
+    document.getElementById('teacherPwErr').style.display = 'block';
+    document.getElementById('teacherPwInput').value = '';
+    document.getElementById('teacherPwInput').focus();
+  }
+}
+
+document.getElementById('teacherLoginSubmit').addEventListener('click', teacherTryLogin);
+document.getElementById('teacherPwInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') teacherTryLogin();
+});
+
+function openTeacherDashboard() {
+  const today = todayStr();
+  document.getElementById('teacherDatePicker').value = today;
+  renderTeacherStatusTable(today);
+  renderTeacherOverallTable();
+  renderTeacherStreakTable();
+  renderTeacherPasswordTable();
+  showScreen('screen-teacher');
+}
+
+document.getElementById('teacherDatePicker').addEventListener('change', (e) => {
+  renderTeacherStatusTable(e.target.value || todayStr());
+});
+document.getElementById('teacherToday').addEventListener('click', () => {
+  const today = todayStr();
+  document.getElementById('teacherDatePicker').value = today;
+  renderTeacherStatusTable(today);
+});
+
+function renderTeacherStatusTable(dateStr) {
+  const rows = STUDENTS.map(s => {
+    const acts = studentActivitiesOnDate(s.id, dateStr);
+    const eng = acts.has('english') ? '✅' : '❌';
+    const mult = acts.has('multiplication') ? '✅' : '❌';
+    const jr = acts.has('jumprope') ? '✅' : '❌';
+    const doneCount = (acts.has('english') ? 1 : 0) + (acts.has('multiplication') ? 1 : 0) + (acts.has('jumprope') ? 1 : 0);
+    const rowBg = doneCount === 3 ? 'background:#E8F5E9;' : (doneCount === 0 ? 'background:#FFF3E0;' : '');
+    return `<tr style="${rowBg}">
+      <td style="padding:10px 12px;font-weight:800;border-bottom:1px solid var(--cream-2);">
+        <span style="font-size:18px;margin-right:6px;">${s.emoji}</span>${s.name}
+      </td>
+      <td style="text-align:center;padding:10px 8px;font-size:20px;border-bottom:1px solid var(--cream-2);">${eng}</td>
+      <td style="text-align:center;padding:10px 8px;font-size:20px;border-bottom:1px solid var(--cream-2);">${mult}</td>
+      <td style="text-align:center;padding:10px 8px;font-size:20px;border-bottom:1px solid var(--cream-2);">${jr}</td>
+      <td style="text-align:center;padding:10px 8px;font-weight:800;border-bottom:1px solid var(--cream-2);color:${doneCount === 3 ? 'var(--green)' : (doneCount === 0 ? 'var(--red)' : 'var(--ink)')};">${doneCount}/3</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('teacherStatusTable').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:420px;">
+      <thead>
+        <tr style="background:var(--cream-2);">
+          <th style="text-align:left;padding:10px 12px;font-weight:900;font-size:12px;color:var(--ink-soft);">학생</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">🍽️ 영어</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">🧮 수학</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">🏃 줄넘기</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">완료</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="font-size:11px;color:var(--tx3);margin-top:8px;">📅 선택된 날짜: <b>${dateStr}</b></div>
+  `;
+}
+
+function renderTeacherOverallTable() {
+  const rows = STUDENTS.map(s => {
+    const sr = allRecords[s.id] || {};
+    let engSess = 0, engCorrect = 0, engTotal = 0;
+    let multSess = 0, multCorrect = 0, multTotal = 0;
+    let daysActive = new Set();
+    Object.entries(sr).forEach(([date, day]) => {
+      Object.values(day).forEach(entry => {
+        daysActive.add(date);
+        if (entry.activity === 'english') { engSess++; engCorrect += entry.correct; engTotal += entry.total; }
+        else if (entry.activity === 'multiplication') { multSess++; multCorrect += entry.correct; multTotal += entry.total; }
+      });
+    });
+    // Jump rope sessions
+    let jrSess = 0;
+    if (typeof jrData !== 'undefined' && jrData) {
+      const jrStudent = jrData.find(j => j.sid === s.id);
+      if (jrStudent && jrStudent.ms) {
+        jrStudent.ms.forEach(m => {
+          const hasScore = m.scores && Object.values(m.scores).some(v => v !== "" && v != null);
+          if (hasScore) { jrSess++; if (m.date) daysActive.add(m.date); }
+        });
+      }
+    }
+    const engPct = engTotal > 0 ? Math.round(engCorrect / engTotal * 100) : 0;
+    const multPct = multTotal > 0 ? Math.round(multCorrect / multTotal * 100) : 0;
+    return `<tr>
+      <td style="padding:10px 12px;font-weight:800;border-bottom:1px solid var(--cream-2);">
+        <span style="font-size:18px;margin-right:6px;">${s.emoji}</span>${s.name}
+      </td>
+      <td style="text-align:center;padding:10px 8px;border-bottom:1px solid var(--cream-2);">
+        <div style="font-weight:800;">${engSess}회</div>
+        <div style="font-size:11px;color:var(--ink-soft);">${engCorrect}/${engTotal} (${engPct}%)</div>
+      </td>
+      <td style="text-align:center;padding:10px 8px;border-bottom:1px solid var(--cream-2);">
+        <div style="font-weight:800;">${multSess}회</div>
+        <div style="font-size:11px;color:var(--ink-soft);">${multCorrect}/${multTotal} (${multPct}%)</div>
+      </td>
+      <td style="text-align:center;padding:10px 8px;border-bottom:1px solid var(--cream-2);font-weight:800;">${jrSess}회</td>
+      <td style="text-align:center;padding:10px 8px;border-bottom:1px solid var(--cream-2);font-weight:800;color:var(--sky);">${daysActive.size}일</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('teacherOverallTable').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:520px;">
+      <thead>
+        <tr style="background:var(--cream-2);">
+          <th style="text-align:left;padding:10px 12px;font-weight:900;font-size:12px;color:var(--ink-soft);">학생</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">🍽️ 영어</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">🧮 수학</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">🏃 줄넘기</th>
+          <th style="text-align:center;padding:10px 8px;font-weight:900;font-size:12px;color:var(--ink-soft);">활동일</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function renderTeacherStreakTable() {
+  const rows = STUDENTS.map(s => {
+    const streak = calcStreak(s.id);
+    const medal = streakMedal(streak);
+    return {student: s, streak, medal};
+  }).sort((a, b) => b.streak - a.streak);
+
+  document.getElementById('teacherStreakTable').innerHTML = rows.map((r, i) => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid var(--cream-2);">
+      <div style="font-size:18px;font-weight:900;color:var(--ink-soft);width:24px;">${i + 1}</div>
+      <div style="font-size:24px;">${r.student.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-weight:800;">${r.student.name}</div>
+        <div style="font-size:12px;color:${r.medal.color};font-weight:700;">${r.medal.emoji} ${r.medal.label}</div>
+      </div>
+      <div style="font-size:24px;font-weight:900;color:${r.medal.color};">${r.streak}<span style="font-size:12px;color:var(--ink-soft);font-weight:700;">일</span></div>
+    </div>
+  `).join('');
+}
+
+let editingPwFor = null; // studentId currently being edited
+function renderTeacherPasswordTable() {
+  const container = document.getElementById('teacherPasswordTable');
+  if (!container) return;
+  const rows = STUDENTS.map(s => {
+    const pw = studentPasswords[s.id] || DEFAULT_STUDENT_PW[s.id];
+    if (editingPwFor === s.id) {
+      return `<div style="display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--cream-2);">
+        <div style="font-size:24px;">${s.emoji}</div>
+        <div style="flex:1;min-width:80px;">
+          <div style="font-weight:800;font-size:14px;">${s.name}</div>
+          <div style="font-size:11px;color:var(--ink-soft);">${s.no}번</div>
+        </div>
+        <input type="text" id="pwEdit-${s.id}" maxlength="4" pattern="[0-9]{4}" placeholder="4자리 숫자" value="${pw}" style="width:100px;padding:8px 10px;border:2px solid var(--sky);border-radius:8px;font-family:inherit;font-weight:900;font-size:16px;text-align:center;letter-spacing:2px;">
+        <button class="navbtn" style="background:var(--green);color:#fff;padding:8px 14px;" onclick="savePw('${s.id}')">저장</button>
+        <button class="navbtn" style="background:var(--cream-2);color:var(--ink);padding:8px 14px;" onclick="cancelPwEdit()">취소</button>
+      </div>`;
+    }
+    return `<div style="display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--cream-2);">
+      <div style="font-size:24px;">${s.emoji}</div>
+      <div style="flex:1;min-width:80px;">
+        <div style="font-weight:800;font-size:14px;">${s.name}</div>
+        <div style="font-size:11px;color:var(--ink-soft);">${s.no}번</div>
+      </div>
+      <div style="font-family:monospace;font-weight:900;font-size:20px;color:var(--navy);background:var(--cream-2);padding:8px 14px;border-radius:8px;letter-spacing:3px;min-width:80px;text-align:center;">${pw}</div>
+      <button class="navbtn" style="background:var(--sky);color:#fff;padding:8px 14px;" onclick="startPwEdit('${s.id}')">수정</button>
+    </div>`;
+  }).join('');
+  container.innerHTML = rows;
+}
+
+function startPwEdit(sid) {
+  editingPwFor = sid;
+  renderTeacherPasswordTable();
+  setTimeout(() => {
+    const inp = document.getElementById('pwEdit-' + sid);
+    if (inp) { inp.focus(); inp.select(); }
+  }, 50);
+}
+function cancelPwEdit() {
+  editingPwFor = null;
+  renderTeacherPasswordTable();
+}
+function savePw(sid) {
+  const inp = document.getElementById('pwEdit-' + sid);
+  if (!inp) return;
+  const val = inp.value.trim();
+  if (!/^[0-9]{4}$/.test(val)) {
+    alert('비밀번호는 4자리 숫자로 입력해주세요.');
+    inp.focus();
+    return;
+  }
+  // Save to Firebase
+  const update = {};
+  update[sid] = val;
+  passwordsRef.update(update).then(() => {
+    studentPasswords[sid] = val;
+    editingPwFor = null;
+    renderTeacherPasswordTable();
+  }).catch(err => {
+    console.warn('Password save failed:', err);
+    alert('저장 실패: ' + err.message);
+  });
+}
+
+document.getElementById('teacherCsvBtn').addEventListener('click', () => {
+  const lines = ['학생명,날짜,시간,활동,단원/단,정답,전체,정답률'];
+  STUDENTS.forEach(s => {
+    const sr = allRecords[s.id] || {};
+    Object.entries(sr).forEach(([date, day]) => {
+      Object.entries(day).forEach(([time, entry]) => {
+        const activityKor = entry.activity === 'english' ? '영어'
+                          : entry.activity === 'multiplication' ? '구구단'
+                          : entry.activity;
+        const detail = (entry.details && (entry.details.unitTitle || entry.details.tableName)) || '';
+        const pct = entry.total > 0 ? Math.round(entry.correct / entry.total * 100) : 0;
+        const timeStr = entry.timeStr || time.replace(/[^\d:]/g, '');
+        lines.push(`${s.name},${date},${timeStr},${activityKor},"${detail}",${entry.correct},${entry.total},${pct}%`);
+      });
+    });
+    // Jump rope entries
+    if (typeof jrData !== 'undefined' && jrData) {
+      const jrStudent = jrData.find(j => j.sid === s.id);
+      if (jrStudent && jrStudent.ms) {
+        jrStudent.ms.forEach(m => {
+          const hasScore = m.scores && Object.values(m.scores).some(v => v !== "" && v != null);
+          if (hasScore && m.date) {
+            const total = jrCt(m.scores);
+            const grade = jrGg(total);
+            lines.push(`${s.name},${m.date},,줄넘기,"${grade.g}",${total},80,`);
+          }
+        });
+      }
+    }
+  });
+  const csv = '\uFEFF' + lines.join('\n'); // UTF-8 BOM for Excel Korean support
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `마동초3학년_학습기록_${todayStr()}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// Also refresh teacher dashboard + today status when data updates while viewing
+function refreshDynamicViews() {
+  if (!document.getElementById('screen-teacher').classList.contains('hidden')) {
+    const dateStr = document.getElementById('teacherDatePicker').value || todayStr();
+    renderTeacherStatusTable(dateStr);
+    renderTeacherOverallTable();
+    renderTeacherStreakTable();
+  }
+  if (!document.getElementById('screen-menu').classList.contains('hidden') && currentStudent) {
+    renderTodayStatus();
+  }
+}
+recordsRef.on('value', refreshDynamicViews);
+jumpRopeRef.on('value', refreshDynamicViews);
+
+/* ================================================================
+   INITIALIZATION
+================================================================ */
+renderStudents();
+renderMultHome();
+initMultSpeech();
+showScreen('screen-students');
+
+</script>
+</body>
+</html>
