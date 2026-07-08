@@ -728,7 +728,7 @@ h1,h2,h3,h4{margin:0;}
 const STUDENTS = [
   {id:'kim',   no:1, name:'김대현', emoji:'🐻'},  // 곰 얼굴
   {id:'na',    no:2, name:'나대한', emoji:'🐯'},  // 호랑이 얼굴 (치타 대신 - 얼굴 이모지 있는 큰 고양이과)
-  {id:'min',   no:3, name:'민주은', emoji:'🐱'},  // 고양이 얼굴
+  {id:'min',   no:3, name:'민주은', emoji:'🐨'},  // 코알라 얼굴 (해달 대신 - 얼굴 이모지 있는 귀여운 포유류)
   {id:'baek',  no:4, name:'백은성', emoji:'🐶'},  // 강아지 얼굴
   {id:'shin',  no:5, name:'신서희', emoji:'🐰'},  // 토끼 얼굴
 ];
@@ -746,31 +746,14 @@ let currentStudent = null;
 let studentPasswords = {...DEFAULT_STUDENT_PW}; // synced from Firebase
 
 // ----- FIREBASE SETUP -----
-// New project: summerhomework-35c31
-// If Firebase failed to load (e.g. offline or CDN blocked), show a friendly error.
-if (typeof firebase === 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    document.body.innerHTML = `
-      <div style="max-width:500px;margin:60px auto;padding:24px;background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.1);font-family:'Nunito','Noto Sans KR',sans-serif;text-align:center;">
-        <div style="font-size:56px;margin-bottom:12px;">📡</div>
-        <h2 style="color:#E86885;margin:0 0 12px;font-family:'Jua',sans-serif;">인터넷 연결이 필요해요</h2>
-        <p style="color:#5A6570;line-height:1.6;font-size:14px;">Firebase 서버에 연결할 수 없어요.<br>
-        와이파이나 데이터가 연결되어 있는지 확인해주세요.<br><br>
-        (파일을 직접 열지 마시고, GitHub Pages 주소로 접속해주세요.)</p>
-        <button onclick="location.reload()" style="margin-top:16px;background:linear-gradient(135deg,#FF6B4A,#E86885);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:15px;font-weight:900;cursor:pointer;">다시 시도</button>
-      </div>`;
-  });
-  throw new Error('Firebase SDK not loaded');
-}
 firebase.initializeApp({
-  apiKey: "AIzaSyAm7wpMyUvxWd6WhDVxyDW5SzrcFp4OxuM",
-  authDomain: "summerhomework-35c31.firebaseapp.com",
-  databaseURL: "https://summerhomework-35c31-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "summerhomework-35c31",
-  storageBucket: "summerhomework-35c31.firebasestorage.app",
-  messagingSenderId: "832571531568",
-  appId: "1:832571531568:web:a6b9798f1d172c03cee8f5",
-  measurementId: "G-K53LS1CMEG"
+  apiKey: "AIzaSyAKbtiQ1UutXkGI2ozyTNDO3N20NQ9vjDE",
+  authDomain: "jump-rope-43833.firebaseapp.com",
+  databaseURL: "https://jump-rope-43833-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "jump-rope-43833",
+  storageBucket: "jump-rope-43833.firebasestorage.app",
+  messagingSenderId: "870652268913",
+  appId: "1:870652268913:web:6b45cabb7e317827b1a6d0"
 });
 const db = firebase.database();
 const recordsRef = db.ref('mado3_records');   // { studentId: { date: [ {time, activity, ...} ] } }
@@ -1191,7 +1174,7 @@ function showTodayHomeworkPopup() {
         정말 대단해요! 👏
       </div>
       <div class="popup-status">${statusHtml}</div>
-      <button class="popup-btn" onclick="closePopup()">✨ 수고했어 오늘도 ✨</button>
+      <button class="popup-btn" onclick="closePopup()">신난다! 🥳</button>
     `);
     localStorage.setItem(key, '1');
   } else {
@@ -1211,7 +1194,7 @@ function showTodayHomeworkPopup() {
         남은 숙제: <b>${remainingItems}</b>
       </div>
       <div class="popup-status">${statusHtml}</div>
-      <button class="popup-btn" onclick="closePopup()">🍽️ 맛있게 해보자! 🥳</button>
+      <button class="popup-btn" onclick="closePopup()">지금 시작할게요! 💪</button>
     `);
   }
 }
@@ -1235,7 +1218,7 @@ function checkHomeworkAfterActivity() {
           모두 완료했어요!<br><br>
           <b style="color:var(--red);">정말 자랑스러워요! 👏✨</b>
         </div>
-        <button class="popup-btn" onclick="closePopup()">✨ 수고했어 오늘도 ✨</button>
+        <button class="popup-btn" onclick="closePopup()">최고예요! 🥳</button>
       `);
       localStorage.setItem(key, '1');
     }
@@ -3082,10 +3065,7 @@ if (recognitionSupported) {
     engState.recognizing = false;
     document.getElementById('engMicBtn').classList.remove('listening');
     let msg = '다시 눌러서 말해보세요';
-    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-      msg = '🚫 마이크 사용이 차단됐어요. 크롬 주소창의 자물쇠 🔒 → 마이크 → 허용으로 바꿔주세요.';
-      document.getElementById('engTextFallback').classList.remove('hidden');
-    }
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') msg = '🚫 마이크 권한이 꺼져 있어요.';
     else if (e.error === 'no-speech') msg = '소리가 들리지 않았어요. 다시 시도해보세요.';
     else if (e.error === 'audio-capture') msg = '🎤 마이크를 찾을 수 없어요.';
     else if (e.error === 'network') msg = '📶 인터넷 연결이 필요해요.';
@@ -3110,47 +3090,72 @@ if (recognitionSupported) {
 }
 function stopRecognition() { if (recognitionSupported && engState.recognizing) try { recognizer.stop(); } catch(e){} }
 
-// Chrome's SpeechRecognition API handles its own permission model.
-// The browser will ask ONCE (first time) and remember the choice.
-// We should NOT call getUserMedia - that causes repeated prompts on mobile.
-// Just call recognizer.start() directly on user gesture (click).
-
-function requestMicUpfront() {
-  // Intentionally do nothing. SpeechRecognition will prompt on first .start() call.
-  // Pre-flight getUserMedia was causing repeated permission prompts on mobile Chrome.
+// Call getUserMedia synchronously (no await before it) to preserve user-gesture context.
+// This is CRITICAL for the browser to show the permission dialog.
+function requestMicPermissionSync(onDone) {
+  if (micPermissionGranted) { if (onDone) onDone(true); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (onDone) onDone(true);
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({audio: true})
+    .then(stream => {
+      stream.getTracks().forEach(t => t.stop());
+      micPermissionGranted = true;
+      engState.micBlocked = false;
+      const notice = document.getElementById('engMicNotice');
+      if (notice) notice.classList.add('hidden');
+      const permBar = document.getElementById('micPermBar');
+      if (permBar) permBar.classList.add('hidden');
+      if (onDone) onDone(true);
+    })
+    .catch(err => {
+      console.warn('Mic permission error:', err && err.name, err && err.message);
+      engState.micBlocked = true;
+      if (onDone) onDone(false);
+    });
 }
 
 async function ensureMicPermission() {
-  // Kept for compatibility - always returns true.
-  // Real permission is handled by recognizer.start() browser popup.
-  return true;
+  return new Promise(resolve => requestMicPermissionSync(resolve));
 }
 
-function startEngListening() {
-  if (!recognitionSupported) {
-    document.getElementById('engTextFallback').classList.remove('hidden');
-    return;
-  }
-  if (engState.recognizing) { try { recognizer.stop(); } catch(e){} return; }
+function requestMicUpfront() {
+  if (!recognitionSupported) return;
+  // Call getUserMedia synchronously (no awaits before it) so user gesture is preserved.
+  requestMicPermissionSync(granted => {
+    if (!granted) {
+      const permBar = document.getElementById('micPermBar');
+      if (permBar) permBar.classList.remove('hidden');
+    }
+  });
+}
+async function startEngListening() {
+  if (!recognitionSupported) return;
+  if (engState.recognizing) { recognizer.stop(); return; }
   stopAllAudio();
   document.getElementById('engTranscript').textContent = '';
   document.getElementById('engFeedback').className = 'feedback';
   document.getElementById('engFeedback').textContent = '';
   document.getElementById('engMicLabel').textContent = '마이크 준비 중...';
+  // Request mic permission synchronously first (preserves user gesture)
+  if (!micPermissionGranted) {
+    requestMicPermissionSync(granted => {
+      if (!granted) {
+        document.getElementById('engMicLabel').textContent = '🚫 마이크 권한이 거부되었어요. 주소창 왼쪽 자물쇠 아이콘을 눌러 허용해주세요.';
+        document.getElementById('engTextFallback').classList.remove('hidden');
+        return;
+      }
+      // Now start recognition
+      const item = currentEngItem();
+      recognizer.lang = item.lang;
+      try { recognizer.start(); } catch (e) { document.getElementById('engMicLabel').textContent = '다시 눌러주세요.'; }
+    });
+    return;
+  }
   const item = currentEngItem();
   recognizer.lang = item.lang;
-  // Call start() directly. Browser handles permission popup on first attempt.
-  try {
-    recognizer.start();
-  } catch (e) {
-    // "already started" or invalid state - try stopping first
-    try { recognizer.stop(); } catch(_){}
-    setTimeout(() => {
-      try { recognizer.start(); } catch(_) {
-        document.getElementById('engMicLabel').textContent = '🎤 다시 눌러주세요.';
-      }
-    }, 150);
-  }
+  try { recognizer.start(); } catch (e) { document.getElementById('engMicLabel').textContent = '다시 눌러주세요.'; }
 }
 document.getElementById('engMicBtn').addEventListener('click', startEngListening);
 document.getElementById('engRetryBtn').addEventListener('click', startEngListening);
@@ -3331,9 +3336,7 @@ function initMultSpeech() {
     multState.recognizing = false;
     document.getElementById('multMicBtn').classList.remove('listening');
     document.getElementById('multMicBtn').textContent = '🎤';
-    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-      document.getElementById('multMicLabel').textContent = '🚫 마이크 사용이 차단됐어요. 크롬 주소창의 자물쇠 🔒 → 마이크 → 허용으로 바꿔주세요.';
-    }
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') document.getElementById('multMicLabel').textContent = '마이크 권한을 허용해주세요';
     else if (e.error === 'no-speech') document.getElementById('multMicLabel').textContent = '소리가 들리지 않았어요. 다시 시도해보세요';
     else document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
   };
@@ -3417,6 +3420,8 @@ function startMultGame(tableId) {
   document.getElementById('multScoreText').textContent = '0';
   multShowScreen('mult-game');
   renderMultQuestion();
+  // Request mic permission upfront (still in click gesture context)
+  if (multRecognition) requestMicPermissionSync(() => {});
 }
 
 function renderMultQuestion() {
@@ -3569,16 +3574,15 @@ document.getElementById('multMicBtn').addEventListener('click', () => {
   if (!multRecognition) return;
   if (multState.answered) return;
   if (multState.recognizing) { try { multRecognition.stop(); } catch(e){} return; }
-  multState.currentInput = ''; updateMultAnswerDisplay();
-  // Just call start() directly. Browser handles permission popup on first call.
-  try {
-    multRecognition.start();
-  } catch(e) {
-    try { multRecognition.stop(); } catch(_){}
-    setTimeout(() => {
-      try { multRecognition.start(); } catch(_) {}
-    }, 150);
-  }
+  // Request mic permission synchronously (preserves user gesture context)
+  requestMicPermissionSync(granted => {
+    if (!granted) {
+      document.getElementById('multMicLabel').textContent = '🚫 마이크 권한이 필요해요. 주소창의 자물쇠 아이콘을 눌러 허용해주세요.';
+      return;
+    }
+    multState.currentInput = ''; updateMultAnswerDisplay();
+    try { multRecognition.start(); } catch(e){ console.warn(e); }
+  });
 });
 
 /* ================================================================
