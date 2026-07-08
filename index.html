@@ -698,62 +698,20 @@ h1,h2,h3,h4{margin:0;}
   <div id="screen-class" class="hidden">
     <div class="hero" style="background:linear-gradient(135deg,var(--red) 0%,#E86885 100%);">
       <h1>우리반 랭킹 👥</h1>
-      <p>우리반 3학년 친구들의 학습 기록을 활동별로 비교해봐요!</p>
+      <p>우리반 3학년 친구들이 얼마나 많이 학습했는지 활동별로 확인해봐요!</p>
     </div>
 
-    <!-- Activity tab bar -->
-    <div id="classTabs" style="display:flex;gap:8px;margin-bottom:16px;background:var(--white);border-radius:16px;padding:6px;box-shadow:var(--shadow-sm);">
-      <button class="ctab on" data-tab="english" style="flex:1;padding:10px 8px;border:none;background:linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%);color:#fff;border-radius:12px;font-weight:900;font-size:13px;font-family:inherit;cursor:pointer;">🍽️ 영어</button>
-      <button class="ctab" data-tab="multiplication" style="flex:1;padding:10px 8px;border:none;background:transparent;color:var(--ink-soft);border-radius:12px;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🧮 구구단</button>
-      <button class="ctab" data-tab="jumprope" style="flex:1;padding:10px 8px;border:none;background:transparent;color:var(--ink-soft);border-radius:12px;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🏃 줄넘기</button>
+    <div class="rank-panel">
+      <div class="records-title">🍽️ 영어 학습 횟수</div>
+      <div id="classEngSessions"></div>
     </div>
-
-    <!-- English section -->
-    <div id="classPanel-english">
-      <div class="rank-panel">
-        <div class="records-title">🍽️ 영어 - 학습 횟수</div>
-        <div id="classEngSessions"></div>
-      </div>
-      <div class="rank-panel">
-        <div class="records-title">🎯 영어 - 맞춘 문제수</div>
-        <div id="classEngCorrect"></div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-title">📊 영어 정답 비교</div>
-        <div id="classEngChart"></div>
-      </div>
+    <div class="rank-panel">
+      <div class="records-title">🧮 구구단 학습 횟수</div>
+      <div id="classMultSessions"></div>
     </div>
-
-    <!-- Multiplication section -->
-    <div id="classPanel-multiplication" class="hidden">
-      <div class="rank-panel">
-        <div class="records-title">🧮 구구단 - 학습 횟수</div>
-        <div id="classMultSessions"></div>
-      </div>
-      <div class="rank-panel">
-        <div class="records-title">🎯 구구단 - 맞춘 문제수</div>
-        <div id="classMultCorrect"></div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-title">📊 구구단 정답 비교</div>
-        <div id="classMultChart"></div>
-      </div>
-    </div>
-
-    <!-- Jump rope section -->
-    <div id="classPanel-jumprope" class="hidden">
-      <div class="rank-panel">
-        <div class="records-title">🏃 줄넘기 - 측정 횟수</div>
-        <div id="classJrSessions"></div>
-      </div>
-      <div class="rank-panel">
-        <div class="records-title">🏆 줄넘기 - 최고 점수</div>
-        <div id="classJrBest"></div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-title">📊 줄넘기 최고 점수 비교</div>
-        <div id="classJrChart"></div>
-      </div>
+    <div class="rank-panel">
+      <div class="records-title">🏃 줄넘기 측정 횟수</div>
+      <div id="classJrSessions"></div>
     </div>
   </div>
 </div>
@@ -768,11 +726,11 @@ h1,h2,h3,h4{margin:0;}
 
 // ----- STUDENT DATA -----
 const STUDENTS = [
-  {id:'kim',   no:1, name:'김대현', emoji:'🐻'},  // 곰
-  {id:'na',    no:2, name:'나대한', emoji:'🐆'},  // 치타
-  {id:'min',   no:3, name:'민주은', emoji:'🦦'},  // 해달
-  {id:'baek',  no:4, name:'백은성', emoji:'🐶'},  // 강아지
-  {id:'shin',  no:5, name:'신서희', emoji:'🐰'},  // 토끼
+  {id:'kim',   no:1, name:'김대현', emoji:'🐻'},  // 곰 얼굴
+  {id:'na',    no:2, name:'나대한', emoji:'🐯'},  // 호랑이 얼굴 (치타 대신 - 얼굴 이모지 있는 큰 고양이과)
+  {id:'min',   no:3, name:'민주은', emoji:'🐱'},  // 고양이 얼굴
+  {id:'baek',  no:4, name:'백은성', emoji:'🐶'},  // 강아지 얼굴
+  {id:'shin',  no:5, name:'신서희', emoji:'🐰'},  // 토끼 얼굴
 ];
 
 // Default student passwords (teacher can change from dashboard)
@@ -788,14 +746,31 @@ let currentStudent = null;
 let studentPasswords = {...DEFAULT_STUDENT_PW}; // synced from Firebase
 
 // ----- FIREBASE SETUP -----
+// New project: summerhomework-35c31
+// If Firebase failed to load (e.g. offline or CDN blocked), show a friendly error.
+if (typeof firebase === 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.innerHTML = `
+      <div style="max-width:500px;margin:60px auto;padding:24px;background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.1);font-family:'Nunito','Noto Sans KR',sans-serif;text-align:center;">
+        <div style="font-size:56px;margin-bottom:12px;">📡</div>
+        <h2 style="color:#E86885;margin:0 0 12px;font-family:'Jua',sans-serif;">인터넷 연결이 필요해요</h2>
+        <p style="color:#5A6570;line-height:1.6;font-size:14px;">Firebase 서버에 연결할 수 없어요.<br>
+        와이파이나 데이터가 연결되어 있는지 확인해주세요.<br><br>
+        (파일을 직접 열지 마시고, GitHub Pages 주소로 접속해주세요.)</p>
+        <button onclick="location.reload()" style="margin-top:16px;background:linear-gradient(135deg,#FF6B4A,#E86885);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:15px;font-weight:900;cursor:pointer;">다시 시도</button>
+      </div>`;
+  });
+  throw new Error('Firebase SDK not loaded');
+}
 firebase.initializeApp({
-  apiKey: "AIzaSyAKbtiQ1UutXkGI2ozyTNDO3N20NQ9vjDE",
-  authDomain: "jump-rope-43833.firebaseapp.com",
-  databaseURL: "https://jump-rope-43833-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "jump-rope-43833",
-  storageBucket: "jump-rope-43833.firebasestorage.app",
-  messagingSenderId: "870652268913",
-  appId: "1:870652268913:web:6b45cabb7e317827b1a6d0"
+  apiKey: "AIzaSyAm7wpMyUvxWd6WhDVxyDW5SzrcFp4OxuM",
+  authDomain: "summerhomework-35c31.firebaseapp.com",
+  databaseURL: "https://summerhomework-35c31-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "summerhomework-35c31",
+  storageBucket: "summerhomework-35c31.firebasestorage.app",
+  messagingSenderId: "832571531568",
+  appId: "1:832571531568:web:a6b9798f1d172c03cee8f5",
+  measurementId: "G-K53LS1CMEG"
 });
 const db = firebase.database();
 const recordsRef = db.ref('mado3_records');   // { studentId: { date: [ {time, activity, ...} ] } }
@@ -1127,8 +1102,27 @@ function startMultiplication() {
   showScreen('screen-mult');
 }
 function startJumpRope() {
+  jrEnsureTodayMeasurement();
   jrRender();
   showScreen('screen-jumprope');
+}
+
+// Make sure there is a measurement for today's date, and set jrCM to it.
+// Called when entering jump rope screen and when a score is first typed.
+function jrEnsureTodayMeasurement() {
+  const today = jrDateStr();
+  // Look for existing measurement with today's date in first student's list
+  const first = jrData[0];
+  if (!first) return;
+  const existingIdx = first.ms.findIndex(m => m && m.date === today);
+  if (existingIdx >= 0) {
+    jrCM = existingIdx;
+    return;
+  }
+  // No measurement for today - create one for all students
+  jrData.forEach(s => s.ms.push({date: today, scores: jrEmptyScores()}));
+  jrCM = jrMC() - 1;
+  jrSaveToCloud();
 }
 function startRecords() {
   document.getElementById('recordsHeader').textContent = `${currentStudent.name}의 학습 달력 📅`;
@@ -1140,33 +1134,13 @@ function startRecords() {
   renderRecordsSummary();
   showScreen('screen-records');
 }
-function resetClassTabs() {
-  // Reset to English tab
-  document.querySelectorAll('#classTabs .ctab').forEach(b => {
-    const isOn = b.dataset.tab === 'english';
-    b.classList.toggle('on', isOn);
-    if (isOn) {
-      b.style.background = 'linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%)';
-      b.style.color = '#fff';
-    } else {
-      b.style.background = 'transparent';
-      b.style.color = 'var(--ink-soft)';
-    }
-  });
-  ['english','multiplication','jumprope'].forEach(t => {
-    document.getElementById('classPanel-' + t).classList.toggle('hidden', t !== 'english');
-  });
-}
-
 function startClassRecords() {
-  resetClassTabs();
   renderClassRanking();
   showScreen('screen-class');
 }
 
 // Public class records button (visible from student selection screen, no login required)
 document.getElementById('publicClassBtn').addEventListener('click', () => {
-  resetClassTabs();
   renderClassRanking();
   showScreen('screen-class');
 });
@@ -1217,7 +1191,7 @@ function showTodayHomeworkPopup() {
         정말 대단해요! 👏
       </div>
       <div class="popup-status">${statusHtml}</div>
-      <button class="popup-btn" onclick="closePopup()">신난다! 🥳</button>
+      <button class="popup-btn" onclick="closePopup()">✨ 수고했어 오늘도 ✨</button>
     `);
     localStorage.setItem(key, '1');
   } else {
@@ -1237,7 +1211,7 @@ function showTodayHomeworkPopup() {
         남은 숙제: <b>${remainingItems}</b>
       </div>
       <div class="popup-status">${statusHtml}</div>
-      <button class="popup-btn" onclick="closePopup()">지금 시작할게요! 💪</button>
+      <button class="popup-btn" onclick="closePopup()">🍽️ 맛있게 해보자! 🥳</button>
     `);
   }
 }
@@ -1261,7 +1235,7 @@ function checkHomeworkAfterActivity() {
           모두 완료했어요!<br><br>
           <b style="color:var(--red);">정말 자랑스러워요! 👏✨</b>
         </div>
-        <button class="popup-btn" onclick="closePopup()">최고예요! 🥳</button>
+        <button class="popup-btn" onclick="closePopup()">✨ 수고했어 오늘도 ✨</button>
       `);
       localStorage.setItem(key, '1');
     }
@@ -2800,8 +2774,161 @@ function koSynonymMatch(a, b) {
   return false;
 }
 
+// ============================================================
+// Full English → Korean translation dictionary for expressions
+// Each English sentence maps to a list of acceptable Korean forms.
+// Match is lenient (particles/endings stripped, key words compared).
+// ============================================================
+const EN_KO_EXPR = {
+  "Hello!": ["안녕", "안녕하세요", "안녕하십니까", "안녕!", "여보세요"],
+  "Hi!": ["안녕", "안녕하세요", "하이", "안녕!"],
+  "Goodbye.": ["안녕히 가세요", "잘 가", "잘 가요", "안녕", "잘가", "안녕히가세요", "안녕히 계세요", "바이", "바이바이"],
+  "I'm Siyun.": ["나는 시윤이야", "저는 시윤이에요", "저는 시윤입니다", "나는 시윤", "제 이름은 시윤", "시윤이야", "시윤이에요", "시윤입니다", "저는 시윤이야"],
+  "My name is Yeji.": ["내 이름은 예지야", "제 이름은 예지예요", "제 이름은 예지입니다", "내 이름은 예지", "저는 예지예요", "저는 예지입니다", "나는 예지야", "예지야", "예지입니다"],
+  "Nice to meet you.": ["만나서 반가워", "만나서 반가워요", "만나서 반갑습니다", "반가워", "반가워요", "반갑습니다", "만나서 반가운"],
+  "What's your name?": ["이름이 뭐야", "이름이 뭐예요", "이름이 뭐니", "네 이름이 뭐야", "당신의 이름은 무엇입니까", "이름 뭐야", "이름 뭐예요", "이름이 뭡니까", "성함이 어떻게 되세요"],
+  "How old are you?": ["몇 살이야", "몇 살이에요", "몇 살입니까", "너 몇 살", "당신은 몇 살입니까", "나이가 몇이야", "나이가 몇 살이야", "나이가 어떻게 되세요", "몇 살이니", "몇 살이지", "나이가 어떻게 돼"],
+  "I'm nine years old.": ["나는 아홉 살이야", "저는 아홉 살이에요", "저는 아홉 살입니다", "아홉 살", "9살", "구 살", "나는 9살이야", "저는 9살입니다"],
+  "Sit down, please.": ["앉아 주세요", "앉으세요", "앉아요", "앉아", "앉아주세요", "제발 앉아", "앉아라"],
+  "Okay.": ["알았어", "알겠어요", "알겠습니다", "네", "예", "좋아", "좋아요", "오케이", "알았어요"],
+  "Thank you.": ["고마워", "고마워요", "감사해요", "감사합니다", "고맙습니다", "땡큐"],
+  "You're welcome.": ["천만에", "천만에요", "별말씀을요", "괜찮아요", "아니에요", "뭘요"],
+  "What's this?": ["이건 뭐야", "이게 뭐야", "이것은 무엇입니까", "이거 뭐야", "이거 뭐예요", "이건 뭐예요", "뭐야 이거", "이거 무엇입니까", "이것이 무엇입니까"],
+  "What's that?": ["저건 뭐야", "저게 뭐야", "저것은 무엇입니까", "저거 뭐야", "저거 뭐예요", "저건 뭐예요", "뭐야 저거", "저것이 무엇입니까"],
+  "It's a bag.": ["가방이야", "가방이에요", "가방입니다", "그건 가방이야", "이건 가방이야", "저건 가방이야", "가방", "그것은 가방입니다"],
+  "Look!": ["봐", "봐요", "보세요", "여기 봐", "저기 봐", "보아라", "쳐다봐", "봐봐"],
+  "Who is he?": ["그는 누구야", "그는 누구예요", "그는 누구입니까", "저 사람 누구야", "저 남자 누구야", "그 남자 누구야", "그 사람 누구야", "누구야 그는"],
+  "Who is she?": ["그녀는 누구야", "그녀는 누구예요", "그녀는 누구입니까", "저 여자 누구야", "그 여자 누구야", "저 사람 누구야", "그 사람 누구야", "누구야 그녀는"],
+  "He's my dad.": ["그는 우리 아빠야", "우리 아빠예요", "그는 우리 아버지야", "제 아빠예요", "저희 아빠예요", "우리 아빠", "내 아빠야", "우리 아버지입니다"],
+  "She's my mom.": ["그녀는 우리 엄마야", "우리 엄마예요", "그녀는 우리 어머니야", "제 엄마예요", "저희 엄마예요", "우리 엄마", "내 엄마야", "우리 어머니입니다"],
+  "How many tigers?": ["호랑이가 몇 마리", "호랑이 몇 마리", "몇 마리의 호랑이", "호랑이가 몇 마리야", "호랑이 몇 마리예요", "호랑이가 몇 마리입니까"],
+  "Three tigers.": ["호랑이 세 마리", "세 마리의 호랑이", "호랑이가 세 마리야", "세 마리 호랑이", "호랑이 3마리", "삼 마리 호랑이"],
+  "Do you have a ruler?": ["자 있어", "자 있어요", "자 있니", "자 가지고 있어", "자 가지고 있어요", "너 자 있어", "자 있습니까", "당신 자 있어요"],
+  "Yes, I do.": ["응 있어", "네 있어요", "네 있습니다", "응", "네", "있어요", "있어", "있습니다", "예 있어요"],
+  "No, I don't.": ["아니 없어", "아니요 없어요", "아니요 없습니다", "아니", "아니요", "없어요", "없어", "없습니다"],
+  "Here you are.": ["여기 있어", "여기 있어요", "여기 있습니다", "자 여기", "여기요", "이거야", "받아", "받으세요"],
+  "Can you swim?": ["수영할 수 있어", "수영할 수 있어요", "수영할 줄 알아", "수영할 줄 아세요", "수영 할 수 있어요", "너 수영할 수 있어", "수영 할 줄 알아요"],
+  "I can swim.": ["나는 수영할 수 있어", "저는 수영할 수 있어요", "수영할 수 있어", "수영할 수 있어요", "수영 할 수 있어", "나 수영할 수 있어", "수영 잘해"],
+  "I can't swim.": ["나는 수영 못해", "저는 수영 못해요", "수영 못해", "수영 못해요", "수영할 수 없어", "수영할 줄 몰라", "수영 할 수 없어요"],
+  "Yes, I can.": ["응 할 수 있어", "네 할 수 있어요", "응 그래", "네 그럼요", "할 수 있어", "할 수 있어요", "응", "네"],
+  "No, I can't.": ["아니 못해", "아니요 못해요", "아니 할 수 없어", "아니요 할 수 없어요", "못해", "못해요", "할 수 없어", "아니", "아니요"],
+  "Do you like chicken?": ["치킨 좋아해", "치킨 좋아해요", "치킨 좋아하니", "닭고기 좋아해", "닭고기 좋아해요", "너 치킨 좋아해", "치킨을 좋아합니까"],
+  "I like pizza.": ["나는 피자를 좋아해", "저는 피자를 좋아해요", "저는 피자를 좋아합니다", "나 피자 좋아해", "피자 좋아해", "피자 좋아해요", "나는 피자가 좋아", "피자 좋아합니다", "저는 피자가 좋아요"],
+  "I don't like pizza.": ["나는 피자를 안 좋아해", "저는 피자를 안 좋아해요", "피자 싫어해", "피자 안 좋아해", "피자를 좋아하지 않아", "저는 피자를 좋아하지 않습니다", "피자 싫어", "피자 별로야"],
+  "I don't know.": ["나는 몰라", "저는 몰라요", "몰라", "몰라요", "모릅니다", "잘 몰라", "잘 몰라요", "모르겠어", "모르겠어요"],
+  "What color is it?": ["무슨 색이야", "무슨 색이에요", "무슨 색입니까", "어떤 색이야", "어떤 색이에요", "색깔이 뭐야", "색깔이 뭐예요", "색이 뭐야"],
+  "It's green.": ["초록색이야", "초록색이에요", "초록색입니다", "녹색이야", "녹색이에요", "초록이야", "그린이야", "초록"],
+  "It's big.": ["커", "커요", "큽니다", "크다", "그건 커", "이건 커", "빅", "크네"],
+  "It's small.": ["작아", "작아요", "작습니다", "작다", "그건 작아", "이건 작아", "스몰", "작네"],
+  "How's the weather?": ["날씨가 어때", "날씨가 어때요", "날씨가 어떻습니까", "날씨 어때", "날씨 어때요", "오늘 날씨 어때"],
+  "It's sunny.": ["햇빛이 나", "화창해", "화창해요", "맑아", "맑아요", "해가 떴어", "해가 나", "날씨 맑아", "선샤인"],
+  "Let's go outside.": ["밖에 나가자", "밖에 나가요", "밖으로 나가자", "나가자", "우리 밖에 나가자", "밖에 나갑시다", "밖으로 가자", "나가요"],
+  "Happy Birthday!": ["생일 축하해", "생일 축하해요", "생일 축하합니다", "축하해", "축하해요", "해피 버스데이", "생일 축하", "생축"],
+  "Well done!": ["잘했어", "잘했어요", "잘했다", "잘 했어", "훌륭해", "훌륭해요", "굿", "굿잡", "최고야"],
+};
+
+// Precompute normalized versions
+const EN_KO_EXPR_NORM = {};
+Object.keys(EN_KO_EXPR).forEach(en => {
+  const enNorm = normalizeEn(en);
+  EN_KO_EXPR_NORM[enNorm] = EN_KO_EXPR[en];
+});
+
+// Extract Korean content tokens: strip particles and common endings
+function koTokens(text) {
+  let s = String(text || '').trim();
+  s = s.replace(/[.,!?~"'()\[\]{}]/g, '');
+  s = s.replace(/\s+/g, ' ');
+  const words = s.split(' ').filter(w => w.length > 0);
+  return words.map(w => stripKoWord(w)).filter(w => w.length > 0);
+}
+
+function stripKoWord(word) {
+  let w = word;
+  // Trailing endings (may stack): 요, 어요, 아요, 해요, 예요, 이에요, 입니다, 습니다
+  // Priority: longer endings first, then shorter particles
+  const endings = [
+    '입니다', '습니다', '이에요', '이예요', '예요', '이야',
+    '이었어요', '이었어', '였어요', '였어',
+    '했어요', '했어', '한다', '해요', '해',
+    '어요', '아요', '여요', '으세요', '세요', '으십시오', '십시오',
+    '아라', '어라', '지요', '지', '네요', '네', '군요', '군',
+    '고요', '고', '나요', '나', '거든요', '거든', '잖아요', '잖아',
+    '이랑', '랑', '한테서', '한테', '에게', '에서', '으로', '까지', '부터',
+    '은', '는', '이', '가', '을', '를', '의', '와', '과', '도', '만',
+    '에', '로', '요', '아', '어', '여',
+  ];
+  let changed = true;
+  let iter = 0;
+  while (changed && iter < 4) {
+    changed = false;
+    for (const e of endings) {
+      // Strip only if at least 1 character remains after stripping
+      if (w.length > e.length && w.endsWith(e)) {
+        w = w.slice(0, -e.length);
+        changed = true;
+        break;
+      }
+    }
+    iter++;
+  }
+  return w;
+}
+
+// Semantic Korean match: content-token overlap
+function koSemanticMatch(userText, targetText) {
+  const uT = koTokens(userText);
+  const tT = koTokens(targetText);
+  if (tT.length === 0 || uT.length === 0) return false;
+
+  // Every content token in target should appear (loosely) in user's answer,
+  // OR user provides enough matching content tokens.
+  let matches = 0;
+  tT.forEach(t => {
+    for (const u of uT) {
+      if (t === u || u.includes(t) || t.includes(u)) { matches++; break; }
+      // Bigram similarity for near-matches
+      if (t.length >= 2 && u.length >= 2 && bigramDice(t, u) >= 0.6) { matches++; break; }
+    }
+  });
+  const ratio = matches / tT.length;
+  // Require most target content words to be present
+  return ratio >= 0.7;
+}
+
+// Full check for expression mode: try all accepted translations
+function checkExpressionAnswer(transcript, item) {
+  const enPrompt = normalizeEn(item.prompt || '');
+  const acceptable = EN_KO_EXPR_NORM[enPrompt];
+  if (!acceptable || acceptable.length === 0) {
+    // No dictionary entry - fall back to old matching
+    return false;
+  }
+  const utter = String(transcript || '').trim();
+  if (!utter) return false;
+
+  // Try exact/synonym match against each acceptable form
+  for (const ans of acceptable) {
+    const na = normalizeKo(ans);
+    const nu = normalizeKo(utter);
+    if (na === nu) return true;
+    if (nu.includes(na) || na.includes(nu)) return true;
+    if (koSynonymMatch(nu, na)) return true;
+    if (koSemanticMatch(utter, ans)) return true;
+    if (bigramDice(nu, na) >= 0.55) return true;
+  }
+  return false;
+}
+
 function checkAnswer(transcript, item, lang) {
   const target = item.target;
+
+  // Expression mode: use rich translation dictionary
+  if (lang === 'ko-KR' && item.type === 'sentence') {
+    if (checkExpressionAnswer(transcript, item)) return true;
+    // Continue to normal check as fallback (in case a phrase isn't in the dictionary)
+  }
+
   if (lang === 'ko-KR') {
     const nt = normalizeKo(transcript);
     const ng = normalizeKo(target);
@@ -2813,13 +2940,10 @@ function checkAnswer(transcript, item, lang) {
     if (ng.length <= 4) return nt.includes(ng) || ng.includes(nt);
     // Substring match either direction
     if (nt.includes(ng) || ng.includes(nt)) return true;
+    // Semantic content-token match
+    if (koSemanticMatch(transcript, target)) return true;
     // Bigram similarity - lowered threshold for better tolerance
     if (bigramDice(nt, ng) >= 0.4) return true;
-    // Character overlap - remove particles/endings and try again
-    const stripped_t = nt.replace(/(이에요|예요|입니다|이야|야|어요|아요|해요|해|한다|했다)$/, '');
-    const stripped_g = ng.replace(/(이에요|예요|입니다|이야|야|어요|아요|해요|해|한다|했다)$/, '');
-    if (stripped_t && stripped_g && (stripped_t === stripped_g || stripped_t.includes(stripped_g) || stripped_g.includes(stripped_t))) return true;
-    if (stripped_t && stripped_g && bigramDice(stripped_t, stripped_g) >= 0.5) return true;
     return false;
   } else {
     const nt = normalizeEn(transcript);
@@ -2846,6 +2970,22 @@ function engGoNext() {
   }
 }
 
+function getDisplayAnswer(item) {
+  // For expression mode (sentence with Korean answer), show a natural translation
+  if (item.lang === 'ko-KR' && item.type === 'sentence') {
+    const enPrompt = normalizeEn(item.prompt || '');
+    const acceptable = EN_KO_EXPR_NORM[enPrompt];
+    if (acceptable && acceptable.length > 0) {
+      // Show up to 2 natural translations
+      const primary = acceptable[0];
+      const alt = acceptable.length > 1 ? acceptable[1] : null;
+      if (alt) return `${primary} <span style="font-size:11px;color:var(--ink-soft);">또는 ${alt}</span>`;
+      return primary;
+    }
+  }
+  return item.target;
+}
+
 function markEngResult(isCorrect, transcript) {
   engState.answered = true;
   document.getElementById('engNextBtn').disabled = false;
@@ -2863,7 +3003,7 @@ function markEngResult(isCorrect, transcript) {
     engAutoNextTimer = setTimeout(() => { engGoNext(); }, 1500);
   } else {
     fb.className = 'feedback wrong';
-    fb.innerHTML = `아쉬워요! <span class="answer-reveal">정답: ${item.target}</span>`;
+    fb.innerHTML = `아쉬워요! <span class="answer-reveal">정답: ${getDisplayAnswer(item)}</span>`;
     setTimeout(() => {
       playItemAudio(item, () => { document.getElementById('engMicLabel').textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
     }, 350);
@@ -2874,7 +3014,7 @@ document.getElementById('engShowAnswerBtn').addEventListener('click', () => {
   const item = currentEngItem();
   const fb = document.getElementById('engFeedback');
   fb.className = 'feedback wrong';
-  fb.innerHTML = `정답: <b>${item.target}</b>`;
+  fb.innerHTML = `정답: <b>${getDisplayAnswer(item)}</b>`;
   document.getElementById('engNextBtn').disabled = false;
   engState.answered = true;
 });
@@ -2942,7 +3082,10 @@ if (recognitionSupported) {
     engState.recognizing = false;
     document.getElementById('engMicBtn').classList.remove('listening');
     let msg = '다시 눌러서 말해보세요';
-    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') msg = '🚫 마이크 권한이 꺼져 있어요.';
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      msg = '🚫 마이크 사용이 차단됐어요. 크롬 주소창의 자물쇠 🔒 → 마이크 → 허용으로 바꿔주세요.';
+      document.getElementById('engTextFallback').classList.remove('hidden');
+    }
     else if (e.error === 'no-speech') msg = '소리가 들리지 않았어요. 다시 시도해보세요.';
     else if (e.error === 'audio-capture') msg = '🎤 마이크를 찾을 수 없어요.';
     else if (e.error === 'network') msg = '📶 인터넷 연결이 필요해요.';
@@ -2966,46 +3109,48 @@ if (recognitionSupported) {
   };
 }
 function stopRecognition() { if (recognitionSupported && engState.recognizing) try { recognizer.stop(); } catch(e){} }
+
+// Chrome's SpeechRecognition API handles its own permission model.
+// The browser will ask ONCE (first time) and remember the choice.
+// We should NOT call getUserMedia - that causes repeated prompts on mobile.
+// Just call recognizer.start() directly on user gesture (click).
+
+function requestMicUpfront() {
+  // Intentionally do nothing. SpeechRecognition will prompt on first .start() call.
+  // Pre-flight getUserMedia was causing repeated permission prompts on mobile Chrome.
+}
+
 async function ensureMicPermission() {
-  if (micPermissionGranted) return true;
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return true;
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
-    stream.getTracks().forEach(t => t.stop());
-    micPermissionGranted = true;
-    engState.micBlocked = false;
-    document.getElementById('engMicNotice').classList.add('hidden');
-    return true;
-  } catch (err) { return false; }
+  // Kept for compatibility - always returns true.
+  // Real permission is handled by recognizer.start() browser popup.
+  return true;
 }
-async function requestMicUpfront() {
-  if (!recognitionSupported) return;
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
-  try {
-    if (navigator.permissions && navigator.permissions.query) {
-      const status = await navigator.permissions.query({name: 'microphone'});
-      if (status.state === 'denied') { engState.micBlocked = true; return; }
-    }
-  } catch (err) {}
-  await ensureMicPermission();
-}
-async function startEngListening() {
-  if (!recognitionSupported) return;
-  if (engState.recognizing) { recognizer.stop(); return; }
+
+function startEngListening() {
+  if (!recognitionSupported) {
+    document.getElementById('engTextFallback').classList.remove('hidden');
+    return;
+  }
+  if (engState.recognizing) { try { recognizer.stop(); } catch(e){} return; }
   stopAllAudio();
   document.getElementById('engTranscript').textContent = '';
   document.getElementById('engFeedback').className = 'feedback';
   document.getElementById('engFeedback').textContent = '';
   document.getElementById('engMicLabel').textContent = '마이크 준비 중...';
-  const granted = await ensureMicPermission();
-  if (!granted) {
-    document.getElementById('engMicLabel').textContent = '🚫 마이크 권한이 필요해요.';
-    document.getElementById('engTextFallback').classList.remove('hidden');
-    return;
-  }
   const item = currentEngItem();
   recognizer.lang = item.lang;
-  try { recognizer.start(); } catch (e) { document.getElementById('engMicLabel').textContent = '다시 눌러주세요.'; }
+  // Call start() directly. Browser handles permission popup on first attempt.
+  try {
+    recognizer.start();
+  } catch (e) {
+    // "already started" or invalid state - try stopping first
+    try { recognizer.stop(); } catch(_){}
+    setTimeout(() => {
+      try { recognizer.start(); } catch(_) {
+        document.getElementById('engMicLabel').textContent = '🎤 다시 눌러주세요.';
+      }
+    }, 150);
+  }
 }
 document.getElementById('engMicBtn').addEventListener('click', startEngListening);
 document.getElementById('engRetryBtn').addEventListener('click', startEngListening);
@@ -3186,7 +3331,9 @@ function initMultSpeech() {
     multState.recognizing = false;
     document.getElementById('multMicBtn').classList.remove('listening');
     document.getElementById('multMicBtn').textContent = '🎤';
-    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') document.getElementById('multMicLabel').textContent = '마이크 권한을 허용해주세요';
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      document.getElementById('multMicLabel').textContent = '🚫 마이크 사용이 차단됐어요. 크롬 주소창의 자물쇠 🔒 → 마이크 → 허용으로 바꿔주세요.';
+    }
     else if (e.error === 'no-speech') document.getElementById('multMicLabel').textContent = '소리가 들리지 않았어요. 다시 시도해보세요';
     else document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
   };
@@ -3421,10 +3568,16 @@ document.addEventListener('keydown', (e) => {
 document.getElementById('multMicBtn').addEventListener('click', () => {
   if (!multRecognition) return;
   if (multState.answered) return;
-  if (multState.recognizing) { try { multRecognition.stop(); } catch(e){} }
-  else {
-    multState.currentInput = ''; updateMultAnswerDisplay();
-    try { multRecognition.start(); } catch(e){ console.warn(e); }
+  if (multState.recognizing) { try { multRecognition.stop(); } catch(e){} return; }
+  multState.currentInput = ''; updateMultAnswerDisplay();
+  // Just call start() directly. Browser handles permission popup on first call.
+  try {
+    multRecognition.start();
+  } catch(e) {
+    try { multRecognition.stop(); } catch(_){}
+    setTimeout(() => {
+      try { multRecognition.start(); } catch(_) {}
+    }, 150);
   }
 });
 
@@ -3506,7 +3659,12 @@ jumpRopeRef.on('value', (snapshot) => {
       if (ex) ex.ms = ld.ms || [];
     }
   });
-  if (typeof data.cM === 'number') jrCM = data.cM;
+  // For a logged-in student, always ensure today's measurement exists after Firebase sync
+  if (currentStudent && !document.getElementById('screen-jumprope').classList.contains('hidden')) {
+    jrEnsureTodayMeasurement();
+  } else if (typeof data.cM === 'number') {
+    jrCM = data.cM;
+  }
   if (jrCM >= jrMC() && jrMC() > 0) jrCM = jrMC() - 1;
   if (jrIsUserTyping()) { jrPendingRerender = true; }
   else { jrPendingRerender = false; if (!document.getElementById('screen-jumprope').classList.contains('hidden')) jrRender(); }
@@ -3557,6 +3715,10 @@ document.getElementById('jrTabs').addEventListener('click', function(e) {
 });
 
 function jrRender() {
+  // For a logged-in student, always make sure today's measurement exists
+  if (currentStudent && jrCV === 'input') {
+    jrEnsureTodayMeasurement();
+  }
   jrRenderStats();
   if (jrCV === 'input') jrRenderInput();
   else if (jrCV === 'history') jrRenderHistory();
@@ -3581,16 +3743,29 @@ function jrRenderStats() {
 
 function jrRenderInput() {
   const mc = jrMC();
-  let h = '<div class="mbar"><label>📏 회차:</label>';
-  if (mc === 0) {
-    h += `<input type="date" class="date-inp" id="jrNewDate" value="${jrDateStr()}"><button class="mbtn b-am" onclick="jrAddMeasurement(document.getElementById('jrNewDate').value)">+ 1차 측정 시작</button>`;
+  let h = '';
+  if (currentStudent) {
+    // Student view: fixed to today's date, no date picker/selector
+    // (jrEnsureTodayMeasurement was called by startJumpRope)
+    const todayStr = jrDateStr();
+    const todayDisp = jrDateDisp(todayStr);
+    h += `<div class="mbar" style="flex-wrap:wrap;gap:10px;">
+      <label style="font-weight:800;">📅 오늘 (${todayDisp}) 측정 기록</label>
+      <span style="font-size:11px;color:var(--tx3);margin-left:auto;">입력하는 즉시 자동 저장돼요</span>
+    </div>`;
   } else {
-    h += '<select class="msel" id="jrMsl">';
-    for (let i = 0; i < mc; i++) h += `<option value="${i}" ${jrCM === i ? 'selected' : ''}>${i + 1}차 (${jrDateDisp(jrData[0].ms[i].date)})</option>`;
-    h += `</select><input type="date" class="date-inp" id="jrCurDate" value="${jrDateHtml(jrData[0].ms[jrCM]?.date)}"><button class="mbtn b-am" onclick="jrAddMeasurement(document.getElementById('jrCurDate').value)">+ 추가</button>`;
-    if (mc > 1) h += `<button class="mbtn b-dm" onclick="if(confirm('${jrCM + 1}차 측정을 삭제하시겠습니까?'))jrDelMeasurement(${jrCM})">🗑️</button>`;
+    // Teacher view: full controls
+    h = '<div class="mbar"><label>📏 회차:</label>';
+    if (mc === 0) {
+      h += `<input type="date" class="date-inp" id="jrNewDate" value="${jrDateStr()}"><button class="mbtn b-am" onclick="jrAddMeasurement(document.getElementById('jrNewDate').value)">+ 1차 측정 시작</button>`;
+    } else {
+      h += '<select class="msel" id="jrMsl">';
+      for (let i = 0; i < mc; i++) h += `<option value="${i}" ${jrCM === i ? 'selected' : ''}>${i + 1}차 (${jrDateDisp(jrData[0].ms[i].date)})</option>`;
+      h += `</select><input type="date" class="date-inp" id="jrCurDate" value="${jrDateHtml(jrData[0].ms[jrCM]?.date)}"><button class="mbtn b-am" onclick="jrAddMeasurement(document.getElementById('jrCurDate').value)">+ 추가</button>`;
+      if (mc > 1) h += `<button class="mbtn b-dm" onclick="if(confirm('${jrCM + 1}차 측정을 삭제하시겠습니까?'))jrDelMeasurement(${jrCM})">🗑️</button>`;
+    }
+    h += '</div>';
   }
-  h += '</div>';
   if (mc === 0) {
     h += '<div class="empty"><div class="empty-i">📏</div><div class="empty-t">날짜를 선택하고 측정을 시작하세요</div></div>';
     document.getElementById('jrInput').innerHTML = h;
@@ -3935,128 +4110,48 @@ function renderRankRow(s, rank, meta, countVal, countUnit) {
   </div>`;
 }
 
-function renderBarChart(chartEl, students, valueKey, colorMap) {
-  const maxVal = Math.max(1, ...students.map(s => s[valueKey] || 0));
-  const w = 700, h = 240, padL = 60, padR = 20, padT = 20, padB = 40;
-  const barW = (w - padL - padR) / students.length * 0.65;
-  const gapW = (w - padL - padR) / students.length * 0.35;
-  let svg = `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
-  for (let i = 0; i <= 4; i++) {
-    const y = padT + (h - padT - padB) * (1 - i / 4);
-    const val = Math.round((maxVal * i / 4));
-    svg += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="#E0E7EF" stroke-dasharray="2,2"/>`;
-    svg += `<text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-size="10" fill="#A4B3C2">${val}</text>`;
-  }
-  students.forEach((s, i) => {
-    const x = padL + i * ((w - padL - padR) / students.length) + gapW / 2;
-    const val = s[valueKey] || 0;
-    const bh = (val / maxVal) * (h - padT - padB);
-    const y = h - padB - bh;
-    const color = colorMap[i % colorMap.length];
-    svg += `<rect x="${x}" y="${y}" width="${barW}" height="${bh}" rx="4" fill="${color}" opacity="0.85"/>`;
-    svg += `<text x="${x + barW / 2}" y="${y - 6}" text-anchor="middle" font-size="12" font-weight="800" fill="${color}">${val}</text>`;
-    svg += `<text x="${x + barW / 2}" y="${h - padB + 16}" text-anchor="middle" font-size="11" font-weight="700" fill="#3A2B22">${s.name}</text>`;
-    svg += `<text x="${x + barW / 2}" y="${h - padB + 28}" text-anchor="middle" font-size="14">${s.emoji}</text>`;
-  });
-  svg += `</svg>`;
-  chartEl.innerHTML = svg;
-}
-
 function renderClassRanking() {
   const stats = STUDENTS.map(s => {
     const sr = allRecords[s.id] || {};
-    // English stats
-    let engSess = 0, engCorrect = 0, engTotal = 0;
-    // Multiplication stats
-    let multSess = 0, multCorrect = 0, multTotal = 0;
-    Object.values(sr).forEach(day => Object.values(day).forEach(entry => {
-      if (entry.activity === 'english') {
-        engSess++; engCorrect += entry.correct; engTotal += entry.total;
-      } else if (entry.activity === 'multiplication') {
-        multSess++; multCorrect += entry.correct; multTotal += entry.total;
-      }
+    let engSess = 0, multSess = 0;
+    let engDays = new Set(), multDays = new Set();
+    Object.entries(sr).forEach(([date, day]) => Object.values(day).forEach(entry => {
+      if (entry.activity === 'english') { engSess++; engDays.add(date); }
+      else if (entry.activity === 'multiplication') { multSess++; multDays.add(date); }
     }));
     // Jump rope stats
-    let jrSess = 0, jrBest = 0;
+    let jrSess = 0;
+    let jrDays = new Set();
     if (typeof jrData !== 'undefined' && jrData) {
       const jrStudent = jrData.find(j => j.sid === s.id);
       if (jrStudent && jrStudent.ms) {
         jrStudent.ms.forEach(m => {
           const hasScore = m.scores && Object.values(m.scores).some(v => v !== "" && v != null);
-          if (hasScore) {
-            jrSess++;
-            const total = jrCt(m.scores);
-            if (total > jrBest) jrBest = total;
-          }
+          if (hasScore) { jrSess++; if (m.date) jrDays.add(m.date); }
         });
       }
     }
-    return {...s, engSess, engCorrect, engTotal, multSess, multCorrect, multTotal, jrSess, jrBest};
+    return {...s, engSess, multSess, jrSess, engDays: engDays.size, multDays: multDays.size, jrDays: jrDays.size};
   });
 
-  const colors = ['#FF6B4A', '#FFC93C', '#3FA772', '#4DA3E8', '#B15CFF'];
-
-  // ----- ENGLISH -----
-  const engBySess = [...stats].sort((a, b) => b.engSess - a.engSess);
-  const engByCorrect = [...stats].sort((a, b) => b.engCorrect - a.engCorrect);
-  document.getElementById('classEngSessions').innerHTML = engBySess.map((s, i) =>
-    renderRankRow(s, i + 1, `${s.engCorrect}문제 정답 · 총 ${s.engTotal}문제`, s.engSess, '회')
+  // English by sessions
+  const engRanked = [...stats].sort((a, b) => b.engSess - a.engSess);
+  document.getElementById('classEngSessions').innerHTML = engRanked.map((s, i) =>
+    renderRankRow(s, i + 1, `${s.engDays}일 동안 학습`, s.engSess, '회')
   ).join('');
-  document.getElementById('classEngCorrect').innerHTML = engByCorrect.map((s, i) => {
-    const pct = s.engTotal > 0 ? Math.round(s.engCorrect / s.engTotal * 100) : 0;
-    return renderRankRow(s, i + 1, `${s.engTotal}문제 중 정답률 ${pct}%`, s.engCorrect, '개');
-  }).join('');
-  renderBarChart(document.getElementById('classEngChart'), stats, 'engCorrect', colors);
 
-  // ----- MULTIPLICATION -----
-  const multBySess = [...stats].sort((a, b) => b.multSess - a.multSess);
-  const multByCorrect = [...stats].sort((a, b) => b.multCorrect - a.multCorrect);
-  document.getElementById('classMultSessions').innerHTML = multBySess.map((s, i) =>
-    renderRankRow(s, i + 1, `${s.multCorrect}문제 정답 · 총 ${s.multTotal}문제`, s.multSess, '회')
+  // Multiplication by sessions
+  const multRanked = [...stats].sort((a, b) => b.multSess - a.multSess);
+  document.getElementById('classMultSessions').innerHTML = multRanked.map((s, i) =>
+    renderRankRow(s, i + 1, `${s.multDays}일 동안 학습`, s.multSess, '회')
   ).join('');
-  document.getElementById('classMultCorrect').innerHTML = multByCorrect.map((s, i) => {
-    const pct = s.multTotal > 0 ? Math.round(s.multCorrect / s.multTotal * 100) : 0;
-    return renderRankRow(s, i + 1, `${s.multTotal}문제 중 정답률 ${pct}%`, s.multCorrect, '개');
-  }).join('');
-  renderBarChart(document.getElementById('classMultChart'), stats, 'multCorrect', colors);
 
-  // ----- JUMP ROPE -----
-  const jrBySess = [...stats].sort((a, b) => b.jrSess - a.jrSess);
-  const jrByBest = [...stats].sort((a, b) => b.jrBest - a.jrBest);
-  document.getElementById('classJrSessions').innerHTML = jrBySess.map((s, i) => {
-    const gradeStr = s.jrBest > 0 ? jrGg(s.jrBest).g : '기록 없음';
-    return renderRankRow(s, i + 1, `최고 ${s.jrBest}점 (${gradeStr})`, s.jrSess, '회');
-  }).join('');
-  document.getElementById('classJrBest').innerHTML = jrByBest.map((s, i) => {
-    const gradeStr = s.jrBest > 0 ? jrGg(s.jrBest).g : '기록 없음';
-    return renderRankRow(s, i + 1, `${gradeStr} · ${s.jrSess}회 측정`, s.jrBest, '점');
-  }).join('');
-  renderBarChart(document.getElementById('classJrChart'), stats, 'jrBest', colors);
+  // Jump rope by sessions
+  const jrRanked = [...stats].sort((a, b) => b.jrSess - a.jrSess);
+  document.getElementById('classJrSessions').innerHTML = jrRanked.map((s, i) =>
+    renderRankRow(s, i + 1, `${s.jrDays}일 동안 측정`, s.jrSess, '회')
+  ).join('');
 }
-
-// Class tab switching
-document.querySelectorAll('#classTabs .ctab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tab = btn.dataset.tab;
-    // Update tab styles
-    document.querySelectorAll('#classTabs .ctab').forEach(b => {
-      const isOn = b.dataset.tab === tab;
-      b.classList.toggle('on', isOn);
-      if (isOn) {
-        b.style.background = 'linear-gradient(135deg,var(--red) 0%,var(--red-g) 100%)';
-        b.style.color = '#fff';
-      } else {
-        b.style.background = 'transparent';
-        b.style.color = 'var(--ink-soft)';
-      }
-    });
-    // Show corresponding panel
-    ['english','multiplication','jumprope'].forEach(t => {
-      document.getElementById('classPanel-' + t).classList.toggle('hidden', t !== tab);
-    });
-    window.scrollTo(0, 0);
-  });
-});
 
 /* ================================================================
    TEACHER LOGIN + DASHBOARD MODULE
