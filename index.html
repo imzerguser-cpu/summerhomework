@@ -426,7 +426,12 @@ h1,h2,h3,h4{margin:0;}
       </div>
       <div id="stuPwErr" style="color:var(--red);font-size:13px;font-weight:800;margin-bottom:12px;display:none;">비밀번호가 틀렸어요!</div>
       <div id="numpad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto;"></div>
-      <button class="btn ghost" id="stuLoginCancel" style="margin-top:18px;width:100%;max-width:280px;">뒤로 가기</button>
+      <div style="margin-top:14px;padding:10px 14px;background:#FFF4E5;border-radius:12px;font-size:11px;color:#8B5A2B;font-weight:700;line-height:1.5;max-width:320px;margin-left:auto;margin-right:auto;">
+        💡 로그인 후 <b>"마이크 사용을 허용하시겠습니까?"</b> 팝업이 뜨면<br>
+        꼭 <b>"허용"</b> (또는 <b>"이 사이트를 방문하는 동안 허용"</b>)을 선택해주세요!<br>
+        <span style="color:#B85C2E;">"이번만 허용"을 선택하면 매번 다시 물어봐요.</span>
+      </div>
+      <button class="btn ghost" id="stuLoginCancel" style="margin-top:14px;width:100%;max-width:280px;">뒤로 가기</button>
     </div>
   </div>
 
@@ -475,6 +480,37 @@ h1,h2,h3,h4{margin:0;}
       <div class="records-title">🔐 학생 비밀번호 관리</div>
       <div style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;">학생들이 로그인할 때 사용하는 4자리 비밀번호입니다. 변경하려면 옆의 <b>수정</b> 버튼을 누르세요.</div>
       <div id="teacherPasswordTable"></div>
+    </div>
+
+    <div style="background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <div class="records-title">👨‍🏫 선생님 비밀번호 변경</div>
+      <div style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;">선생님 로그인 비밀번호를 변경할 수 있어요. 변경 후 다음 로그인부터 새 비밀번호를 사용하세요.</div>
+      <div id="teacherOwnPwPanel" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <label style="font-weight:800;font-size:13px;min-width:100px;">현재 비밀번호</label>
+          <div id="teacherCurrentPw" style="font-family:monospace;font-weight:900;font-size:18px;color:var(--navy);background:var(--cream-2);padding:8px 14px;border-radius:8px;letter-spacing:2px;min-width:100px;text-align:center;">••••••</div>
+          <button class="navbtn" id="showTeacherPwBtn" style="background:var(--sky);color:#fff;padding:6px 12px;font-size:12px;">👁 보기</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <label style="font-weight:800;font-size:13px;min-width:100px;">새 비밀번호</label>
+          <input type="text" id="newTeacherPwInput" placeholder="새 비밀번호 (4자 이상)" style="flex:1;min-width:140px;padding:8px 12px;border:2px solid var(--cream-2);border-radius:8px;font-family:inherit;font-weight:700;font-size:14px;">
+          <button class="navbtn" id="saveTeacherPwBtn" style="background:var(--green);color:#fff;padding:8px 14px;font-size:13px;">저장</button>
+        </div>
+        <div id="teacherPwMsg" style="font-size:12px;font-weight:700;padding:6px 0;"></div>
+      </div>
+    </div>
+
+    <div style="background:#FFF5F5;border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px;border:2px solid #FFDDDD;">
+      <div class="records-title" style="color:#C62828;">⚠️ 데이터 초기화</div>
+      <div style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;line-height:1.5;">
+        모든 학생의 학습 기록(영어·구구단·줄넘기)을 삭제해요. 이 작업은 <b style="color:#C62828;">되돌릴 수 없어요</b>.<br>
+        먼저 <b>CSV 파일로 백업</b>한 다음 초기화하는 걸 추천해요.
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="navbtn" id="teacherCsvBackupBtn" style="background:var(--sky);color:#fff;padding:10px 18px;font-size:13px;flex:1;min-width:140px;">📥 먼저 CSV로 백업</button>
+        <button class="navbtn" id="teacherResetBtn" style="background:#C62828;color:#fff;padding:10px 18px;font-size:13px;flex:1;min-width:140px;">🗑️ 모든 기록 초기화</button>
+      </div>
+      <div id="teacherResetMsg" style="font-size:12px;font-weight:700;padding:6px 0;margin-top:8px;"></div>
     </div>
   </div>
 
@@ -964,8 +1000,10 @@ function handleNumKey(k) {
     pwEntry += k;
     updatePwDisplay();
     if (pwEntry.length === 4) {
-      // Auto-submit when 4 digits entered
-      setTimeout(submitStudentPw, 200);
+      // Auto-submit when 4 digits entered.
+      // Call synchronously (NOT setTimeout) so we preserve the user gesture context.
+      // This is CRITICAL for mic permission request to work in loginStudent.
+      submitStudentPw();
     }
   }
 }
@@ -1009,6 +1047,29 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// Mic permission - request ONCE at first user gesture, browser remembers for the session.
+// This avoids the mic popup appearing every time the mic button is pressed.
+let micWarmedUp = false;
+function warmUpMicrophone() {
+  if (micWarmedUp) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+  micWarmedUp = true; // mark immediately to prevent double calls
+  // This must be called inside a user gesture (click) to work.
+  // Once permission is granted, Chrome remembers it for the whole session (and often across sessions).
+  navigator.mediaDevices.getUserMedia({audio: true})
+    .then(stream => {
+      // Immediately stop the tracks - we don't need the stream, just the permission.
+      // The permission "grant" is remembered by the browser.
+      stream.getTracks().forEach(t => t.stop());
+      console.log('Microphone permission granted');
+    })
+    .catch(err => {
+      // Reset flag if denied so we can try again
+      micWarmedUp = false;
+      console.warn('Microphone permission denied:', err && err.name);
+    });
+}
+
 function loginStudent(s) {
   currentStudent = s;
   document.getElementById('currentStudent').textContent = `${s.emoji} ${s.name}`;
@@ -1016,6 +1077,9 @@ function loginStudent(s) {
     `${s.emoji} ${s.name} 환영해요!<br>오늘도 화이팅! 🎉`;
   renderTodayStatus();
   showScreen('screen-menu');
+  // Warm up mic permission now, while we still have user gesture context (they just clicked ↵ or the last digit)
+  // The browser will show its permission popup ONCE. After user grants, it's remembered.
+  warmUpMicrophone();
   // Show today's homework popup on first entry
   showTodayHomeworkPopup();
 }
@@ -2712,18 +2776,186 @@ function bigramDice(a, b) {
   return (2 * matches) / (ba.length + bb.length);
 }
 const HOMOPHONE_GROUPS = [
-  ['do','due','dew','doo'],['to','too','two'],['i','i\'m','eye','aye'],
-  ['be','bee'],['so','sew','sow'],['no','know'],['not','knot'],
-  ['or','oar','ore'],['for','four','fore'],['see','sea','c'],
-  ['right','write','wright'],['red','read'],['blue','blew'],
-  ['here','hear'],['where','wear','ware'],['one','won'],
-  ['sun','son'],['ate','eight'],['new','knew'],['in','inn'],
-  ['buy','by','bye'],['sure','shore'],['some','sum'],['our','hour'],
-  ['bear','bare'],['flower','flour'],['pair','pear','pare'],
-  ['meat','meet'],['night','knight'],['their','there','theyre'],
-  ['week','weak'],['made','maid'],['sale','sail'],['dear','deer'],
-  ['bread','bred'],['peace','piece'],['peak','peek'],['would','wood'],
-  ['ball','bawl'],['aunt','ant'],['hi','high'],
+  // Classic homophones
+  ['do','due','dew','doo','du'],
+  ['to','too','two','tu'],
+  ['i','im','eye','aye','ai','ay'],
+  ['be','bee','b'],
+  ['so','sew','sow'],
+  ['no','know','nou','noh'],
+  ['not','knot','naht'],
+  ['or','oar','ore'],
+  ['for','four','fore','fo','fro'],
+  ['see','sea','c','si'],
+  ['right','write','wright','rite'],
+  ['red','read','red'],
+  ['blue','blew','bloo','blu'],
+  ['here','hear','hier','heer'],
+  ['where','wear','ware'],
+  ['one','won','wan'],
+  ['sun','son','sunn'],
+  ['ate','eight','ait','eit'],
+  ['new','knew','nu','nyu'],
+  ['in','inn','een'],
+  ['buy','by','bye','bai','bi'],
+  ['sure','shore','shour'],
+  ['some','sum','sam'],
+  ['our','hour','ower','aower'],
+  ['bear','bare','ber','ba'],
+  ['flower','flour','flauer'],
+  ['pair','pear','pare','per'],
+  ['meat','meet','miit','mit'],
+  ['night','knight','nait','nite'],
+  ['their','there','theyre','der','deir'],
+  ['week','weak','wik','wik'],
+  ['made','maid','meid','med'],
+  ['sale','sail','seil','sel'],
+  ['dear','deer','dier','diir'],
+  ['bread','bred','brred'],
+  ['peace','piece','pis','pees'],
+  ['peak','peek','pik'],
+  ['would','wood','wud','wood'],
+  ['ball','bawl','bal','bol'],
+  ['aunt','ant','ent','aant'],
+  ['hi','high','hai','hay','heigh','hae'],
+
+  // Grade 3 words - short/single-syllable (common misrecognitions)
+  ['a','uh','ah','ay','eh'],
+  ['and','end','an','ent','han'],
+  ['any','eni','enny'],
+  ['at','et','ah','uht'],
+  ['bag','beg','back','bad','beig','bag'],
+  ['big','bick','beeg','bik','beg'],
+  ['bird','bard','bud','burrd','ber'],
+  ['book','bok','buk','bood','books'],
+  ['can','ken','kan','kahn'],
+  ['car','ka','kar','kah','car'],
+  ['cat','cut','cats','cad','ket','kat','kate'],
+  ['cold','code','cod','kold','colt'],
+  ['come','cum','kom','kum','coma'],
+  ['dad','dead','ded','dat','dud'],
+  ['dog','dock','doc','doggy','dawg','dogs'],
+  ['doll','dol','doel'],
+  ['door','dor','doer','du'],
+  ['down','dawn','doun','dan'],
+  ['eat','it','eats','et','eet','eit','ate'],
+  ['five','fife','fibe','faib','faive'],
+  ['fly','flee','flai','flie','flai'],
+  ['foot','food','fut','foo','put'],
+  ['fun','fan','fon','fun'],
+  ['go','goh','gou','goe','go go'],
+  ['good','goot','goo','gud','gude'],
+  ['hat','hut','head','het','had','hate'],
+  ['have','hab','hav','hef','heb'],
+  ['he','hee','ha','hey'],
+  ['help','hell','helf','help me'],
+  ['hot','hat','hott','hought','hought'],
+  ['how','hao','hou','ha'],
+  ['it','eat','id','et','eets','ip'],
+  ['jump','junk','jam','jamp','jamp'],
+  ['kiwi','ki wi','kee wee','kiwe'],
+  ['let','yet','lat','lets'],
+  ['like','lake','laik','liked'],
+  ['long','lung','lon','laung'],
+  ['look','luck','luk','looked','books'],
+  ['love','lub','lup','luv'],
+  ['many','meni','manny'],
+  ['menu','manu','minu','me nu'],
+  ['milk','mik','mek','melk'],
+  ['mom','mum','ma','mahm'],
+  ['name','neim','nam','nay'],
+  ['nice','nis','naise','naiss','ness'],
+  ['nine','nain','naen','nan'],
+  ['now','nao','nou','nu'],
+  ['okay','ok','oke','okey','o k','o kay'],
+  ['old','ol','oled','oald'],
+  ['open','open','oh pen','oken'],
+  ['pen','pan','pin','ben','pen'],
+  ['pig','pick','pink','peg','peek'],
+  ['pink','pin','ping','pinck','ping'],
+  ['play','plei','pray','play'],
+  ['run','ron','one','ran','rum','rone'],
+  ['she','shi','shee','ship','shed'],
+  ['show','sho','shou','shoe','sho'],
+  ['sit','set','sat','sitt','seat'],
+  ['six','sics','sik','sics','sex','sikks'],
+  ['swim','seem','swimm','sim','sweem'],
+  ['tall','tal','tale','tallo','toll'],
+  ['ten','tan','then','tin','ten ten'],
+  ['that','tat','dat','thet','zat'],
+  ['the','duh','tuh','de','za','ze'],
+  ['this','dis','ziss','disz','thiss'],
+  ['up','app','op','ap','up up'],
+  ['walk','work','wok','wark','walked'],
+  ['we','wi','wee','weh'],
+  ['well','wel','whell','wella'],
+  ['what','wat','whut','what'],
+  ['who','hu','hoo','whoa'],
+  ['year','yer','iyer','yir','ear'],
+  ['yes','yez','jess','yasa','yeah'],
+  ['you','u','yew','yu','yuh'],
+  ['zoo','zu','sue','zew','zoot'],
+
+  // 5-6 char grade 3 words
+  ['apple','apel','abple','appol','ap'],
+  ['candy','kandy','kendy','kenddi'],
+  ['clock','klock','kluck','klok','clook'],
+  ['close','clos','klose','klots'],
+  ['cloudy','klaudi','claudi','clody'],
+  ['color','colur','kolor','cola'],
+  ['cookie','kuki','kookie','coocky','cooky'],
+  ['crayon','krayon','kraon','crayn'],
+  ['dance','dans','denz','dan','dance'],
+  ['eight','ate','eit','eit','aid'],
+  ['eraser','ireiser','ereiser','arizer'],
+  ['flower','flauer','flou','flow er','flour'],
+  ['great','grate','grett','griit'],
+  ['green','grin','griin','gren','glenn'],
+  ['happy','hepi','hapi','hapy'],
+  ['hello','helo','halo','hallow','helow'],
+  ['orange','oreinj','oranj','oranges','oranch'],
+  ['pencil','pensil','pinsul','pensal'],
+  ['pizza','piza','pieza','pitsa','peetsa'],
+  ['please','plis','plees','pliz','plese'],
+  ['pretty','preti','priti','pretty'],
+  ['ruler','rula','ruler','ruller'],
+  ['salad','saled','selad','salod'],
+  ['seven','seben','sebun','severn','sevn'],
+  ['sister','sistur','sista','sista'],
+  ['skate','skait','skayt','skayt'],
+  ['small','smal','smoll','sml'],
+  ['stand','ste nd','sten','stand up'],
+  ['sunny','sani','soony','sunni'],
+  ['thank','tank','sank','thenk','tang'],
+  ['three','tree','tri','thrii','free'],
+  ['tiger','taiga','tigger','tygr'],
+  ['violin','baiolin','vaiolin','biolin'],
+  ['window','windo','windou','winde'],
+  ['windy','windi','windi','windee'],
+  ['yellow','yelo','yellou','jelo'],
+  ['zebra','jibra','zibra','zebura'],
+
+  // 7+ char grade 3 words
+  ['beautiful','byutiful','biutiful','buetiful'],
+  ['birthday','burthday','birsday','birth day'],
+  ['brother','bruther','brader','brotha'],
+  ['chicken','chikin','chiken','chikn'],
+  ['doughnut','donut','do nut','dohnut'],
+  ['everyone','eberi one','every 1','ebrione'],
+  ['goodbye','good bye','gudbai','gubai'],
+  ['ice cream','aice cream','ais crim','aiskrim'],
+  ['kangaroo','kengaru','kangru','kang a roo'],
+  ['notebook','not book','notbook','no tebook'],
+  ['outside','autsaid','out side','ausaid'],
+  ['raining','rening','rainin','laining'],
+  ['scissors','sisus','sisers','sizors'],
+  ['snowing','snouing','sno wing','sowing'],
+  ['vegetable','bejitable','vejetabl','vegita'],
+  ['weather','wader','wezer','wader'],
+  ['welcome','welkom','wellcome','wel come'],
+  ['grandfather','grand father','grenpa','granpa'],
+  ['grandmother','grand mother','grenma','granma'],
+  ['glue stick','glu stik','glue stik','glu stick'],
 ];
 const HOMOPHONE_MAP = {};
 HOMOPHONE_GROUPS.forEach(g => g.forEach(w => { HOMOPHONE_MAP[w] = g; }));
@@ -2973,12 +3205,33 @@ function checkAnswer(transcript, item, lang) {
     const ng = normalizeEn(target);
     const wc = ng.split(' ').filter(Boolean).length;
     if (wc <= 2) {
-      if (nt.includes(ng) || tokenOverlapRatio(nt, ng) >= 0.9) return true;
-      const tokens = nt.split(' ').filter(Boolean);
+      // Direct match
+      if (nt === ng) return true;
+      // Substring
+      if (nt.includes(ng) || ng.includes(nt)) return true;
+      // Homophone against entire transcript
       if (homophoneMatch(ng, nt)) return true;
-      return tokens.some(tok => homophoneMatch(ng, tok) || homophoneMatch(tok, ng));
+      // Homophone against any spoken token (user might say extra filler words)
+      const tokens = nt.split(' ').filter(Boolean);
+      if (tokens.some(tok => homophoneMatch(ng, tok) || homophoneMatch(tok, ng))) return true;
+      // Bigram similarity for short words (more lenient for shorter words)
+      if (ng.length <= 3) {
+        // For 1-3 char targets, accept if very similar or contains
+        if (tokens.some(tok => tok.length <= ng.length + 2 && bigramDice(tok, ng) >= 0.5)) return true;
+      } else {
+        // For 4+ char targets, use bigram threshold
+        if (bigramDice(nt, ng) >= 0.55) return true;
+        if (tokens.some(tok => bigramDice(tok, ng) >= 0.6)) return true;
+      }
+      // Token overlap threshold
+      if (tokenOverlapRatio(nt, ng) >= 0.85) return true;
+      return false;
     }
-    return tokenOverlapRatio(nt, ng) >= 0.55;
+    // Multi-word target: token overlap
+    if (tokenOverlapRatio(nt, ng) >= 0.5) return true;
+    // Also allow if bigram is very high (word order/spacing tolerance)
+    if (bigramDice(nt, ng) >= 0.55) return true;
+    return false;
   }
 }
 
@@ -3154,21 +3407,42 @@ if (recognitionSupported) {
 }
 function stopRecognition() { if (recognitionSupported && engState.recognizing) try { recognizer.stop(); } catch(e){} }
 
-// Chrome's SpeechRecognition API handles its own permission model.
-// The browser will ask ONCE (first time) and remember the choice.
-// We should NOT call getUserMedia - that causes repeated prompts on mobile.
-// Just call recognizer.start() directly on user gesture (click).
+// ===== One-time microphone permission handling =====
+// Strategy:
+//   1. On first mic-using activity click, call getUserMedia({audio:true}) SYNCHRONOUSLY.
+//   2. Browser shows the persistent permission dialog ("Allow while using this site").
+//   3. Once granted, we close the stream immediately.
+//   4. All subsequent SpeechRecognition calls use the cached browser-level permission
+//      → NO more popups during the entire session.
+//   5. We remember the decision in this session so we don't re-request.
+let sessionMicRequested = false;
+let sessionMicGranted = false;
+let sessionMicDenied = false;
 
-function requestMicUpfront() {
-  // Intentionally do nothing. SpeechRecognition will prompt on first .start() call.
-  // Pre-flight getUserMedia was causing repeated permission prompts on mobile Chrome.
+// Call this synchronously inside a user-gesture (click) handler.
+// Safe to call multiple times - only does work on first call.
+function requestMicPermissionOnce() {
+  if (sessionMicRequested) return;                        // already tried this session
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+  sessionMicRequested = true;
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      // Success: close stream immediately. Permission is now cached at the browser level,
+      // so future SpeechRecognition calls won't prompt again.
+      stream.getTracks().forEach(t => { try { t.stop(); } catch(e){} });
+      sessionMicGranted = true;
+    })
+    .catch(err => {
+      console.warn('Mic permission denied:', err && err.name);
+      sessionMicDenied = true;
+      // Reset flag so user can retry from another activity
+      sessionMicRequested = false;
+    });
 }
 
-async function ensureMicPermission() {
-  // Kept for compatibility - always returns true.
-  // Real permission is handled by recognizer.start() browser popup.
-  return true;
-}
+// Kept for backward compatibility
+function requestMicUpfront() { requestMicPermissionOnce(); }
+async function ensureMicPermission() { return true; }
 
 function startEngListening() {
   if (!recognitionSupported) {
@@ -3176,6 +3450,8 @@ function startEngListening() {
     return;
   }
   if (engState.recognizing) { try { recognizer.stop(); } catch(e){} return; }
+  // In case user hasn't granted yet, request now (still in click gesture).
+  requestMicPermissionOnce();
   stopAllAudio();
   document.getElementById('engTranscript').textContent = '';
   document.getElementById('engFeedback').className = 'feedback';
@@ -3183,11 +3459,9 @@ function startEngListening() {
   document.getElementById('engMicLabel').textContent = '마이크 준비 중...';
   const item = currentEngItem();
   recognizer.lang = item.lang;
-  // Call start() directly. Browser handles permission popup on first attempt.
   try {
     recognizer.start();
   } catch (e) {
-    // "already started" or invalid state - try stopping first
     try { recognizer.stop(); } catch(_){}
     setTimeout(() => {
       try { recognizer.start(); } catch(_) {
@@ -3222,39 +3496,134 @@ document.getElementById('engTextSubmit').addEventListener('click', submitEngText
 document.getElementById('engTextInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') submitEngText(); });
 
 // TTS audio
+// ==== Text-to-Speech (TTS) ====
 let cachedVoices = [];
-function refreshVoices() { if ('speechSynthesis' in window) cachedVoices = window.speechSynthesis.getVoices() || []; }
-if ('speechSynthesis' in window) { refreshVoices(); window.speechSynthesis.onvoiceschanged = refreshVoices; }
+let voicesLoadPromise = null;
+
+function refreshVoices() {
+  if ('speechSynthesis' in window) {
+    cachedVoices = window.speechSynthesis.getVoices() || [];
+  }
+}
+
+// Wait for voices to be loaded (Chrome loads them async)
+function loadVoicesAsync() {
+  if (voicesLoadPromise) return voicesLoadPromise;
+  voicesLoadPromise = new Promise(resolve => {
+    if (!('speechSynthesis' in window)) return resolve([]);
+    refreshVoices();
+    if (cachedVoices.length > 0) return resolve(cachedVoices);
+    let attempts = 0;
+    const iv = setInterval(() => {
+      attempts++;
+      refreshVoices();
+      if (cachedVoices.length > 0 || attempts >= 20) {
+        clearInterval(iv);
+        resolve(cachedVoices);
+      }
+    }, 100);
+    window.speechSynthesis.onvoiceschanged = () => {
+      refreshVoices();
+      resolve(cachedVoices);
+    };
+  });
+  return voicesLoadPromise;
+}
+
+if ('speechSynthesis' in window) {
+  loadVoicesAsync();
+}
+
 function pickVoice(lang) {
   if (!cachedVoices.length) refreshVoices();
   if (!cachedVoices.length) return null;
+  // Exact match first (e.g. "en-US")
   const exact = cachedVoices.find(v => v.lang === lang);
   if (exact) return exact;
-  const short = lang.split('-')[0];
-  return cachedVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(short)) || null;
+  // Case-insensitive match with hyphen/underscore normalization
+  const norm = lang.replace('_', '-').toLowerCase();
+  const normMatch = cachedVoices.find(v => v.lang && v.lang.replace('_', '-').toLowerCase() === norm);
+  if (normMatch) return normMatch;
+  // Short lang code (e.g. "en" for "en-US")
+  const short = lang.split(/[-_]/)[0].toLowerCase();
+  const shortMatch = cachedVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(short));
+  if (shortMatch) return shortMatch;
+  return null;
 }
+
 let currentAudioEl = null;
 function stopAllAudio() {
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch(e){}
   if (currentAudioEl) { try { currentAudioEl.pause(); } catch(e){} currentAudioEl = null; }
 }
+
 function speak(text, lang, onDone) {
   if (!('speechSynthesis' in window)) { if (onDone) onDone(); return; }
-  window.speechSynthesis.cancel();
-  setTimeout(() => {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang;
-    u.rate = 0.9; u.pitch = 1; u.volume = 1;
-    const voice = pickVoice(lang);
-    if (voice) u.voice = voice;
-    u.onend = () => { if (onDone) onDone(); };
-    u.onerror = () => { if (onDone) onDone(); };
-    window.speechSynthesis.speak(u);
-  }, 80);
+  // Wait for voices to be ready before speaking (fixes silent playback on first calls)
+  loadVoicesAsync().then(() => {
+    doSpeak(text, lang, onDone, 0);
+  });
 }
+
+function doSpeak(text, lang, onDone, retry) {
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  // Chrome bug: sometimes speechSynthesis is stuck in "paused" state after cancel
+  try {
+    if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+  } catch(e){}
+  setTimeout(() => {
+    try {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = 0.85;   // Slightly slower for clarity
+      u.pitch = 1;
+      u.volume = 1;
+      const voice = pickVoice(lang);
+      if (voice) u.voice = voice;
+      let ended = false;
+      const finish = () => {
+        if (ended) return;
+        ended = true;
+        if (onDone) onDone();
+      };
+      u.onend = finish;
+      u.onerror = (e) => {
+        // Retry once if it errored on first attempt
+        if (retry < 1 && e.error !== 'interrupted' && e.error !== 'canceled') {
+          setTimeout(() => doSpeak(text, lang, onDone, retry + 1), 200);
+          return;
+        }
+        finish();
+      };
+      window.speechSynthesis.speak(u);
+      // Safety timeout in case onend never fires (Chrome bug on some devices)
+      const maxDur = Math.max(2000, text.length * 100);
+      setTimeout(finish, maxDur);
+    } catch (e) {
+      if (onDone) onDone();
+    }
+  }, 120);
+}
+
+// Chrome bug workaround: TTS stops after ~15 seconds of silence.
+// Ping it periodically to keep it alive.
+if ('speechSynthesis' in window) {
+  setInterval(() => {
+    try {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+      }
+    } catch(e){}
+  }, 10000);
+}
+
 function playItemAudio(item, onDone) {
   stopAllAudio();
-  speak(item.listenText, item.listenLang, onDone);
+  // Small delay to let cancel take effect before speaking
+  setTimeout(() => {
+    speak(item.listenText, item.listenLang, onDone);
+  }, 100);
 }
 document.getElementById('engListenBtn').addEventListener('click', () => {
   const item = currentEngItem();
@@ -3465,6 +3834,8 @@ function startMultGame(tableId) {
   document.getElementById('multScoreText').textContent = '0';
   multShowScreen('mult-game');
   renderMultQuestion();
+  // Request mic permission once per session (upfront so it's ready when needed)
+  requestMicPermissionOnce();
 }
 
 function renderMultQuestion() {
@@ -3654,8 +4025,10 @@ document.getElementById('multMicBtn').addEventListener('click', () => {
   if (!multRecognition) return;
   if (multState.answered) return;
   if (multState.recognizing) { try { multRecognition.stop(); } catch(e){} return; }
+  // Request mic permission once per session (in case not requested yet)
+  requestMicPermissionOnce();
   multState.currentInput = ''; updateMultAnswerDisplay();
-  // Just call start() directly. Browser handles permission popup on first call.
+  // Just call start() directly. Browser uses cached permission.
   try {
     multRecognition.start();
   } catch(e) {
@@ -4244,7 +4617,15 @@ function renderClassRanking() {
 /* ================================================================
    TEACHER LOGIN + DASHBOARD MODULE
 ================================================================ */
-const TEACHER_PASSWORD = '260301';
+const DEFAULT_TEACHER_PASSWORD = '260301';
+let teacherPassword = DEFAULT_TEACHER_PASSWORD;
+
+// Listen for teacher password changes in Firebase
+const teacherPwRef = db.ref('mado3_teacher_password');
+teacherPwRef.on('value', (snapshot) => {
+  const val = snapshot.val();
+  teacherPassword = (val && typeof val === 'string' && val.length > 0) ? String(val) : DEFAULT_TEACHER_PASSWORD;
+});
 
 document.getElementById('teacherLoginBtn').addEventListener('click', () => {
   document.getElementById('teacherPwInput').value = '';
@@ -4259,7 +4640,7 @@ document.getElementById('teacherLoginCancel').addEventListener('click', () => {
 
 function teacherTryLogin() {
   const pw = document.getElementById('teacherPwInput').value.trim();
-  if (pw === TEACHER_PASSWORD) {
+  if (pw === teacherPassword) {
     document.getElementById('teacherPwErr').style.display = 'none';
     openTeacherDashboard();
   } else {
@@ -4281,6 +4662,11 @@ function openTeacherDashboard() {
   renderTeacherOverallTable();
   renderTeacherStreakTable();
   renderTeacherPasswordTable();
+  teacherPwVisible = false;
+  updateTeacherPwDisplay();
+  document.getElementById('teacherPwMsg').textContent = '';
+  document.getElementById('teacherResetMsg').textContent = '';
+  document.getElementById('newTeacherPwInput').value = '';
   showScreen('screen-teacher');
 }
 
@@ -4473,7 +4859,7 @@ function savePw(sid) {
   });
 }
 
-document.getElementById('teacherCsvBtn').addEventListener('click', () => {
+function exportRecordsCsv() {
   const lines = ['학생명,날짜,시간,활동,단원/단,정답,전체,정답률'];
   STUDENTS.forEach(s => {
     const sr = allRecords[s.id] || {};
@@ -4513,6 +4899,84 @@ document.getElementById('teacherCsvBtn').addEventListener('click', () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+document.getElementById('teacherCsvBtn').addEventListener('click', exportRecordsCsv);
+document.getElementById('teacherCsvBackupBtn').addEventListener('click', exportRecordsCsv);
+
+// -- Teacher password change --
+let teacherPwVisible = false;
+function updateTeacherPwDisplay() {
+  const el = document.getElementById('teacherCurrentPw');
+  if (!el) return;
+  el.textContent = teacherPwVisible ? teacherPassword : '••••••';
+  const btn = document.getElementById('showTeacherPwBtn');
+  if (btn) btn.textContent = teacherPwVisible ? '🙈 숨기기' : '👁 보기';
+}
+document.getElementById('showTeacherPwBtn').addEventListener('click', () => {
+  teacherPwVisible = !teacherPwVisible;
+  updateTeacherPwDisplay();
+});
+document.getElementById('saveTeacherPwBtn').addEventListener('click', () => {
+  const newPw = document.getElementById('newTeacherPwInput').value.trim();
+  const msgEl = document.getElementById('teacherPwMsg');
+  if (newPw.length < 4) {
+    msgEl.textContent = '⚠️ 비밀번호는 4자 이상이어야 해요.';
+    msgEl.style.color = 'var(--red)';
+    return;
+  }
+  if (newPw.length > 20) {
+    msgEl.textContent = '⚠️ 비밀번호는 20자 이하로 해주세요.';
+    msgEl.style.color = 'var(--red)';
+    return;
+  }
+  teacherPwRef.set(newPw).then(() => {
+    teacherPassword = newPw;
+    document.getElementById('newTeacherPwInput').value = '';
+    msgEl.textContent = '✅ 비밀번호가 변경됐어요!';
+    msgEl.style.color = 'var(--green)';
+    updateTeacherPwDisplay();
+    setTimeout(() => { msgEl.textContent = ''; }, 4000);
+  }).catch(err => {
+    msgEl.textContent = '❌ 저장 실패: ' + err.message;
+    msgEl.style.color = 'var(--red)';
+  });
+});
+
+// -- Teacher data reset --
+document.getElementById('teacherResetBtn').addEventListener('click', () => {
+  const msgEl = document.getElementById('teacherResetMsg');
+  const firstConfirm = confirm(
+    '⚠️ 정말 모든 학습 기록을 삭제할까요?\n\n' +
+    '- 영어/구구단 기록: 전부 삭제\n' +
+    '- 줄넘기 기록: 전부 삭제\n' +
+    '- 학생/선생님 비밀번호: 유지\n\n' +
+    '이 작업은 되돌릴 수 없어요!'
+  );
+  if (!firstConfirm) return;
+  const secondConfirm = confirm(
+    '한 번 더 확인할게요.\n\n정말 정말 모든 기록을 삭제할까요?\n(CSV로 백업하셨나요?)'
+  );
+  if (!secondConfirm) return;
+  msgEl.textContent = '⏳ 삭제 중...';
+  msgEl.style.color = 'var(--ink-soft)';
+  Promise.all([
+    recordsRef.remove(),
+    jumpRopeRef.remove(),
+  ]).then(() => {
+    msgEl.textContent = '✅ 모든 기록이 초기화됐어요.';
+    msgEl.style.color = 'var(--green)';
+    // Clear celebrated flags in localStorage
+    try {
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith('celebrated_')) localStorage.removeItem(k);
+      });
+    } catch(e){}
+    setTimeout(() => { msgEl.textContent = ''; }, 5000);
+  }).catch(err => {
+    msgEl.textContent = '❌ 삭제 실패: ' + err.message;
+    msgEl.style.color = 'var(--red)';
+  });
 });
 
 // Also refresh teacher dashboard + today status when data updates while viewing
