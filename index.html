@@ -658,16 +658,10 @@ h1,h2,h3,h4{margin:0;}
           <div class="op">=</div>
           <div class="answer-box empty" id="multQAns">?</div>
         </div>
-        <div class="transcript" id="multTranscript">답을 말하거나 눌러보세요</div>
+        <div class="transcript" id="multTranscript">숫자를 눌러 답을 입력하세요</div>
         <div class="controls">
           <div class="feedback" id="multFeedback"></div>
-          <div class="miclabel" id="multMicLabel">🎤 눌러서 답을 말해보세요</div>
-          <div class="microw" id="multMicRow">
-            <button class="micbtn" id="multMicBtn" title="눌러서 말하기">🎤</button>
-          </div>
-          <div class="notice hidden" id="multMicNotice">이 브라우저는 음성 인식을 지원하지 않아요. 아래 숫자 키패드로 입력해주세요!</div>
-          <div class="divider">또는 눌러서 입력</div>
-          <div class="keypad" id="multKeypad">
+          <div class="keypad" id="multKeypad" style="margin-top:8px;">
             <button class="key" data-k="1">1</button>
             <button class="key" data-k="2">2</button>
             <button class="key" data-k="3">3</button>
@@ -3717,62 +3711,10 @@ function parseKoreanNumber(text) {
   return null;
 }
 
+// Multiplication uses keypad input only - no speech recognition
 let multRecognition = null;
 function initMultSpeech() {
-  if (!SpeechRecognitionAPI) {
-    document.getElementById('multMicRow').classList.add('hidden');
-    document.getElementById('multMicLabel').classList.add('hidden');
-    document.getElementById('multMicNotice').classList.remove('hidden');
-    return;
-  }
-  multRecognition = new SpeechRecognitionAPI();
-  multRecognition.lang = 'ko-KR';
-  multRecognition.interimResults = false;
-  multRecognition.continuous = false;
-  multRecognition.maxAlternatives = 10;
-  multRecognition.onstart = () => {
-    multState.recognizing = true;
-    document.getElementById('multMicBtn').classList.add('listening');
-    document.getElementById('multMicBtn').textContent = '👂';
-    document.getElementById('multMicLabel').textContent = '듣고 있어요... 답을 말해주세요';
-    document.getElementById('multTranscript').textContent = '';
-  };
-  multRecognition.onend = () => {
-    multState.recognizing = false;
-    const btn = document.getElementById('multMicBtn');
-    btn.classList.remove('listening');
-    btn.textContent = '🎤';
-    if (!multState.answered) document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
-  };
-  multRecognition.onerror = (e) => {
-    multState.recognizing = false;
-    document.getElementById('multMicBtn').classList.remove('listening');
-    document.getElementById('multMicBtn').textContent = '🎤';
-    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-      document.getElementById('multMicLabel').textContent = '🚫 마이크 사용이 차단됐어요. 크롬 주소창의 자물쇠 🔒 → 마이크 → 허용으로 바꿔주세요.';
-    }
-    else if (e.error === 'no-speech') document.getElementById('multMicLabel').textContent = '소리가 들리지 않았어요. 다시 시도해보세요';
-    else document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
-  };
-  multRecognition.onresult = (e) => {
-    let parsed = null, heard = '';
-    const results = e.results[0];
-    if (results[0]) heard = results[0].transcript.trim();
-    for (let i = 0; i < results.length; i++) {
-      const alt = (results[i].transcript || '').trim();
-      if (!alt) continue;
-      const n = parseKoreanNumber(alt);
-      if (n !== null && n >= 0 && n <= 99) { parsed = n; heard = alt; break; }
-    }
-    document.getElementById('multTranscript').textContent = heard ? `들은 답: "${heard}"` : '';
-    if (parsed !== null) {
-      multState.currentInput = String(parsed);
-      updateMultAnswerDisplay();
-      setTimeout(() => submitMultAnswer(), 350);
-    } else {
-      document.getElementById('multMicLabel').textContent = '숫자로 알아듣지 못했어요. 다시 시도해보세요';
-    }
-  };
+  // Intentionally empty - multiplication is keypad-only for speed
 }
 
 function buildMultPool(tableId) {
@@ -3834,8 +3776,6 @@ function startMultGame(tableId) {
   document.getElementById('multScoreText').textContent = '0';
   multShowScreen('mult-game');
   renderMultQuestion();
-  // Request mic permission once per session (upfront so it's ready when needed)
-  requestMicPermissionOnce();
 }
 
 function renderMultQuestion() {
@@ -3849,7 +3789,7 @@ function renderMultQuestion() {
   ansEl.textContent = '?';
   ansEl.classList.remove('filled', 'wrong');
   ansEl.classList.add('empty');
-  document.getElementById('multTranscript').textContent = '답을 말하거나 눌러보세요';
+  document.getElementById('multTranscript').textContent = '숫자를 눌러 답을 입력하세요';
   document.getElementById('multFeedback').className = 'feedback';
   document.getElementById('multFeedback').innerHTML = '';
   document.getElementById('multNextBtn').disabled = true;
@@ -3857,11 +3797,6 @@ function renderMultQuestion() {
   document.getElementById('multProgressFill').style.width = pct + '%';
   document.getElementById('multProgressText').textContent = `${multState.idx} / ${multState.pool.length}`;
   document.querySelectorAll('#multKeypad .key').forEach(k => k.disabled = false);
-  const micBtn = document.getElementById('multMicBtn');
-  if (micBtn) {
-    micBtn.disabled = false;
-    if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '🎤 눌러서 답을 말해보세요';
-  }
 }
 function updateMultAnswerDisplay() {
   const ansEl = document.getElementById('multQAns');
@@ -3887,9 +3822,6 @@ function submitMultAnswer() {
     spawnFloatBadge('⭐', document.getElementById('multQAns'));
     document.getElementById('multNextBtn').disabled = false;
     document.querySelectorAll('#multKeypad .key').forEach(k => { if (k.dataset.k !== 'submit') k.disabled = true; });
-    const micBtn = document.getElementById('multMicBtn');
-    if (micBtn) micBtn.disabled = true;
-    if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '정답! 다음 문제로 이동하세요';
     return;
   }
   // Wrong answer - track attempts
@@ -3898,27 +3830,16 @@ function submitMultAnswer() {
   if (attemptsLeft > 0) {
     // Let them try again
     fb.className = 'feedback wrong';
-    fb.innerHTML = `🎧 <b>${multState.attempts}번째 시도</b> · 다시 계산해서 <b>${attemptsLeft}번</b> 더 해볼 수 있어요!`;
+    fb.innerHTML = `🤔 <b>${multState.attempts}번째 시도</b> · 다시 계산해서 <b>${attemptsLeft}번</b> 더 해볼 수 있어요!`;
     const ansEl = document.getElementById('multQAns');
     ansEl.classList.remove('filled'); ansEl.classList.add('wrong');
-    // Play the problem again (speak it)
+    // Reset input for retry after a short delay
     setTimeout(() => {
-      try {
-        const utter = new SpeechSynthesisUtterance(`${p.a} 곱하기 ${p.b}는?`);
-        utter.lang = 'ko-KR';
-        utter.rate = 0.95;
-        speechSynthesis.cancel();
-        speechSynthesis.speak(utter);
-      } catch(e) {}
-      // Reset input for retry
-      setTimeout(() => {
-        multState.currentInput = '';
-        updateMultAnswerDisplay();
-        ansEl.classList.remove('wrong');
-        ansEl.classList.add('empty');
-        if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '🎤 다시 눌러서 답을 말해보세요';
-      }, 1200);
-    }, 300);
+      multState.currentInput = '';
+      updateMultAnswerDisplay();
+      ansEl.classList.remove('wrong');
+      ansEl.classList.add('empty');
+    }, 800);
   } else {
     // Out of attempts - reveal answer
     multState.answered = true;
@@ -3929,9 +3850,6 @@ function submitMultAnswer() {
     fb.innerHTML = `아쉬워요, 3번 다 도전했어요! <span class="answer-reveal">정답: ${p.a} × ${p.b} = ${p.answer}</span>`;
     document.getElementById('multNextBtn').disabled = false;
     document.querySelectorAll('#multKeypad .key').forEach(k => { if (k.dataset.k !== 'submit') k.disabled = true; });
-    const micBtn = document.getElementById('multMicBtn');
-    if (micBtn) micBtn.disabled = true;
-    if (SpeechRecognitionAPI) document.getElementById('multMicLabel').textContent = '다음 문제로 이동하세요';
   }
 }
 function showMultAnswer() {
@@ -3947,8 +3865,6 @@ function showMultAnswer() {
   fb.innerHTML = `정답을 확인했어요! <span class="answer-reveal">${p.a} × ${p.b} = ${p.answer}</span>`;
   document.getElementById('multNextBtn').disabled = false;
   document.querySelectorAll('#multKeypad .key').forEach(k => k.disabled = true);
-  const micBtn = document.getElementById('multMicBtn');
-  if (micBtn) micBtn.disabled = true;
 }
 function nextMultQuestion() {
   multState.idx++;
@@ -4019,23 +3935,6 @@ document.addEventListener('keydown', (e) => {
   } else if (e.key === 'Enter') {
     if (multState.answered) { if (!document.getElementById('multNextBtn').disabled) nextMultQuestion(); }
     else submitMultAnswer();
-  }
-});
-document.getElementById('multMicBtn').addEventListener('click', () => {
-  if (!multRecognition) return;
-  if (multState.answered) return;
-  if (multState.recognizing) { try { multRecognition.stop(); } catch(e){} return; }
-  // Request mic permission once per session (in case not requested yet)
-  requestMicPermissionOnce();
-  multState.currentInput = ''; updateMultAnswerDisplay();
-  // Just call start() directly. Browser uses cached permission.
-  try {
-    multRecognition.start();
-  } catch(e) {
-    try { multRecognition.stop(); } catch(_){}
-    setTimeout(() => {
-      try { multRecognition.start(); } catch(_) {}
-    }, 150);
   }
 });
 
