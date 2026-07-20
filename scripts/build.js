@@ -13,7 +13,7 @@ const transforms = [
   require('./transforms/02-students-and-firebase'),
   require('./transforms/03-multiplication-module'),
   require('./transforms/04-english-engine-routing'),
-  // Task 5 will add: require('./transforms/05-teacher-login-and-dashboard'),
+  require('./transforms/05-teacher-login-and-dashboard'),
   // Task 6 will add: require('./transforms/06-admin'),
   // Task 7 will add: require('./transforms/07-class-ranking-tabs'),
   // Task 8 will add: require('./transforms/08-navigation'),

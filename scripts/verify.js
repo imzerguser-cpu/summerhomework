@@ -71,6 +71,16 @@ check('loadEngQuizFrame routes by grade', html.includes(`var tplId = (gradeOverr
   check('engine A chunk contains grade-3/4 bootstrap targets', engineAChunk.includes("showScreen('grade');") && engineAChunk.includes('id="gradeBtn"'));
 }
 
+// Task 5: teacher login + dashboard
+check('teacherPasswords object present', html.includes('let teacherPasswords = { ...TEACHER_PW_DEFAULTS };'));
+check('TEACHER_PW_DEFAULTS has all 4 grades at correct values', html.includes(`const TEACHER_PW_DEFAULTS = { 3: '260301', 4: '2026', 5: '2026', 6: '2026' };`));
+check('4 per-grade teacher password Firebase listeners wired', html.includes(`db.ref('mado' + g + '_teacher_password')`));
+check('old single teacherPassword variable removed', !/let teacherPassword = DEFAULT_TEACHER_PASSWORD/.test(html));
+check('resetAllRecordsForGrade wired into reset button', html.includes('resetAllRecordsForGrade(teacherGradeFilter).then(() => {'));
+check('no remaining bare recordsRef usages', !/\brecordsRef\b(?!ForStudent)/.test(html));
+check('status table has grade-3-only 구구단 column logic', html.includes('const showMult = teacherGradeFilter === 3;'));
+check('CSV export scoped to teacherGradeFilter', html.includes('STUDENTS.filter(s => s.grade === teacherGradeFilter).forEach(s => {'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
