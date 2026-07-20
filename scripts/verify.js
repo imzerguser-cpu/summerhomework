@@ -104,6 +104,12 @@ check('menuBtn after-activity check includes screen-mult', html.includes(`['scre
 check('teacher header shows own grade', html.includes(`'👨‍🏫 ' + teacherGradeFilter + '학년 선생님'`));
 check('admin header shows admin label', html.includes(`'🔐 전체 관리자'`));
 
+// Task 8b: grade-aware homework completion check (fixes review finding: 구구단 was silently excluded for 3학년)
+check('renderTodayStatus includes 구구단 conditionally for grade 3', html.includes(`...(currentStudent.grade === 3 ? [{key: 'multiplication', label: '구구단', emoji: '🧮'}] : [])`));
+check('showTodayHomeworkPopup includes 구구단 conditionally for grade 3', html.includes(`...(currentStudent.grade === 3 ? [{key: 'multiplication', label: '맛있는 구구단', emoji: '🧮'}] : [])`));
+check('showTodayHomeworkPopup uses dynamic item count, not hardcoded 2', html.includes('if (doneCount === items.length) {') && !html.includes('if (doneCount === 2) {'));
+check('checkHomeworkAfterActivity uses grade-aware activityKeys', html.includes(`const activityKeys = ['english', 'jumprope', ...(currentStudent.grade === 3 ? ['multiplication'] : [])];`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
