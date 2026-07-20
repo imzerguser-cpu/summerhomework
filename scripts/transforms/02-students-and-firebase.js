@@ -144,12 +144,13 @@ const NEW_SAVE_RECORD_LINE = `  const ref = recordsRefForStudent(studentId).chil
 const OLD_SAVE_PW_LINE = `  passwordsRef.update(update).then(() => {`;
 const NEW_SAVE_PW_LINE = `  passwordsRefForStudent(sid).update(update).then(() => {`;
 
-const OLD_TEACHER_RESET_LINE = `  Promise.all([
-    recordsRef.remove(),
-    jumpRopeRef.remove(),`;
-const NEW_TEACHER_RESET_LINE = `  Promise.all([
-    ...RECORD_GROUPS.map(group => group.ref.remove()),
-    jumpRopeRef.remove(),`;
+// NOTE: the teacher dashboard's "전체 초기화" button also calls the now-removed bare
+// `recordsRef`/`jumpRopeRef.remove()` (global wipe) — deliberately left untouched here.
+// Task 5 replaces that whole call with `resetAllRecordsForGrade(teacherGradeFilter)`
+// (defined above), which properly scopes BOTH records and jump-rope removal to the
+// logged-in teacher's own grade. Patching it here first would make Task 5's OLD_RESET_CALL
+// marker fail to match later, and would leave jump-rope removal unscoped (worse than doing
+// nothing) since only Task 5's fix scopes jump-rope per student.
 
 const OLD_RESET_STUDENT_LINE = `    recordsRef.child(studentId).remove(),`;
 const NEW_RESET_STUDENT_LINE = `    recordsRefForStudent(studentId).child(studentId).remove(),`;
@@ -168,7 +169,6 @@ module.exports = function studentsAndFirebase(html, ctx) {
   html = mustReplace(html, OLD_RECORDS_LISTENER, NEW_RECORDS_LISTENER, '02: records listener');
   html = mustReplace(html, OLD_SAVE_RECORD_LINE, NEW_SAVE_RECORD_LINE, '02: saveRecord ref');
   html = mustReplace(html, OLD_SAVE_PW_LINE, NEW_SAVE_PW_LINE, '02: savePw ref');
-  html = mustReplace(html, OLD_TEACHER_RESET_LINE, NEW_TEACHER_RESET_LINE, '02: teacher reset ref');
   html = mustReplace(html, OLD_RESET_STUDENT_LINE, NEW_RESET_STUDENT_LINE, '02: resetStudentRecords ref');
   html = mustReplace(html, OLD_TAIL_LISTENER, NEW_TAIL_LISTENER, '02: tail listeners');
   return html;

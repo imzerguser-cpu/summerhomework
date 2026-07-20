@@ -46,7 +46,11 @@ check('mado4_passwords ref present', html.includes(`db.ref('mado4_passwords')`))
 check('mado56_records still shared', (html.match(/db\.ref\('mado56_records'\)/g) || []).length === 2);
 check('resetAllRecordsForGrade defined', html.includes('function resetAllRecordsForGrade(grade)'));
 check('old single recordsRef/passwordsRef removed', !/const recordsRef = db\.ref/.test(html) && !/const passwordsRef = db\.ref/.test(html));
-check('no remaining bare recordsRef/passwordsRef usages', !/\brecordsRef\b(?!ForStudent)/.test(html) && !/\bpasswordsRef\b(?!ForStudent)/.test(html));
+check('no remaining bare passwordsRef usages', !/\bpasswordsRef\b(?!ForStudent)/.test(html));
+// NOTE: one bare `recordsRef` usage deliberately remains after Task 2 — the teacher
+// dashboard's "전체 초기화" button (recordsRef.remove()) is patched by Task 5's
+// OLD_RESET_CALL/NEW_RESET_CALL transform (-> resetAllRecordsForGrade(teacherGradeFilter)),
+// not here. Task 5 adds the corresponding "no remaining bare recordsRef usages" check.
 
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);

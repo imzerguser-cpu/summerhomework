@@ -444,8 +444,19 @@ const NEW_RECORDS_LISTENER = `RECORD_GROUPS.forEach(group => {
 const OLD_SAVE_RECORD_LINE = `  const ref = recordsRef.child(studentId).child(dateStr).push();`;
 const NEW_SAVE_RECORD_LINE = `  const ref = recordsRefForStudent(studentId).child(studentId).child(dateStr).push();`;
 
+// savePw() (the teacher dashboard's per-student password "저장" button) also calls the
+// removed bare passwordsRef directly — must be routed through passwordsRefForStudent too.
+const OLD_SAVE_PW_LINE = `  passwordsRef.update(update).then(() => {`;
+const NEW_SAVE_PW_LINE = `  passwordsRefForStudent(sid).update(update).then(() => {`;
+
 const OLD_RESET_STUDENT_LINE = `    recordsRef.child(studentId).remove(),`;
 const NEW_RESET_STUDENT_LINE = `    recordsRefForStudent(studentId).child(studentId).remove(),`;
+
+// NOTE: the teacher dashboard's "전체 초기화" button also calls the now-removed bare
+// recordsRef/jumpRopeRef.remove() (a global wipe) — deliberately left untouched here.
+// Task 5 replaces that whole call with resetAllRecordsForGrade(teacherGradeFilter), which
+// properly scopes BOTH records and jump-rope removal to the logged-in teacher's own grade.
+// Patching it here first would make Task 5's OLD_RESET_CALL marker fail to match later.
 
 // Second listener registered near the bottom of the file, driving generic re-renders.
 const OLD_TAIL_LISTENER = `recordsRef.on('value', refreshDynamicViews);
@@ -460,6 +471,7 @@ module.exports = function studentsAndFirebase(html, ctx) {
   html = mustReplace(html, OLD_PW_LISTENER, NEW_PW_LISTENER, '02: passwords listener');
   html = mustReplace(html, OLD_RECORDS_LISTENER, NEW_RECORDS_LISTENER, '02: records listener');
   html = mustReplace(html, OLD_SAVE_RECORD_LINE, NEW_SAVE_RECORD_LINE, '02: saveRecord ref');
+  html = mustReplace(html, OLD_SAVE_PW_LINE, NEW_SAVE_PW_LINE, '02: savePw ref');
   html = mustReplace(html, OLD_RESET_STUDENT_LINE, NEW_RESET_STUDENT_LINE, '02: resetStudentRecords ref');
   html = mustReplace(html, OLD_TAIL_LISTENER, NEW_TAIL_LISTENER, '02: tail listeners');
   return html;
@@ -500,6 +512,9 @@ check('mado4_passwords ref present', html.includes(`db.ref('mado4_passwords')`))
 check('mado56_records still shared', (html.match(/db\.ref\('mado56_records'\)/g) || []).length === 2);
 check('resetAllRecordsForGrade defined', html.includes('function resetAllRecordsForGrade(grade)'));
 check('old single recordsRef/passwordsRef removed', !/const recordsRef = db\.ref/.test(html) && !/const passwordsRef = db\.ref/.test(html));
+check('no remaining bare passwordsRef usages', !/\bpasswordsRef\b(?!ForStudent)/.test(html));
+// One bare recordsRef usage deliberately remains after Task 2 (the teacher "전체 초기화"
+// button) — Task 5 patches it and adds the corresponding zero-remaining-usages check.
 ```
 
 - [ ] **Step 4: Run build + verify**
@@ -1056,6 +1071,7 @@ check('TEACHER_PW_DEFAULTS has all 4 grades at correct values', html.includes(`c
 check('4 per-grade teacher password Firebase listeners wired', html.includes(`db.ref('mado' + g + '_teacher_password')`));
 check('old single teacherPassword variable removed', !/let teacherPassword = DEFAULT_TEACHER_PASSWORD/.test(html));
 check('resetAllRecordsForGrade wired into reset button', html.includes('resetAllRecordsForGrade(teacherGradeFilter).then(() => {'));
+check('no remaining bare recordsRef usages', !/\brecordsRef\b(?!ForStudent)/.test(html));
 check('status table has grade-3-only 구구단 column logic', html.includes('const showMult = teacherGradeFilter === 3;'));
 check('CSV export scoped to teacherGradeFilter', html.includes('STUDENTS.filter(s => s.grade === teacherGradeFilter).forEach(s => {'));
 ```
