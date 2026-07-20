@@ -817,7 +817,8 @@ check('old bare quizDocTemplate id gone', !html.includes('id="quizDocTemplate"')
 check('loadEngQuizFrame routes by grade', html.includes(`var tplId = (gradeOverride === '3' || gradeOverride === '4') ? 'quizDocTemplate34' : 'quizDocTemplate56';`));
 {
   const engineAStart = html.indexOf('id="quizDocTemplate34"');
-  const engineAChunk = html.slice(engineAStart, engineAStart + 200000);
+  const engineAEnd = html.indexOf('</script>', engineAStart);
+  const engineAChunk = html.slice(engineAStart, engineAEnd);
   check('engine A chunk contains grade-3/4 bootstrap targets', engineAChunk.includes("showScreen('grade');") && engineAChunk.includes('id="gradeBtn"'));
 }
 ```
