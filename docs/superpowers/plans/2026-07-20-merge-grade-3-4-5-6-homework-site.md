@@ -1878,3 +1878,59 @@ git push origin main
 ```
 
 Expected: `https://imzerguser-cpu.github.io/summerhomework/` serves the merged 4-grade site within a few minutes (GitHub Pages build time).
+
+---
+
+### Task 10: Fix build-input/output collision (found during final whole-branch review)
+
+The final review caught a self-destroying pipeline design: `scripts/build.js` read `index.html` as its 3학년 extraction source (`ctx.src3`), but Task 9 Step 5 also overwrites `index.html` with the merged deploy output. After shipping, `index.html` no longer contains the `id="quizDocTemplate"` marker Task 4 needs, so any future `node scripts/build.js` crashes — and `index56.html` (the base file) was never committed at all, so a fresh clone can't rebuild either. The **deployed artifact itself was unaffected** (already verified byte-correct, 55/55 checks, JS-syntax-clean) — this only blocks *future* edits to the merged site.
+
+Fixed by moving both build inputs to a committed, immutable location that can never collide with the deploy target.
+
+**Files:**
+- Create: `Downloads/summerhomework/scripts/sources/index3-base.html` (frozen copy of the pre-merge 3학년 `index.html`, recovered from git history at the branch's merge-base commit)
+- Create: `Downloads/summerhomework/scripts/sources/index56-base.html` (copy of the never-modified `index56.html`)
+- Modify: `Downloads/summerhomework/scripts/build.js` (read from `scripts/sources/` instead of the repo root)
+
+- [ ] **Step 1: Freeze the two build inputs under `scripts/sources/`**
+
+```bash
+cd "Downloads/summerhomework"
+mkdir -p scripts/sources
+git show <merge-base-sha>:index.html > scripts/sources/index3-base.html
+cp index56.html scripts/sources/index56-base.html
+```
+
+(`<merge-base-sha>` = the commit `main` was at when this branch started, i.e. `git merge-base main HEAD` — that commit's `index.html` is still the untouched pre-merge 3학년 file, since only Task 9 ever modified `index.html` on this branch.)
+
+- [ ] **Step 2: Point `build.js` at the frozen sources**
+
+In `scripts/build.js`, replace:
+
+```js
+const base = fs.readFileSync(path.join(ROOT, 'index56.html'), 'utf8');
+const src3 = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+```
+
+with:
+
+```js
+const base = fs.readFileSync(path.join(ROOT, 'scripts/sources/index56-base.html'), 'utf8');
+const src3 = fs.readFileSync(path.join(ROOT, 'scripts/sources/index3-base.html'), 'utf8');
+```
+
+- [ ] **Step 3: Rebuild and confirm byte-identical output**
+
+```bash
+node scripts/build.js && node scripts/verify.js
+node -e "const fs=require('fs'); console.log('byte-identical:', fs.readFileSync('index.html','utf8') === fs.readFileSync('index.build.html','utf8'));"
+```
+
+Expected: all verify checks pass, and `byte-identical: true` — this reorganization must not change the already-shipped, already-reviewed artifact by even one byte.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add scripts/sources/ scripts/build.js
+git commit -m "fix: freeze build inputs under scripts/sources/ so the pipeline can rebuild from a fresh clone"
+```
