@@ -81,6 +81,16 @@ check('no remaining bare recordsRef usages', !/\brecordsRef\b(?!ForStudent)/.tes
 check('status table has grade-3-only 구구단 column logic', html.includes('const showMult = teacherGradeFilter === 3;'));
 check('CSV export scoped to teacherGradeFilter', html.includes('STUDENTS.filter(s => s.grade === teacherGradeFilter).forEach(s => {'));
 
+// Task 6: admin
+check('screen-admin-login present', html.includes('id="screen-admin-login"'));
+check('screen-admin present', html.includes('id="screen-admin"'));
+check('mado_admin_password ref present', html.includes(`db.ref('mado_admin_password')`));
+check('admin has no activity-dashboard ids (password-only scope)', !/id="adminTeacherStatusTable"|id="adminOverallTable"|id="adminStreakTable"/.test(html));
+check('renderAdminTeacherPwTable defined', html.includes('function renderAdminTeacherPwTable()'));
+check('renderAdminStudentPwTable defined', html.includes('function renderAdminStudentPwTable()'));
+check('adminSaveTeacherPw defined', html.includes('function adminSaveTeacherPw(grade)'));
+check('adminSaveStudentPw defined', html.includes('function adminSaveStudentPw(sid)'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
