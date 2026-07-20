@@ -52,6 +52,13 @@ check('no remaining bare passwordsRef usages', !/\bpasswordsRef\b(?!ForStudent)/
 // OLD_RESET_CALL/NEW_RESET_CALL transform (-> resetAllRecordsForGrade(teacherGradeFilter)),
 // not here. Task 5 adds the corresponding "no remaining bare recordsRef usages" check.
 
+// Task 3: multiplication module
+check('screen-mult present', html.includes('id="screen-mult"'));
+check('multActivityCard present and starts hidden', html.includes('id="multActivityCard"') && /class="activitycard mult hidden" id="multActivityCard"/.test(html));
+check('startMultiplication defined (ported from MAIN ACTIVITY ENTRY POINTS, not the module section)', html.includes(`function startMultiplication() {\n  document.getElementById('mult-home').classList.remove('hidden');`));
+check('updateMenuCardsForGrade defined', html.includes('function updateMenuCardsForGrade()'));
+check('mult CSS present', html.includes('.activitycard.mult::before'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
