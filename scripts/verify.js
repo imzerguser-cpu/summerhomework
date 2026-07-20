@@ -139,6 +139,10 @@ check('brandLabel toggle removed from showScreen (no dead code)', !html.includes
 check('#studentGrid uses fixed 3-column layout', html.includes('#studentGrid{grid-template-columns:repeat(3,1fr);}'));
 check('grade-picker grid (#gradePickGrid) still uses shared auto-fit .student-grid rule, untouched', html.includes('.student-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:8px;}'));
 
+// Task 17 (post-launch fix): per-grade student-grid column counts (3학년/5학년 = 1 row)
+check('per-grade column lookup present with correct counts', html.includes(`const STUDENT_GRID_COLS = {3: 5, 4: 3, 5: 4, 6: 3};`));
+check('renderStudents sets inline column count from lookup', html.includes(`grid.style.gridTemplateColumns = \`repeat(\${STUDENT_GRID_COLS[selectedGrade] || 3}, 1fr)\`;`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);

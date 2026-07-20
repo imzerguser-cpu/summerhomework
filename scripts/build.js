@@ -33,6 +33,7 @@ const transforms = [
   require('./transforms/14-remove-grade-picker-subtitle'),
   require('./transforms/15-restore-brand-full-name'),
   require('./transforms/16-student-grid-three-columns'),
+  require('./transforms/17-per-grade-student-grid-columns'),
 ];
 
 let html = base;
