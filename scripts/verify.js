@@ -97,6 +97,13 @@ check('classMultPanel present and starts hidden', /class="rank-panel hidden" id=
 check('styleGradeTabs covers 4 grades', html.includes('[3,4,5,6].forEach(g => {') );
 check('renderClassRanking computes multSess', html.includes('if (entry.activity === \'multiplication\') { multSess++; multDays.add(date); }'));
 
+// Task 8: navigation
+check('showScreen allow-list includes screen-mult', /\[\s*'screen-students'[\s\S]{0,300}'screen-mult'/.test(html));
+check('showScreen allow-list includes screen-admin-login and screen-admin', html.includes(`'screen-admin-login', 'screen-admin',`));
+check('menuBtn after-activity check includes screen-mult', html.includes(`['screen-english','screen-jumprope','screen-mult'].some`));
+check('teacher header shows own grade', html.includes(`'👨‍🏫 ' + teacherGradeFilter + '학년 선생님'`));
+check('admin header shows admin label', html.includes(`'🔐 전체 관리자'`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
