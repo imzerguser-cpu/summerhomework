@@ -125,6 +125,9 @@ check('admin default password is 2026', html.includes(`const ADMIN_PW_DEFAULT = 
 check('brand div starts hidden and has an id', html.includes(`<div class="brand hidden" id="brandLabel">`));
 check('showScreen toggles brand visibility on screen-students', html.includes(`document.getElementById('brandLabel').classList.toggle('hidden', id === 'screen-students');`));
 
+// Task 12 (post-launch fix): shrink 4 teacher login buttons to fit one row
+check('teacher login buttons use smaller font-size (11px)', [3,4,5,6].every(g => html.includes(`id="teacherLoginBtn${g}" style="background:var(--navy);color:#fff;padding:8px 12px;font-size:11px;"`)));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
