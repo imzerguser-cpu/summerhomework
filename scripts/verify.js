@@ -132,6 +132,9 @@ check('teacher login buttons keep original font-size (14px)', [3,4,5,6].every(g 
 check('반 친구들 기록 보기 alone in its own row', html.includes(`<button class="navbtn" id="publicClassBtn" style="background:var(--sky);color:#fff;padding:12px 24px;font-size:14px;">👥 반 친구들 기록 보기</button>\n    </div>`));
 check('4 teacher buttons share a dedicated row', html.includes(`<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;">\n      <button class="navbtn" id="teacherLoginBtn3"`));
 
+// Task 14 (post-launch fix): remove leftover "5학년과 6학년 중 하나를 골라주세요." subtitle
+check('grade-picker subtitle no longer overwritten with old 5,6학년 text', html.includes(`document.getElementById('studentsHeroSub').textContent = '';`) && !html.includes('5학년과 6학년 중 하나를 골라주세요.'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);

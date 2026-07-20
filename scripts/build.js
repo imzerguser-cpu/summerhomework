@@ -31,6 +31,7 @@ const transforms = [
   require('./transforms/10-hide-brand-on-first-screen'),
   require('./transforms/12-shrink-teacher-login-buttons'),
   require('./transforms/13-teacher-buttons-own-row'),
+  require('./transforms/14-remove-grade-picker-subtitle'),
 ];
 
 let html = base;
