@@ -121,10 +121,6 @@ check('6학년 last student renumbered to 15 (s19 -> no:15)', html.includes(`{id
 check('6학년 default passwords match new numbering', html.includes(`s05: '0101'`) && html.includes(`s19: '1515'`));
 check('admin default password is 2026', html.includes(`const ADMIN_PW_DEFAULT = '2026';`));
 
-// Task 10 (post-launch fix): hide brand badge on the initial grade-picker screen only
-check('brand div starts hidden and has an id', html.includes(`<div class="brand hidden" id="brandLabel">`));
-check('showScreen toggles brand visibility on screen-students', html.includes(`document.getElementById('brandLabel').classList.toggle('hidden', id === 'screen-students');`));
-
 // Task 12 (post-launch fix): drop "로그인" from teacher button labels (keep original font-size) to fit one row
 check('teacher login buttons keep original font-size (14px)', [3,4,5,6].every(g => html.includes(`id="teacherLoginBtn${g}" style="background:var(--navy);color:#fff;padding:12px 24px;font-size:14px;">🔑 ${g}학년 선생님</button>`)));
 
@@ -134,6 +130,14 @@ check('4 teacher buttons share a dedicated row', html.includes(`<div style="disp
 
 // Task 14 (post-launch fix): remove leftover "5학년과 6학년 중 하나를 골라주세요." subtitle
 check('grade-picker subtitle no longer overwritten with old 5,6학년 text', html.includes(`document.getElementById('studentsHeroSub').textContent = '';`) && !html.includes('5학년과 6학년 중 하나를 골라주세요.'));
+
+// Task 15 (post-launch fix): brand badge restored (always visible) with full-name text
+check('brand badge always visible again (no hidden class/id)', html.includes(`<div class="brand"><span class="plate">🌻</span> 마동초등학교 3~6학년</div>`));
+check('brandLabel toggle removed from showScreen (no dead code)', !html.includes('brandLabel'));
+
+// Task 16 (post-launch fix): student name grid fixed to 3 columns (doesn't affect grade picker)
+check('#studentGrid uses fixed 3-column layout', html.includes('#studentGrid{grid-template-columns:repeat(3,1fr);}'));
+check('grade-picker grid (#gradePickGrid) still uses shared auto-fit .student-grid rule, untouched', html.includes('.student-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:8px;}'));
 
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
