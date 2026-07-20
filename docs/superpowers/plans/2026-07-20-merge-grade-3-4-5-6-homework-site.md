@@ -1664,6 +1664,145 @@ git commit -m "build: register new screens in navigation, extend after-activity 
 
 ---
 
+### Task 8b: Grade-aware homework-completion check (found during Task 8 review)
+
+Task 8's review caught a real cross-task gap: `renderTodayStatus()` (오늘의 숙제 현황 row), `showTodayHomeworkPopup()`, and `checkHomeworkAfterActivity()` were all inherited from the 5·6학년 base file and hardcode a 2-item (영어/줄넘기) list — none of Tasks 1-8 ever made them grade-aware, so every 3학년 student silently never gets credit for 구구단 in these three places, contradicting "3학년: 영어, 구구단, 줄넘기 (3개)". Fixed by making all three conditionally splice in a 구구단 item when `currentStudent.grade === 3`, and switching hardcoded `2`/`3` counts to `items.length`/`activityKeys.length`.
+
+**Files:**
+- Create: `Downloads/summerhomework/scripts/transforms/08b-grade-aware-homework-check.js`
+- Modify: `Downloads/summerhomework/scripts/build.js` (require it right after `08-navigation`)
+- Modify: `Downloads/summerhomework/scripts/verify.js` (append checks)
+
+- [ ] **Step 1: Write the transform**
+
+```js
+'use strict';
+const { mustReplace } = require('../lib/extract');
+
+const OLD_RENDER_TODAY_STATUS = `function renderTodayStatus() {
+  if (!currentStudent) return;
+  const today = todayStr();
+  const acts = studentActivitiesOnDate(currentStudent.id, today);
+  const items = [
+    {key: 'english', label: '영어', emoji: '🍽️'},
+    {key: 'jumprope', label: '줄넘기', emoji: '🏃'},
+  ];`;
+const NEW_RENDER_TODAY_STATUS = `function renderTodayStatus() {
+  if (!currentStudent) return;
+  const today = todayStr();
+  const acts = studentActivitiesOnDate(currentStudent.id, today);
+  const items = [
+    {key: 'english', label: '영어', emoji: '🍽️'},
+    ...(currentStudent.grade === 3 ? [{key: 'multiplication', label: '구구단', emoji: '🧮'}] : []),
+    {key: 'jumprope', label: '줄넘기', emoji: '🏃'},
+  ];`;
+
+const OLD_POPUP_ITEMS = `function showTodayHomeworkPopup() {
+  if (!currentStudent) return;
+  const acts = studentActivitiesOnDate(currentStudent.id, todayStr());
+  const items = [
+    {key: 'english',        label: '맛있는 영어',    emoji: '🍽️'},
+    {key: 'jumprope',       label: '줄넘기',          emoji: '🏃'},
+  ];
+  const doneCount = items.filter(it => acts.has(it.key)).length;
+
+  if (doneCount === 2) {`;
+const NEW_POPUP_ITEMS = `function showTodayHomeworkPopup() {
+  if (!currentStudent) return;
+  const acts = studentActivitiesOnDate(currentStudent.id, todayStr());
+  const items = [
+    {key: 'english',        label: '맛있는 영어',    emoji: '🍽️'},
+    ...(currentStudent.grade === 3 ? [{key: 'multiplication', label: '맛있는 구구단', emoji: '🧮'}] : []),
+    {key: 'jumprope',       label: '줄넘기',          emoji: '🏃'},
+  ];
+  const doneCount = items.filter(it => acts.has(it.key)).length;
+
+  if (doneCount === items.length) {`;
+
+const OLD_POPUP_CELEBRATION_TEXT = `      <div class="popup-title">${alreadyCelebrated ? '오늘도 최고예요!' : '2가지 다 완료했어요!'}</div>
+      <div class="popup-body">
+        ${currentStudent.name} 학생, 오늘의 숙제 2가지를 모두 끝냈어요!<br>`;
+const NEW_POPUP_CELEBRATION_TEXT = `      <div class="popup-title">${alreadyCelebrated ? '오늘도 최고예요!' : items.length + '가지 다 완료했어요!'}</div>
+      <div class="popup-body">
+        ${currentStudent.name} 학생, 오늘의 숙제 ${items.length}가지를 모두 끝냈어요!<br>`;
+
+const OLD_POPUP_REMAINING_TEXT = `        오늘은 <b style="color:var(--red);">${2 - doneCount}가지</b> 더 하면 완료예요!<br>`;
+const NEW_POPUP_REMAINING_TEXT = `        오늘은 <b style="color:var(--red);">${items.length - doneCount}가지</b> 더 하면 완료예요!<br>`;
+
+const OLD_CHECK_AFTER_ACTIVITY = `function checkHomeworkAfterActivity() {
+  if (!currentStudent) return;
+  const acts = studentActivitiesOnDate(currentStudent.id, todayStr());
+  const doneCount = ['english','jumprope'].filter(k => acts.has(k)).length;
+
+  if (doneCount === 2) {
+    const key = \`celebrated_${currentStudent.id}_${todayStr()}\`;
+    if (!localStorage.getItem(key)) {
+      // First time completing all 3 today - big celebration
+      showPopup(\`
+        <div class="popup-emoji">🏆</div>
+        <div class="popup-title">🎊 2가지 다 완료! 🎊</div>
+        <div class="popup-body">
+          ${currentStudent.name} 학생, 오늘의 숙제<br>
+          <b style="color:var(--green);font-size:16px;">영어 · 줄넘기</b><br>
+          모두 완료했어요!<br><br>`;
+const NEW_CHECK_AFTER_ACTIVITY = `function checkHomeworkAfterActivity() {
+  if (!currentStudent) return;
+  const acts = studentActivitiesOnDate(currentStudent.id, todayStr());
+  const activityKeys = ['english', 'jumprope', ...(currentStudent.grade === 3 ? ['multiplication'] : [])];
+  const doneCount = activityKeys.filter(k => acts.has(k)).length;
+
+  if (doneCount === activityKeys.length) {
+    const key = \`celebrated_${currentStudent.id}_${todayStr()}\`;
+    if (!localStorage.getItem(key)) {
+      // First time completing all today - big celebration
+      const labelLine = currentStudent.grade === 3 ? '영어 · 구구단 · 줄넘기' : '영어 · 줄넘기';
+      showPopup(\`
+        <div class="popup-emoji">🏆</div>
+        <div class="popup-title">🎊 ${activityKeys.length}가지 다 완료! 🎊</div>
+        <div class="popup-body">
+          ${currentStudent.name} 학생, 오늘의 숙제<br>
+          <b style="color:var(--green);font-size:16px;">${labelLine}</b><br>
+          모두 완료했어요!<br><br>`;
+
+module.exports = function gradeAwareHomeworkCheck(html, ctx) {
+  html = mustReplace(html, OLD_RENDER_TODAY_STATUS, NEW_RENDER_TODAY_STATUS, '08b: renderTodayStatus grade-aware items');
+  html = mustReplace(html, OLD_POPUP_ITEMS, NEW_POPUP_ITEMS, '08b: showTodayHomeworkPopup grade-aware items');
+  html = mustReplace(html, OLD_POPUP_CELEBRATION_TEXT, NEW_POPUP_CELEBRATION_TEXT, '08b: popup celebration text dynamic count');
+  html = mustReplace(html, OLD_POPUP_REMAINING_TEXT, NEW_POPUP_REMAINING_TEXT, '08b: popup remaining text dynamic count');
+  html = mustReplace(html, OLD_CHECK_AFTER_ACTIVITY, NEW_CHECK_AFTER_ACTIVITY, '08b: checkHomeworkAfterActivity grade-aware');
+  return html;
+};
+```
+
+- [ ] **Step 2: Wire into build.js**
+
+Add `require('./transforms/08b-grade-aware-homework-check'),` right after the `08-navigation` line.
+
+- [ ] **Step 3: Add verify assertions**
+
+```js
+// Task 8b: grade-aware homework completion check (fixes review finding: 구구단 was silently excluded for 3학년)
+check('renderTodayStatus includes 구구단 conditionally for grade 3', html.includes(`...(currentStudent.grade === 3 ? [{key: 'multiplication', label: '구구단', emoji: '🧮'}] : [])`));
+check('showTodayHomeworkPopup includes 구구단 conditionally for grade 3', html.includes(`...(currentStudent.grade === 3 ? [{key: 'multiplication', label: '맛있는 구구단', emoji: '🧮'}] : [])`));
+check('showTodayHomeworkPopup uses dynamic item count, not hardcoded 2', html.includes('if (doneCount === items.length) {') && !html.includes('if (doneCount === 2) {'));
+check('checkHomeworkAfterActivity uses grade-aware activityKeys', html.includes(`const activityKeys = ['english', 'jumprope', ...(currentStudent.grade === 3 ? ['multiplication'] : [])];`));
+```
+
+- [ ] **Step 4: Run build + verify**
+
+Run: `cd "Downloads/summerhomework" && node scripts/build.js && node scripts/verify.js`
+Expected: all checks OK.
+
+- [ ] **Step 5: Commit**
+
+```bash
+cd "Downloads/summerhomework"
+git add scripts/
+git commit -m "fix: make homework-completion check/popup/status grade-aware (구구단 for 3학년)"
+```
+
+---
+
 ### Task 9: Full build, manual smoke test, ship
 
 **Files:**
@@ -1698,7 +1837,7 @@ python -m http.server 8765
 Open `http://localhost:8765/index.build.html` in a browser (Firebase calls work fine from `localhost`, unlike `file://`). Walk through, and note pass/fail for each:
 
 1. Grade picker shows exactly 4 grade buttons (3/4/5/6) + "반 친구들 기록 보기" + 4 teacher-login buttons + small "🔐 전체 관리자" button.
-2. Pick 3학년 → student list shows the 5 existing students → log in as one (existing password) → menu shows **3 cards**: 맛있는 영어, 맛있는 구구단, 줄넘기 급수제 (+ 내 기록 보기).
+2. Pick 3학년 → student list shows the 5 existing students → log in as one (existing password) → menu shows **3 cards**: 맛있는 영어, 맛있는 구구단, 줄넘기 급수제 (+ 내 기록 보기), AND the "오늘의 숙제 현황" row at the top shows 3 items (영어/구구단/줄넘기), not 2 — complete all 3 for this student and confirm the "🎊 3가지 다 완료!" celebration fires (not after only 2).
 3. From that 3학년 menu, tap 맛있는 영어 → confirm it loads **3학년 단원만** (no internal 학년 선택 screen shown, no 4학년 option visible).
 4. Tap 🏠 메뉴 to go back — confirm it returns to the 3학년 menu (still showing the 구구단 card), not the grade picker.
 5. Tap 맛있는 구구단 → confirms it opens and a "뒤로"/메뉴 button returns correctly to the menu.
