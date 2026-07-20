@@ -91,6 +91,12 @@ check('renderAdminStudentPwTable defined', html.includes('function renderAdminSt
 check('adminSaveTeacherPw defined', html.includes('function adminSaveTeacherPw(grade)'));
 check('adminSaveStudentPw defined', html.includes('function adminSaveStudentPw(sid)'));
 
+// Task 7: class ranking tabs
+check('4 classGradeTab buttons present', [3, 4, 5, 6].every(g => html.includes(`id="classGradeTab${g}"`)));
+check('classMultPanel present and starts hidden', /class="rank-panel hidden" id="classMultPanel"/.test(html));
+check('styleGradeTabs covers 4 grades', html.includes('[3,4,5,6].forEach(g => {') );
+check('renderClassRanking computes multSess', html.includes('if (entry.activity === \'multiplication\') { multSess++; multDays.add(date); }'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);

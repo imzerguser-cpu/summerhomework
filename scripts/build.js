@@ -15,7 +15,7 @@ const transforms = [
   require('./transforms/04-english-engine-routing'),
   require('./transforms/05-teacher-login-and-dashboard'),
   require('./transforms/06-admin'),
-  // Task 7 will add: require('./transforms/07-class-ranking-tabs'),
+  require('./transforms/07-class-ranking-tabs'),
   // Task 8 will add: require('./transforms/08-navigation'),
 ];
 
