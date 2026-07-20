@@ -30,6 +30,7 @@ const transforms = [
   require('./transforms/09-post-launch-fixes'),
   require('./transforms/10-hide-brand-on-first-screen'),
   require('./transforms/12-shrink-teacher-login-buttons'),
+  require('./transforms/13-teacher-buttons-own-row'),
 ];
 
 let html = base;
