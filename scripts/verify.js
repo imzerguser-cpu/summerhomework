@@ -59,6 +59,18 @@ check('startMultiplication defined (ported from MAIN ACTIVITY ENTRY POINTS, not 
 check('updateMenuCardsForGrade defined', html.includes('function updateMenuCardsForGrade()'));
 check('mult CSS present', html.includes('.activitycard.mult::before'));
 
+// Task 4: dual English engine routing
+check('quizDocTemplate34 present', html.includes('id="quizDocTemplate34"'));
+check('quizDocTemplate56 present (renamed)', html.includes('id="quizDocTemplate56"'));
+check('old bare quizDocTemplate id gone', !html.includes('id="quizDocTemplate"'));
+check('loadEngQuizFrame routes by grade', html.includes(`var tplId = (gradeOverride === '3' || gradeOverride === '4') ? 'quizDocTemplate34' : 'quizDocTemplate56';`));
+{
+  const engineAStart = html.indexOf('id="quizDocTemplate34"');
+  const engineAEnd = html.indexOf('</script>', engineAStart);
+  const engineAChunk = html.slice(engineAStart, engineAEnd);
+  check('engine A chunk contains grade-3/4 bootstrap targets', engineAChunk.includes("showScreen('grade');") && engineAChunk.includes('id="gradeBtn"'));
+}
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
