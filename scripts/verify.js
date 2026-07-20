@@ -121,6 +121,10 @@ check('6학년 last student renumbered to 15 (s19 -> no:15)', html.includes(`{id
 check('6학년 default passwords match new numbering', html.includes(`s05: '0101'`) && html.includes(`s19: '1515'`));
 check('admin default password is 2026', html.includes(`const ADMIN_PW_DEFAULT = '2026';`));
 
+// Task 10 (post-launch fix): hide brand badge on the initial grade-picker screen only
+check('brand div starts hidden and has an id', html.includes(`<div class="brand hidden" id="brandLabel">`));
+check('showScreen toggles brand visibility on screen-students', html.includes(`document.getElementById('brandLabel').classList.toggle('hidden', id === 'screen-students');`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
