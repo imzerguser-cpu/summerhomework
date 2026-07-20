@@ -141,6 +141,16 @@ const NEW_RECORDS_LISTENER = `RECORD_GROUPS.forEach(group => {
 const OLD_SAVE_RECORD_LINE = `  const ref = recordsRef.child(studentId).child(dateStr).push();`;
 const NEW_SAVE_RECORD_LINE = `  const ref = recordsRefForStudent(studentId).child(studentId).child(dateStr).push();`;
 
+const OLD_SAVE_PW_LINE = `  passwordsRef.update(update).then(() => {`;
+const NEW_SAVE_PW_LINE = `  passwordsRefForStudent(sid).update(update).then(() => {`;
+
+const OLD_TEACHER_RESET_LINE = `  Promise.all([
+    recordsRef.remove(),
+    jumpRopeRef.remove(),`;
+const NEW_TEACHER_RESET_LINE = `  Promise.all([
+    ...RECORD_GROUPS.map(group => group.ref.remove()),
+    jumpRopeRef.remove(),`;
+
 const OLD_RESET_STUDENT_LINE = `    recordsRef.child(studentId).remove(),`;
 const NEW_RESET_STUDENT_LINE = `    recordsRefForStudent(studentId).child(studentId).remove(),`;
 
@@ -157,6 +167,8 @@ module.exports = function studentsAndFirebase(html, ctx) {
   html = mustReplace(html, OLD_PW_LISTENER, NEW_PW_LISTENER, '02: passwords listener');
   html = mustReplace(html, OLD_RECORDS_LISTENER, NEW_RECORDS_LISTENER, '02: records listener');
   html = mustReplace(html, OLD_SAVE_RECORD_LINE, NEW_SAVE_RECORD_LINE, '02: saveRecord ref');
+  html = mustReplace(html, OLD_SAVE_PW_LINE, NEW_SAVE_PW_LINE, '02: savePw ref');
+  html = mustReplace(html, OLD_TEACHER_RESET_LINE, NEW_TEACHER_RESET_LINE, '02: teacher reset ref');
   html = mustReplace(html, OLD_RESET_STUDENT_LINE, NEW_RESET_STUDENT_LINE, '02: resetStudentRecords ref');
   html = mustReplace(html, OLD_TAIL_LISTENER, NEW_TAIL_LISTENER, '02: tail listeners');
   return html;

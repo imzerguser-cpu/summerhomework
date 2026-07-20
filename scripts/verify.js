@@ -46,6 +46,7 @@ check('mado4_passwords ref present', html.includes(`db.ref('mado4_passwords')`))
 check('mado56_records still shared', (html.match(/db\.ref\('mado56_records'\)/g) || []).length === 2);
 check('resetAllRecordsForGrade defined', html.includes('function resetAllRecordsForGrade(grade)'));
 check('old single recordsRef/passwordsRef removed', !/const recordsRef = db\.ref/.test(html) && !/const passwordsRef = db\.ref/.test(html));
+check('no remaining bare recordsRef/passwordsRef usages', !/\brecordsRef\b(?!ForStudent)/.test(html) && !/\bpasswordsRef\b(?!ForStudent)/.test(html));
 
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
