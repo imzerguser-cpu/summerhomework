@@ -29,6 +29,7 @@ const transforms = [
   require('./transforms/08b-grade-aware-homework-check'),
   require('./transforms/09-post-launch-fixes'),
   require('./transforms/10-hide-brand-on-first-screen'),
+  require('./transforms/11-three-row-login-buttons'),
 ];
 
 let html = base;

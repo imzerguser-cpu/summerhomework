@@ -125,6 +125,10 @@ check('admin default password is 2026', html.includes(`const ADMIN_PW_DEFAULT = 
 check('brand div starts hidden and has an id', html.includes(`<div class="brand hidden" id="brandLabel">`));
 check('showScreen toggles brand visibility on screen-students', html.includes(`document.getElementById('brandLabel').classList.toggle('hidden', id === 'screen-students');`));
 
+// Task 11 (post-launch fix): 3-row login button layout
+check('반 친구들 기록 보기 button is alone in its own row (closing div right after it)', html.includes(`<button class="navbtn" id="publicClassBtn" style="background:var(--sky);color:#fff;padding:12px 24px;font-size:14px;">👥 반 친구들 기록 보기</button>\n    </div>`));
+check('4 teacher login buttons share one row', html.includes(`<button class="navbtn" id="teacherLoginBtn3"`) && html.includes(`<button class="navbtn" id="teacherLoginBtn6" style="background:var(--navy);color:#fff;padding:12px 24px;font-size:14px;">🔑 6학년 선생님 로그인</button>\n    </div>`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
