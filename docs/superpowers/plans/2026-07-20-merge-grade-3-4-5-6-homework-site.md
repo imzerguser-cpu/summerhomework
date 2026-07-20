@@ -1934,3 +1934,15 @@ Expected: all verify checks pass, and `byte-identical: true` — this reorganiza
 git add scripts/sources/ scripts/build.js
 git commit -m "fix: freeze build inputs under scripts/sources/ so the pipeline can rebuild from a fresh clone"
 ```
+
+---
+
+### Task 11: Post-launch fixes (requested after the site went live)
+
+After deploy, the user asked for three small corrections via `scripts/transforms/09-post-launch-fixes.js`:
+
+1. Page title/branding: `<title>`, header brand — were still 5·6학년-specific text left over from the merge base. Also fixed two other visible "5,6학년"-only leftovers found while doing this (teacher dashboard hero, jump-rope screen header) — the dead/unused `#eng-units` legacy markup (commented "legacy, hidden") was deliberately left alone.
+2. 6학년 학생 번호가 5학년(1~4번) 뒤를 이어 5번부터 시작하던 것을 1번부터 다시 시작하도록 변경 (`STUDENTS` 배열의 `no` 필드), 기본 비밀번호(두 자리 번호 반복 규칙)도 새 번호에 맞춰 갱신.
+3. 전체 관리자 기본 비밀번호를 `9999` → `2026`으로 통일.
+
+Verified via `diff index.html index.build.html` that the rebuild changes exactly these 7 spots and nothing else, before shipping.

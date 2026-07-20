@@ -110,6 +110,17 @@ check('showTodayHomeworkPopup includes 구구단 conditionally for grade 3', htm
 check('showTodayHomeworkPopup uses dynamic item count, not hardcoded 2', html.includes('if (doneCount === items.length) {') && !html.includes('if (doneCount === 2) {'));
 check('checkHomeworkAfterActivity uses grade-aware activityKeys', html.includes(`const activityKeys = ['english', 'jumprope', ...(currentStudent.grade === 3 ? ['multiplication'] : [])];`));
 
+// Task 9 (post-launch fixes): title/branding, 6학년 renumbering, admin default password
+check('page title updated', html.includes('<title>마동초 3~6학년 방학숙제 🌻</title>'));
+check('header brand updated', html.includes('마동초 3~6학년'));
+check('no stray 5·6학년-only title/brand text remains', !html.includes('마동초 5·6학년'));
+check('teacher dashboard hero no longer hardcodes 5,6학년', !html.includes('5,6학년 학생들의 학습 현황을 한눈에 확인하세요.'));
+check('jump rope header no longer hardcodes 마동초 5,6학년', !html.includes('마동초 5,6학년'));
+check('6학년 renumbered starting at 1 (s05 -> no:1)', html.includes(`{id:'s05', no:1, name:'구승현', emoji:'🐯', grade:6}`));
+check('6학년 last student renumbered to 15 (s19 -> no:15)', html.includes(`{id:'s19', no:15, name:'최지성', emoji:'🦄', grade:6}`));
+check('6학년 default passwords match new numbering', html.includes(`s05: '0101'`) && html.includes(`s19: '1515'`));
+check('admin default password is 2026', html.includes(`const ADMIN_PW_DEFAULT = '2026';`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);

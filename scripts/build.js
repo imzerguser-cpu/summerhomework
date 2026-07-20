@@ -27,6 +27,7 @@ const transforms = [
   require('./transforms/07-class-ranking-tabs'),
   require('./transforms/08-navigation'),
   require('./transforms/08b-grade-aware-homework-check'),
+  require('./transforms/09-post-launch-fixes'),
 ];
 
 let html = base;
