@@ -34,6 +34,7 @@ const transforms = [
   require('./transforms/15-restore-brand-full-name'),
   require('./transforms/16-student-grid-three-columns'),
   require('./transforms/17-per-grade-student-grid-columns'),
+  require('./transforms/18-restore-mult-init-calls'),
 ];
 
 let html = base;

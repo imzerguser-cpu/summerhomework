@@ -143,6 +143,12 @@ check('grade-picker grid (#gradePickGrid) still uses shared auto-fit .student-gr
 check('per-grade column lookup present with correct counts', html.includes(`const STUDENT_GRID_COLS = {3: 5, 4: 3, 5: 4, 6: 3};`));
 check('renderStudents sets inline column count from lookup', html.includes(`grid.style.gridTemplateColumns = \`repeat(\${STUDENT_GRID_COLS[selectedGrade] || 3}, 1fr)\`;`));
 
+// Task 18 (bugfix): renderMultHome()/initMultSpeech() actually get called at init
+// (Task 3 ported their definitions but not this call, so #multTableGrid stayed empty)
+check('renderMultHome() is called at init, not just defined', (html.match(/renderMultHome\(\)/g) || []).length >= 2);
+check('initMultSpeech() is called at init, not just defined', (html.match(/initMultSpeech\(\)/g) || []).length >= 2);
+check('init order is renderGradePick -> renderMultHome -> initMultSpeech -> showScreen', html.includes(`renderGradePick();\nrenderMultHome();\ninitMultSpeech();\nshowScreen('screen-students');`));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
