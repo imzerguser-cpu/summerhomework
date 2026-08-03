@@ -149,6 +149,13 @@ check('renderMultHome() is called at init, not just defined', (html.match(/rende
 check('initMultSpeech() is called at init, not just defined', (html.match(/initMultSpeech\(\)/g) || []).length >= 2);
 check('init order is renderGradePick -> renderMultHome -> initMultSpeech -> showScreen', html.includes(`renderGradePick();\nrenderMultHome();\ninitMultSpeech();\nshowScreen('screen-students');`));
 
+// Task 19 (bugfix): missing multiplication-specific CSS restored
+check('.keypad CSS present', html.includes('.keypad{display:grid;grid-template-columns:repeat(3,1fr);'));
+check('.tablecard CSS present', html.includes('.tablecard{background:var(--white);border-radius:18px;'));
+check('.tablecard .big/.label CSS present', html.includes('.tablecard .big{') && html.includes('.tablecard .label{'));
+check('.answer-box state CSS present', html.includes('.answer-box.filled{') && html.includes('.answer-box.wrong{') && html.includes('.answer-box.empty{'));
+check('.wronglist CSS present', html.includes('.wronglist{background:var(--cream);'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);
