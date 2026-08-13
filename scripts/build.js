@@ -36,6 +36,8 @@ const transforms = [
   require('./transforms/17-per-grade-student-grid-columns'),
   require('./transforms/18-restore-mult-init-calls'),
   require('./transforms/19-restore-mult-css'),
+  require('./transforms/20-improve-speech-matching-engine-a'),
+  require('./transforms/21-improve-speech-matching-engine-b'),
 ];
 
 let html = base;

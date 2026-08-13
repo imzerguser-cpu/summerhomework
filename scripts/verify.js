@@ -156,6 +156,13 @@ check('.tablecard .big/.label CSS present', html.includes('.tablecard .big{') &&
 check('.answer-box state CSS present', html.includes('.answer-box.filled{') && html.includes('.answer-box.wrong{') && html.includes('.answer-box.empty{'));
 check('.wronglist CSS present', html.includes('.wronglist{background:var(--cream);'));
 
+// Task 20/21 (speech matching improvements)
+check('engine A has countSyllables (ported from engine B)', (html.match(/function countSyllables\(word\)\{/g) || []).length === 2);
+check('engine A one-syllable long-word widening present', html.includes('} else if(wc===1 && countSyllables(ng)<=1){'));
+check('engine B has editDistance/shortEditClose (ported from engine A)', (html.match(/function editDistance\(a,b\)\{/g) || []).length === 2 && (html.match(/function shortEditClose\(a,b\)\{/g) || []).length === 2);
+check('engine B one-syllable threshold lowered to 0.4', html.includes('return tokens.some(tok=>bigramDice(tok, ng) >= 0.4 || shortEditClose(tok, ng));'));
+check('engine B korean short-word bigram fallback added', html.includes('return nt.includes(ng) || ng.includes(nt) || bigramDice(nt, ng) >= 0.3;'));
+
 if (failures > 0) {
   console.error(`\n${failures} check(s) failed.`);
   process.exit(1);

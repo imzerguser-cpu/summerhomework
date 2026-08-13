@@ -6766,6 +6766,17 @@ function homophoneMatch(a, b){
   return !!group && group.includes(b);
 }
 
+// Rough syllable-count estimate (vowel-group count, with a silent-e adjustment).
+// Used to widen the speech-matching margin for one-syllable words, since
+// speech recognition tends to mis-hear these more than longer words.
+function countSyllables(word){
+  const w = word.toLowerCase().replace(/[^a-z]/g, '');
+  if(!w) return 0;
+  const groups = w.match(/[aeiouy]+/g) || [];
+  let count = groups.length;
+  if(w.endsWith('e') && count > 1) count--;
+  return Math.max(1, count);
+}
 function checkAnswer(transcript, item, lang){
   const target = item.target;
   if(lang==='ko-KR'){
@@ -6784,7 +6795,11 @@ function checkAnswer(transcript, item, lang){
       if(koSynonymMatch(nt,ng)) return true;
       if(nt.includes(ng) || ng.includes(nt)) return true;
       if(koSemanticMatch(transcript, v)) return true;
-      if(bigramDice(nt,ng) >= 0.4) return true;
+      // Very short (1-2 syllable) Korean targets get a lower bar - fewer bigrams
+      // means the score is noisier, and short utterances are where speech
+      // recognition struggles most.
+      const koThreshold = ng.length<=2 ? 0.3 : 0.4;
+      if(bigramDice(nt,ng) >= koThreshold) return true;
     }
     return false;
   } else {
@@ -6806,6 +6821,15 @@ function checkAnswer(transcript, item, lang){
           if(bigramDice(tok, ng) >= 0.34) return true;
           if(tok[0]===ng[0] && Math.abs(tok.length-ng.length)<=2 && bigramDice(tok,ng)>=0.25) return true;
           if(ng.length>=2 && tok.length>=2 && tok[0]===ng[0] && tok[tok.length-1]===ng[ng.length-1] && Math.abs(tok.length-ng.length)<=1) return true;
+        }
+      } else if(wc===1 && countSyllables(ng)<=1){
+        // One-syllable words longer than 4 letters (friend, great, thought...) still
+        // get the wide margin - speech recognition struggles with short utterances
+        // regardless of how long the spelling is.
+        for(const tok of cands){
+          if(!tok) continue;
+          if(shortEditClose(tok, ng)) return true;
+          if(bigramDice(tok, ng) >= 0.4) return true;
         }
       } else {
         if(bigramDice(nt, ng) >= 0.5) return true;
@@ -8272,15 +8296,22 @@ function countSyllables(word){
   return Math.max(1, count);
 }
 
+function editDistance(a,b){
+  var m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  var prev=[]; for(var j=0;j<=n;j++) prev[j]=j; var cur=new Array(n+1).fill(0);
+  for(var i=1;i<=m;i++){ cur[0]=i; for(var j2=1;j2<=n;j2++){ cur[j2]=Math.min(prev[j2]+1,cur[j2-1]+1,prev[j2-1]+(a[i-1]===b[j2-1]?0:1)); } var tmp=prev; prev=cur; cur=tmp; }
+  return prev[n];
+}
+function shortEditClose(a,b){ if(!a||!b) return false; var L=Math.max(a.length,b.length); var d=editDistance(a,b); if(L<=3) return d<=1; if(L<=5) return d<=2; return false; }
 function checkAnswer(transcript, item, lang){
   const target = item.target;
   if(lang==='ko-KR'){
     const nt = normalizeKo(transcript);
     const ng = normalizeKo(target);
     if(ng.length<=4){
-      return nt.includes(ng) || ng.includes(nt);
+      return nt.includes(ng) || ng.includes(nt) || bigramDice(nt, ng) >= 0.3;
     }
-    return bigramDice(nt, ng) >= 0.45 || nt.includes(ng);
+    return bigramDice(nt, ng) >= 0.4 || nt.includes(ng);
   } else {
     const nt = normalizeEn(transcript);
     const ng = normalizeEn(target);
@@ -8292,10 +8323,11 @@ function checkAnswer(transcript, item, lang){
       const tokens = nt.split(' ').filter(Boolean);
       if(homophoneMatch(ng, nt)) return true;
       if(tokens.some(tok=>homophoneMatch(ng, tok) || homophoneMatch(tok, ng))) return true;
+      if(tokens.some(tok=>shortEditClose(tok, ng))) return true;
       // One-syllable words get an even wider margin: speech recognition
       // frequently mis-hears these, so accept a close phonetic match too.
       if(wc===1 && countSyllables(ng)<=1){
-        return tokens.some(tok=>bigramDice(tok, ng) >= 0.5);
+        return tokens.some(tok=>bigramDice(tok, ng) >= 0.4 || shortEditClose(tok, ng));
       }
       return false;
     }
