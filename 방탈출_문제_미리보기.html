@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>1학기 방탈출 놀이 - 문제 및 정답 모음 (v6)</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic','Noto Sans KR',sans-serif; color:#222; font-size:11.5px; line-height:1.5; margin:0; }
+  h1 { font-size:19px; margin:0 0 4px; }
+  .sub { font-size:10.5px; color:#666; margin-bottom:12px; }
+  h2 { font-size:14px; margin:20px 0 8px; padding:6px 10px; background:#1B2E4A; color:#fff; border-radius:4px; page-break-before:always; }
+  h2:first-of-type { page-break-before:auto; }
+  .principle { font-size:10.5px; color:#333; background:#EAF2FB; border:1px solid #C7DCF2; border-radius:6px; padding:9px 11px; margin-bottom:12px; }
+  .principle b { color:#1B2E4A; }
+  table.plain { width:100%; border-collapse:collapse; margin-bottom:6px; }
+  table.plain th, table.plain td { border:1px solid #ccc; padding:5px 7px; text-align:left; vertical-align:top; font-size:10.5px; }
+  table.plain th { background:#F0F3F7; }
+  td.id { font-weight:700; white-space:nowrap; width:48px; }
+  td.grade { white-space:nowrap; width:34px; color:#3B6BA5; font-weight:700; text-align:center; }
+  td.unit { white-space:nowrap; width:135px; color:#555; }
+  td.answer { white-space:nowrap; width:85px; font-weight:700; color:#2DAA6E; }
+
+  .card { border:1px solid #D8E0E8; border-radius:8px; margin:0 0 10px; overflow:hidden; page-break-inside:avoid; }
+  .card-hd { display:flex; align-items:center; gap:8px; background:#F0F3F7; padding:5px 10px; font-size:10.5px; }
+  .card-hd .qid { font-weight:800; color:#1B2E4A; }
+  .card-hd .qgrade { background:#3B6BA5; color:#fff; border-radius:10px; padding:1px 8px; font-weight:700; }
+  .card-hd .qunit { color:#666; }
+  .card-bd { display:flex; gap:12px; padding:9px 12px; align-items:center; flex-wrap:wrap; }
+  .card-img { flex:none; background:#FAFBFC; border:1px solid #E5EAEF; border-radius:6px; padding:4px; }
+  .card-txt { flex:1; min-width:200px; }
+  .card-ans { margin-top:4px; font-weight:800; color:#2DAA6E; font-size:11px; }
+  .pictogram { font-size:20px; letter-spacing:2px; line-height:1.3; }
+  .dotgrid { font-size:15px; letter-spacing:1px; color:#3B6BA5; line-height:1.5; }
+  .note { font-size:10.5px; color:#555; background:#FFF3D6; border:1px solid #F5DFA0; border-radius:6px; padding:8px 10px; margin-top:10px; }
+  .fixtag { display:inline-block; background:#2DAA6E; color:#fff; font-size:9px; font-weight:800; border-radius:4px; padding:1px 6px; margin-left:6px; }
+</style>
+</head>
+<body>
+
+<h1>🔑 1학기 방탈출 놀이 — 문제 및 정답 모음 (v6, 검토용)</h1>
+<div class="sub">2026학년도 1학기 · 5개 방(도서관/컴퓨터실/영어체험실/VR실/강당) · 각 방 8문제, 총 40문제 · <span class="fixtag">초록 표시</span>는 이번에 수정된 문제</div>
+
+<div class="principle">
+<b>v6 수정 내용</b>: ① 컴퓨터실 1학년 새 문제를 원+화살표로 "날아감"을 명확히 표현 ② 6학년 영어 두 문제 모두 5학년처럼 랜덤 출제로 변경 ③ 강당 4학년 막대그래프를 축·라벨이 있는 제대로 된 그래프로 재작성 ④ 강당 6학년 직육면체를 올바른 3차원 모양으로 재작성 ⑤ 강당 6학년 그래프 문제를 5개 항목 표+띠그래프 보기 4개 중 정답 고르기로 전면 변경. <b>참고</b>: 알려주신 링크는 자바스크립트 이북 뷰어라 실제 본문을 가져올 수 없어서, 6학년 1학기 "여러 가지 그래프" 단원에서 공통적으로 다루는 띠그래프를 기준으로 만들었습니다 — 실제 교과서와 다르면 알려주세요.
+</div>
+
+<h2>📚 도서관 — R1 (수학, 그림)</h2>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q1</span><span class="qgrade">1학년</span><span class="qunit">덧셈(문장제·그림)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><div class="pictogram">✏️✏️✏️✏️ &nbsp;+&nbsp; ✏️✏️</div></div>
+    <div class="card-txt">문구점에 연필이 4자루 있었는데 2자루를 더 사왔습니다. 연필은 모두 몇 자루인가요?
+    <div class="card-ans">정답: 6</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q2</span><span class="qgrade">2학년</span><span class="qunit">덧셈(문장제·그림, 10묶음)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><div class="dotgrid">●●●●●●●●●●<br>●●●●●●●●●●<br>●●●&nbsp;&nbsp;+&nbsp;&nbsp;●●●●●</div></div>
+    <div class="card-txt">교실에 학생이 23명(10개씩 두 줄 + 3명) 있었는데 5명이 전학을 왔습니다. 지금 교실에 있는 학생은 모두 몇 명인가요?
+    <div class="card-ans">정답: 28</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q3</span><span class="qgrade">3학년</span><span class="qunit">나눗셈(문장제)</span></div>
+  <div class="card-bd"><div class="card-txt">사탕 48개를 6명에게 똑같이 나누어 주려고 합니다. 한 명이 몇 개씩 받게 되나요?
+  <div class="card-ans">정답: 8</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q4</span><span class="qgrade">4학년</span><span class="qunit">각도(그림)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="170" height="140" viewBox="0 0 170 140">
+      <polygon points="15,120 155,120 90,20" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="35" y="112" font-size="12" fill="#E0465A" font-weight="700">70°</text>
+      <text x="118" y="112" font-size="12" fill="#E0465A" font-weight="700">60°</text>
+      <text x="82" y="38" font-size="13" fill="#2DAA6E" font-weight="800">?</text>
+    </svg></div>
+    <div class="card-txt">삼각형의 세 각의 크기의 합은 180도입니다. 그림처럼 두 각이 70°, 60°일 때 나머지 한 각(?)은 몇 도인가요?
+    <div class="card-ans">정답: 50</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q5</span><span class="qgrade">4학년</span><span class="qunit">큰 수</span></div>
+  <div class="card-bd"><div class="card-txt">10000이 3개, 1000이 5개인 수는 얼마인가요?
+  <div class="card-ans">정답: 35000</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q6</span><span class="qgrade">5학년</span><span class="qunit">분수의 덧셈과 뺄셈(문장제)</span></div>
+  <div class="card-bd"><div class="card-txt">우유를 어제 1/3병, 오늘 1/6병 마셨습니다. 이틀 동안 마신 우유는 모두 몇 병인가요? (기약분수로, 예: 1/2)
+  <div class="card-ans">정답: 1/2</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q7</span><span class="qgrade">6학년</span><span class="qunit">분수의 나눗셈(문장제)</span></div>
+  <div class="card-bd"><div class="card-txt">리본 3/4m를 한 사람당 1/8m씩 나누어 주려고 합니다. 몇 명에게 나누어 줄 수 있나요?
+  <div class="card-ans">정답: 6</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R1Q8</span><span class="qgrade">6학년</span><span class="qunit">각기둥과 각뿔(그림)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="150" height="120" viewBox="0 0 150 120">
+      <polygon points="20,100 70,100 45,50" fill="none" stroke="#1B2E4A" stroke-width="2"/>
+      <polygon points="60,80 110,80 85,30" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <line x1="20" y1="100" x2="60" y2="80" stroke="#1B2E4A" stroke-width="2"/>
+      <line x1="70" y1="100" x2="110" y2="80" stroke="#1B2E4A" stroke-width="2"/>
+      <line x1="45" y1="50" x2="85" y2="30" stroke="#1B2E4A" stroke-width="2"/>
+    </svg></div>
+    <div class="card-txt">그림과 같이 두 밑면이 서로 합동인 삼각형이고 옆면이 직사각형인 입체도형의 이름은 무엇인가요?
+    <div class="card-ans">정답: 삼각기둥</div></div>
+  </div>
+</div>
+
+<h2>💻 컴퓨터실 — R2 (수학, 그림)</h2>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q1</span><span class="qgrade">1학년</span><span class="qunit">뺄셈(문장제·그림)</span><span class="fixtag">그림 수정</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="260" height="80" viewBox="0 0 260 80">
+      <text x="8" y="45" font-size="24">🐦</text>
+      <text x="34" y="45" font-size="24">🐦</text>
+      <text x="60" y="45" font-size="24">🐦</text>
+      <text x="86" y="45" font-size="24">🐦</text>
+      <text x="118" y="45" font-size="24">🐦</text>
+      <text x="144" y="45" font-size="24">🐦</text>
+      <text x="170" y="45" font-size="24">🐦</text>
+      <ellipse cx="157" cy="38" rx="48" ry="27" fill="none" stroke="#E0465A" stroke-width="2.5"/>
+      <line x1="206" y1="38" x2="245" y2="38" stroke="#E0465A" stroke-width="2.5"/>
+      <polygon points="245,38 235,32 235,44" fill="#E0465A"/>
+      <text x="195" y="65" font-size="10" fill="#E0465A" font-weight="700">3마리가 날아감</text>
+    </svg></div>
+    <div class="card-txt">새가 나뭇가지에 7마리 앉아 있었는데(그림) 동그라미 친 3마리가 화살표 방향으로 날아갔습니다. 남은 새는 몇 마리인가요?
+    <div class="card-ans">정답: 4</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q2</span><span class="qgrade">2학년</span><span class="qunit">뺄셈(문장제·그림, 10묶음)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><div class="dotgrid">●●●●●●●●●●<br>●●●●●●●●●●<br>●●●●●&nbsp;&nbsp;(45장)</div></div>
+    <div class="card-txt">색종이가 45장(그림) 있었는데 19장을 사용했습니다. 남은 색종이는 몇 장인가요?
+    <div class="card-ans">정답: 26</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q3</span><span class="qgrade">3학년</span><span class="qunit">평면도형(그림·보기)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="320" height="90" viewBox="0 0 320 90">
+      <polygon points="10,15 70,10 65,60 15,55" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="30" y="80" font-size="11">① 사각형</text>
+      <polygon points="100,60 130,15 160,60" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="110" y="80" font-size="11">② 삼각형</text>
+      <circle cx="215" cy="38" r="25" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="198" y="80" font-size="11">③ 원</text>
+      <polygon points="290,12 310,28 303,55 277,55 270,28" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="272" y="80" font-size="11">④ 오각형</text>
+    </svg></div>
+    <div class="card-txt">그림의 도형 ①~④ 중에서 변의 개수가 가장 많은 도형은 몇 번인가요? (번호로 답)
+    <div class="card-ans">정답: 4</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q4</span><span class="qgrade">4학년</span><span class="qunit">곱셈과 나눗셈(문장제)</span></div>
+  <div class="card-bd"><div class="card-txt">한 상자에 초콜릿이 24개씩 들어 있습니다. 7상자에 들어 있는 초콜릿은 모두 몇 개인가요?
+  <div class="card-ans">정답: 168</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q5</span><span class="qgrade">4학년</span><span class="qunit">규칙 찾기</span></div>
+  <div class="card-bd"><div class="card-txt">2, 5, 8, 11, 14, ○ 다음에 올 수는 무엇인가요?
+  <div class="card-ans">정답: 17</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q6</span><span class="qgrade">5학년</span><span class="qunit">약수와 배수</span></div>
+  <div class="card-bd"><div class="card-txt">12와 18의 최대공약수는 얼마인가요?
+  <div class="card-ans">정답: 6</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q7</span><span class="qgrade">6학년</span><span class="qunit">소수의 나눗셈(문장제)</span></div>
+  <div class="card-bd"><div class="card-txt">리본 7.2m를 1.2m씩 자르면 몇 도막이 되나요?
+  <div class="card-ans">정답: 6</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R2Q8</span><span class="qgrade">6학년</span><span class="qunit">비와 비율</span></div>
+  <div class="card-bd"><div class="card-txt">어떤 반 학생 25명 중 안경을 쓴 학생이 5명이라면, 안경을 쓴 학생의 비율은 몇 %인가요?
+  <div class="card-ans">정답: 20</div></div></div>
+</div>
+
+<h2>🌍 영어체험실 — R3</h2>
+<table class="plain">
+<tr><th>ID</th><th>학년</th><th>유형</th><th>문제</th><th>정답</th></tr>
+<tr><td class="id">R3Q1</td><td class="grade">1</td><td class="unit">줄넘기·오래뛰기 10초↑</td><td>선생님 확인 후 "성공" 입력</td><td class="answer">성공</td></tr>
+<tr><td class="id">R3Q2</td><td class="grade">2</td><td class="unit">줄넘기·양발모아뛰기 20개↑</td><td>선생님 확인 후 "성공" 입력</td><td class="answer">성공</td></tr>
+<tr><td class="id">R3Q3</td><td class="grade">3</td><td class="unit">영어(음성)</td><td>'시계'를 영어로 말해보세요.</td><td class="answer">clock</td></tr>
+<tr><td class="id">R3Q4</td><td class="grade">4</td><td class="unit">영어(음성)</td><td>'축구'를 영어로 말해보세요.</td><td class="answer">soccer</td></tr>
+<tr><td class="id">R3Q5</td><td class="grade">4</td><td class="unit">영어(음성)</td><td>'토요일'을 영어로 말해보세요.</td><td class="answer">Saturday</td></tr>
+<tr><td class="id">R3Q6</td><td class="grade">5</td><td class="unit">영어(음성·랜덤)</td><td>화면에 나온 직업(한글)을 보고 영어로 말해보세요. (아래 목록 A)</td><td class="answer">[랜덤]</td></tr>
+<tr style="background:#EFFBF3;"><td class="id">R3Q7</td><td class="grade">6</td><td class="unit">영어(음성·랜덤)<span class="fixtag">변경</span></td><td>화면에 나온 낱말(한글)을 보고 영어로 말해보세요. (아래 목록 B)</td><td class="answer">[랜덤]</td></tr>
+<tr style="background:#EFFBF3;"><td class="id">R3Q8</td><td class="grade">6</td><td class="unit">영어(음성·랜덤)<span class="fixtag">변경</span></td><td>목록 B에서 R3Q7과 겹치지 않게 1개 더 랜덤 출제</td><td class="answer">[랜덤]</td></tr>
+</table>
+<p style="font-size:10.5px;margin:4px 0;"><b>목록 A (5학년, 직업)</b>: 의사doctor·선생님teacher·요리사cook·농부farmer·가수singer·화가painter·경찰관police officer·소방관firefighter</p>
+<p style="font-size:10.5px;margin:4px 0 10px;"><b>목록 B (6학년, 신규)</b>: 어제yesterday·도서관library·병원hospital·박물관museum·서점bookstore·우체국post office·지난주last week·다음달next month</p>
+
+<h2>🥽 VR실 — R4</h2>
+<table class="plain">
+<tr><th>ID</th><th>학년</th><th>유형</th><th>문제</th><th>정답</th></tr>
+<tr><td class="id">R4Q1</td><td class="grade">1</td><td class="unit">줄넘기·양발모아뛰기 15개↑</td><td>선생님 확인 후 "성공" 입력</td><td class="answer">성공</td></tr>
+<tr><td class="id">R4Q2</td><td class="grade">2</td><td class="unit">줄넘기·오래뛰기 15초↑</td><td>선생님 확인 후 "성공" 입력</td><td class="answer">성공</td></tr>
+<tr><td class="id">R4Q3</td><td class="grade">3</td><td class="unit">과학</td><td>곤충 완전탈바꿈 순서: 알-애벌레-번데기-○○○. 빈칸은?</td><td class="answer">성충</td></tr>
+<tr><td class="id">R4Q4</td><td class="grade">4</td><td class="unit">과학</td><td>지층에서 가장 오래전에 쌓인 층은 위/아래 중 어디?</td><td class="answer">아래</td></tr>
+<tr><td class="id">R4Q5</td><td class="grade">4</td><td class="unit">과학</td><td>씨가 싹 트는 데 필요한 조건이 아닌 것은? ①물 ②적당한 온도 ③어둠</td><td class="answer">3</td></tr>
+<tr><td class="id">R4Q6</td><td class="grade">5</td><td class="unit">과학</td><td>태양에서 3번째로 가까운 행성은?</td><td class="answer">지구</td></tr>
+<tr><td class="id">R4Q7</td><td class="grade">6</td><td class="unit">과학</td><td>지구가 태양을 한 바퀴 도는 데 걸리는 시간(일, 숫자만)은?</td><td class="answer">365</td></tr>
+<tr><td class="id">R4Q8</td><td class="grade">6</td><td class="unit">과학</td><td>공기의 대부분을 차지하는 기체는 질소와 무엇인가요?</td><td class="answer">산소</td></tr>
+</table>
+
+<h2>🏛️ 강당 — R5 (수학, 그림)</h2>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q1</span><span class="qgrade">1학년</span><span class="qunit">덧셈(문장제·그림)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><div class="pictogram">🍬🍬🍬🍬🍬 &nbsp;+&nbsp; 🍬🍬🍬</div></div>
+    <div class="card-txt">사탕이 5개 있었는데 3개를 더 받았습니다. 사탕은 모두 몇 개인가요?
+    <div class="card-ans">정답: 8</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q2</span><span class="qgrade">2학년</span><span class="qunit">덧셈(문장제·그림, 10묶음)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><div class="dotgrid">●●●●●●●●●●<br>●●●●●●●●●●<br>●●●●●●●●&nbsp;&nbsp;+&nbsp;&nbsp;●●●●●●●<br>●●●●●●●●●●<br>●●●●●●●●●●<br>●●●●●●●</div></div>
+    <div class="card-txt">체육관에 공이 38개(그림) 있었는데 27개(그림)를 더 가져왔습니다. 공은 모두 몇 개인가요?
+    <div class="card-ans">정답: 65</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q3</span><span class="qgrade">3학년</span><span class="qunit">길이와 시간(문장제)</span></div>
+  <div class="card-bd"><div class="card-txt">영화가 1시 40분에 시작해서 2시 25분에 끝났습니다. 영화는 몇 분 동안 상영되었나요?
+  <div class="card-ans">정답: 45</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q4</span><span class="qgrade">4학년</span><span class="qunit">평면도형의 이동(그림·보기)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="220" height="90" viewBox="0 0 220 90">
+      <polygon points="20,20 60,20 60,45 45,45 45,70 20,70" fill="#E0465A" opacity="0.8"/>
+      <text x="20" y="85" font-size="10">(원래 모양)</text>
+      <text x="90" y="48" font-size="18" fill="#1B2E4A">→</text>
+      <polygon points="140,20 180,20 180,70 155,70 155,45 140,45" fill="#3B6BA5" opacity="0.8"/>
+      <text x="140" y="85" font-size="10">(변한 모양)</text>
+    </svg></div>
+    <div class="card-txt">그림처럼 도형이 오른쪽 그림 모양으로 바뀌었습니다. 이 이동은 무엇인가요? ①밀기 ②뒤집기 ③돌리기 ④뒤집고 돌리기 (번호로 답)
+    <div class="card-ans">정답: 2</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q5</span><span class="qgrade">4학년</span><span class="qunit">막대그래프</span><span class="fixtag">그래프 재작성</span></div>
+  <div class="card-bd" style="align-items:flex-start;">
+    <div class="card-img">
+      <table class="plain" style="width:150px;margin-bottom:8px;">
+        <tr><th>과일</th><th>학생 수</th></tr>
+        <tr><td>사과</td><td>4명</td></tr>
+        <tr><td>바나나</td><td>7명</td></tr>
+        <tr><td>포도</td><td>3명</td></tr>
+      </table>
+      <svg width="700" height="130" viewBox="0 0 700 130">
+        <g transform="translate(0,0)">
+          <text x="60" y="14" font-size="12" font-weight="700" text-anchor="middle">①</text>
+          <line x1="15" y1="95" x2="150" y2="95" stroke="#999"/>
+          <line x1="15" y1="60" x2="150" y2="60" stroke="#eee"/>
+          <line x1="15" y1="25" x2="150" y2="25" stroke="#eee"/>
+          <text x="8" y="98" font-size="8" text-anchor="end">0</text>
+          <text x="8" y="63" font-size="8" text-anchor="end">5</text>
+          <text x="8" y="28" font-size="8" text-anchor="end">10</text>
+          <rect x="35" y="46" width="16" height="49" fill="#3B6BA5"/>
+          <rect x="70" y="67" width="16" height="28" fill="#E0465A"/>
+          <rect x="105" y="74" width="16" height="21" fill="#2DAA6E"/>
+          <text x="43" y="108" font-size="8" text-anchor="middle">사과</text>
+          <text x="78" y="108" font-size="8" text-anchor="middle">바나나</text>
+          <text x="113" y="108" font-size="8" text-anchor="middle">포도</text>
+        </g>
+        <g transform="translate(175,0)">
+          <text x="60" y="14" font-size="12" font-weight="700" text-anchor="middle">②</text>
+          <line x1="15" y1="95" x2="150" y2="95" stroke="#999"/>
+          <line x1="15" y1="60" x2="150" y2="60" stroke="#eee"/>
+          <line x1="15" y1="25" x2="150" y2="25" stroke="#eee"/>
+          <text x="8" y="98" font-size="8" text-anchor="end">0</text>
+          <text x="8" y="63" font-size="8" text-anchor="end">5</text>
+          <text x="8" y="28" font-size="8" text-anchor="end">10</text>
+          <rect x="35" y="67" width="16" height="28" fill="#3B6BA5"/>
+          <rect x="70" y="46" width="16" height="49" fill="#E0465A"/>
+          <rect x="105" y="74" width="16" height="21" fill="#2DAA6E"/>
+          <text x="43" y="108" font-size="8" text-anchor="middle">사과</text>
+          <text x="78" y="108" font-size="8" text-anchor="middle">바나나</text>
+          <text x="113" y="108" font-size="8" text-anchor="middle">포도</text>
+        </g>
+        <g transform="translate(350,0)">
+          <text x="60" y="14" font-size="12" font-weight="700" text-anchor="middle">③</text>
+          <line x1="15" y1="95" x2="150" y2="95" stroke="#999"/>
+          <line x1="15" y1="60" x2="150" y2="60" stroke="#eee"/>
+          <line x1="15" y1="25" x2="150" y2="25" stroke="#eee"/>
+          <text x="8" y="98" font-size="8" text-anchor="end">0</text>
+          <text x="8" y="63" font-size="8" text-anchor="end">5</text>
+          <text x="8" y="28" font-size="8" text-anchor="end">10</text>
+          <rect x="35" y="60" width="16" height="35" fill="#3B6BA5"/>
+          <rect x="70" y="60" width="16" height="35" fill="#E0465A"/>
+          <rect x="105" y="60" width="16" height="35" fill="#2DAA6E"/>
+          <text x="43" y="108" font-size="8" text-anchor="middle">사과</text>
+          <text x="78" y="108" font-size="8" text-anchor="middle">바나나</text>
+          <text x="113" y="108" font-size="8" text-anchor="middle">포도</text>
+        </g>
+        <g transform="translate(525,0)">
+          <text x="60" y="14" font-size="12" font-weight="700" text-anchor="middle">④</text>
+          <line x1="15" y1="95" x2="150" y2="95" stroke="#999"/>
+          <line x1="15" y1="60" x2="150" y2="60" stroke="#eee"/>
+          <line x1="15" y1="25" x2="150" y2="25" stroke="#eee"/>
+          <text x="8" y="98" font-size="8" text-anchor="end">0</text>
+          <text x="8" y="63" font-size="8" text-anchor="end">5</text>
+          <text x="8" y="28" font-size="8" text-anchor="end">10</text>
+          <rect x="35" y="67" width="16" height="28" fill="#3B6BA5"/>
+          <rect x="70" y="46" width="16" height="49" fill="#E0465A"/>
+          <rect x="105" y="53" width="16" height="42" fill="#2DAA6E"/>
+          <text x="43" y="108" font-size="8" text-anchor="middle">사과</text>
+          <text x="78" y="108" font-size="8" text-anchor="middle">바나나</text>
+          <text x="113" y="108" font-size="8" text-anchor="middle">포도</text>
+        </g>
+      </svg>
+    </div>
+    <div class="card-txt">위 표의 자료를 막대그래프로 바르게 나타낸 것은 몇 번인가요? (번호로 답)
+    <div class="card-ans">정답: 2</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q6</span><span class="qgrade">5학년</span><span class="qunit">다각형의 둘레와 넓이(그림)</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="150" height="100" viewBox="0 0 150 100">
+      <rect x="20" y="20" width="90" height="55" fill="#EAF2FB" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="55" y="15" font-size="12">6cm</text>
+      <text x="118" y="52" font-size="12">4cm</text>
+    </svg></div>
+    <div class="card-txt">그림과 같은 직사각형의 넓이는 몇 cm²인가요?
+    <div class="card-ans">정답: 24</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q7</span><span class="qgrade">6학년</span><span class="qunit">직육면체의 겉넓이와 부피</span><span class="fixtag">그림 재작성</span></div>
+  <div class="card-bd">
+    <div class="card-img"><svg width="220" height="180" viewBox="0 0 220 180">
+      <polygon points="40,150 100,150 100,75 40,75" fill="#DCE9F7" stroke="#1B2E4A" stroke-width="2"/>
+      <polygon points="40,75 100,75 135,55 75,55" fill="#F0F6FC" stroke="#1B2E4A" stroke-width="2"/>
+      <polygon points="100,150 135,130 135,55 100,75" fill="#C9DCF0" stroke="#1B2E4A" stroke-width="2"/>
+      <text x="55" y="168" font-size="12">4cm</text>
+      <text x="112" y="118" font-size="12">3cm</text>
+      <text x="15" y="115" font-size="12">5cm</text>
+    </svg></div>
+    <div class="card-txt">그림과 같은 직육면체의 부피는 몇 cm³인가요? (가로4cm × 세로3cm × 높이5cm)
+    <div class="card-ans">정답: 60</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hd"><span class="qid">R5Q8</span><span class="qgrade">6학년</span><span class="qunit">여러 가지 그래프(띠그래프)</span><span class="fixtag">문제 유형 변경</span></div>
+  <div class="card-bd" style="align-items:flex-start;">
+    <div class="card-img">
+      <table class="plain" style="width:170px;margin-bottom:8px;">
+        <tr><th>좋아하는 계절</th><th>비율</th></tr>
+        <tr><td>봄</td><td>20%</td></tr>
+        <tr><td>여름</td><td>30%</td></tr>
+        <tr><td>가을</td><td>25%</td></tr>
+        <tr><td>겨울</td><td>15%</td></tr>
+        <tr><td>기타</td><td>10%</td></tr>
+      </table>
+      <svg width="500" height="210" viewBox="0 0 500 210">
+        <!-- option1: table order (NOT sorted by size) -->
+        <g transform="translate(0,0)">
+          <text x="10" y="10" font-size="12" font-weight="700">①</text>
+          <rect x="10" y="45" width="40" height="26" fill="#3B6BA5"/>
+          <rect x="50" y="45" width="60" height="26" fill="#E8833A"/>
+          <rect x="110" y="45" width="50" height="26" fill="#2DAA6E"/>
+          <rect x="160" y="45" width="30" height="26" fill="#B15CFF"/>
+          <rect x="190" y="45" width="20" height="26" fill="#CCCCCC"/>
+          <text x="30" y="24" font-size="7.5" text-anchor="middle">봄<tspan x="30" dy="9">20%</tspan></text>
+          <line x1="30" y1="29" x2="30" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="80" y="55" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">여름<tspan x="80" dy="9">30%</tspan></text>
+          <text x="135" y="55" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">가을<tspan x="135" dy="9">25%</tspan></text>
+          <text x="175" y="24" font-size="7.5" text-anchor="middle">겨울<tspan x="175" dy="9">15%</tspan></text>
+          <line x1="175" y1="29" x2="175" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="200" y="24" font-size="7.5" text-anchor="middle">기타<tspan x="200" dy="9">10%</tspan></text>
+          <line x1="200" y1="29" x2="200" y2="45" stroke="#999" stroke-width="1"/>
+        </g>
+        <!-- option2: CORRECT - 비율 큰 순서대로, 기타는 맨 뒤 -->
+        <g transform="translate(0,105)">
+          <text x="10" y="10" font-size="12" font-weight="700">②</text>
+          <rect x="10" y="45" width="60" height="26" fill="#E8833A"/>
+          <rect x="70" y="45" width="50" height="26" fill="#2DAA6E"/>
+          <rect x="120" y="45" width="40" height="26" fill="#3B6BA5"/>
+          <rect x="160" y="45" width="30" height="26" fill="#B15CFF"/>
+          <rect x="190" y="45" width="20" height="26" fill="#CCCCCC"/>
+          <text x="40" y="55" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">여름<tspan x="40" dy="9">30%</tspan></text>
+          <text x="95" y="55" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">가을<tspan x="95" dy="9">25%</tspan></text>
+          <text x="140" y="24" font-size="7.5" text-anchor="middle">봄<tspan x="140" dy="9">20%</tspan></text>
+          <line x1="140" y1="29" x2="140" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="175" y="24" font-size="7.5" text-anchor="middle">겨울<tspan x="175" dy="9">15%</tspan></text>
+          <line x1="175" y1="29" x2="175" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="200" y="24" font-size="7.5" text-anchor="middle">기타<tspan x="200" dy="9">10%</tspan></text>
+          <line x1="200" y1="29" x2="200" y2="45" stroke="#999" stroke-width="1"/>
+        </g>
+        <!-- option3: all equal (wrong values) -->
+        <g transform="translate(260,0)">
+          <text x="10" y="10" font-size="12" font-weight="700">③</text>
+          <rect x="10" y="45" width="40" height="26" fill="#3B6BA5"/>
+          <rect x="50" y="45" width="40" height="26" fill="#E8833A"/>
+          <rect x="90" y="45" width="40" height="26" fill="#2DAA6E"/>
+          <rect x="130" y="45" width="40" height="26" fill="#B15CFF"/>
+          <rect x="170" y="45" width="40" height="26" fill="#CCCCCC"/>
+          <text x="30" y="24" font-size="7.5" text-anchor="middle">봄<tspan x="30" dy="9">20%</tspan></text>
+          <line x1="30" y1="29" x2="30" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="70" y="24" font-size="7.5" text-anchor="middle">여름<tspan x="70" dy="9">20%</tspan></text>
+          <line x1="70" y1="29" x2="70" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="110" y="24" font-size="7.5" text-anchor="middle">가을<tspan x="110" dy="9">20%</tspan></text>
+          <line x1="110" y1="29" x2="110" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="150" y="24" font-size="7.5" text-anchor="middle">겨울<tspan x="150" dy="9">20%</tspan></text>
+          <line x1="150" y1="29" x2="150" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="190" y="24" font-size="7.5" text-anchor="middle">기타<tspan x="190" dy="9">20%</tspan></text>
+          <line x1="190" y1="29" x2="190" y2="45" stroke="#999" stroke-width="1"/>
+        </g>
+        <!-- option4: sorted ascending (wrong direction) -->
+        <g transform="translate(260,105)">
+          <text x="10" y="10" font-size="12" font-weight="700">④</text>
+          <rect x="10" y="45" width="30" height="26" fill="#B15CFF"/>
+          <rect x="40" y="45" width="40" height="26" fill="#3B6BA5"/>
+          <rect x="80" y="45" width="50" height="26" fill="#2DAA6E"/>
+          <rect x="130" y="45" width="60" height="26" fill="#E8833A"/>
+          <rect x="190" y="45" width="20" height="26" fill="#CCCCCC"/>
+          <text x="25" y="24" font-size="7.5" text-anchor="middle">겨울<tspan x="25" dy="9">15%</tspan></text>
+          <line x1="25" y1="29" x2="25" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="60" y="24" font-size="7.5" text-anchor="middle">봄<tspan x="60" dy="9">20%</tspan></text>
+          <line x1="60" y1="29" x2="60" y2="45" stroke="#999" stroke-width="1"/>
+          <text x="105" y="55" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">가을<tspan x="105" dy="9">25%</tspan></text>
+          <text x="160" y="55" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">여름<tspan x="160" dy="9">30%</tspan></text>
+          <text x="200" y="24" font-size="7.5" text-anchor="middle">기타<tspan x="200" dy="9">10%</tspan></text>
+          <line x1="200" y1="29" x2="200" y2="45" stroke="#999" stroke-width="1"/>
+        </g>
+      </svg>
+    </div>
+    <div class="card-txt">위 표(좋아하는 계절 5가지 항목)를 띠그래프로 바르게 나타낸 것은 몇 번인가요? (번호로 답)
+    <div class="card-ans">정답: 2</div></div>
+  </div>
+</div>
+
+<div class="note">
+<b>확인 부탁드립니다</b><br>
+① R5Q8은 설명 캡션·범례를 전부 지우고, 각 구간 위(좁은 구간)나 안(넓은 구간)에 이름·비율을 직접 붙여 위치를 바로 알 수 있게 했습니다. 정답(②)은 여름30%→가을25%→봄20%→겨울15%→기타10% 순서입니다.<br>
+② R3Q7·R3Q8 6학년 랜덤 단어 목록은 예시이며, 실제 교과서 어휘로 교체를 원하시면 알려주세요.<br>
+③ 분수 답(R1Q6, R1Q7)은 "1/2"처럼 슬래시 형태로 정확히 입력해야 정답 처리됩니다.<br>
+④ 오답 재시도 대기시간(10→60초)과 "학년 확인 경고 화면"은 모든 문제에 공통 적용되는 앱 규칙입니다(표에는 표시 안 함).
+</div>
+
+</body>
+</html>

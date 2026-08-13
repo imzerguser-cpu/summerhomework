@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>3학년 수학 방탈출 - 문항 검토용 (태블릿 버전 v2)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+@page { size: A4 portrait; margin: 10mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family:'Nanum Gothic',sans-serif; background:#f0f1f3; color:#111; padding:14px; }
+h1 { font-family:'Black Han Sans',sans-serif; font-size:1.3rem; color:#1a1a2e; text-align:center; margin-bottom:4px; }
+.subtitle { text-align:center; font-size:.78rem; color:#666; margin-bottom:14px; }
+.note { background:#fffbe6; border:1px solid #f0d878; border-radius:8px; padding:10px 14px; font-size:.74rem; color:#6b5800; line-height:1.7; margin-bottom:16px; }
+.room { border-radius:10px; overflow:hidden; margin-bottom:18px; break-inside:avoid; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+.room-h { font-family:'Black Han Sans',sans-serif; color:#fff; padding:8px 14px; font-size:.95rem; display:flex; align-items:center; gap:8px; }
+.room-h .cnt { margin-left:auto; font-size:.68rem; background:rgba(255,255,255,.25); padding:2px 9px; border-radius:20px; }
+.qcard { background:#fff; padding:12px 16px; border-bottom:1px solid #eee; break-inside:avoid; }
+.qcard:last-child { border-bottom:none; }
+.qhead { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.qid { font-family:'Black Han Sans',sans-serif; font-size:.78rem; color:#fff; padding:2px 9px; border-radius:5px; }
+.qtext { font-size:.86rem; line-height:1.7; color:#222; margin-bottom:8px; }
+.qimg { background:#fafbfc; border:1px solid #e8e8e8; border-radius:8px; padding:10px; margin-bottom:8px; text-align:center; }
+.qimg svg { max-width:100%; height:auto; }
+.qans { font-size:.8rem; font-weight:800; background:#eef7ee; color:#166534; border:1px solid #bbe6bb; border-radius:6px; padding:5px 10px; display:inline-block; }
+.r1 .room-h{background:#2563eb;} .r1 .qid{background:#2563eb;}
+.r2 .room-h{background:#d97706;} .r2 .qid{background:#d97706;}
+.r3 .room-h{background:#059669;} .r3 .qid{background:#059669;}
+.r4 .room-h{background:#7c3aed;} .r4 .qid{background:#7c3aed;}
+.r5 .room-h{background:#dc2626;} .r5 .qid{background:#dc2626;}
+@media print { body{background:#fff;} .room{box-shadow:none;border:1px solid #ddd;} }
+</style>
+</head>
+<body>
+<h1>🔐 3학년 수학 방탈출 - 태블릿 버전 문항 검토용 (v2)</h1>
+<div class="subtitle">문장제 + 그림 강화판 · 총 19문항 · 정답 포함(교사 검토용)</div>
+<div class="note">
+※ 이 문서는 인쇄용이 아니라 <b>태블릿 앱으로 옮기기 전 최종 문항 확인용</b>입니다. 각 그림은 실제 앱에서 SVG로 그대로 구현될 예정입니다.<br>
+※ 방4-2번은 처음엔 "몇 km 몇 m"였으나, 사용자 요청으로 <b>mm→cm 변환(소수점 포함)</b> 문제로 교체했습니다.
+</div>
+
+<!-- ============ 방1 ============ -->
+<div class="room r1">
+  <div class="room-h">➕ 방1 · 덧셈과 뺄셈 <span class="cnt">3문항</span></div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B1Q1</span></div>
+    <div class="qtext">학교 도서관에 동화책이 247권 있었습니다. 새 학기를 맞아 신간 도서 115권이 새로 들어왔습니다. 도서관에 있는 책은 모두 몇 권이 되었을까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 340 80" width="100%">
+        <!-- 247 -->
+        <g transform="translate(5,5)">
+          <rect x="0" y="0" width="24" height="24" fill="#2563eb"/><text x="30" y="17" font-size="12">×2</text>
+          <rect x="55" y="6" width="10" height="24" fill="#60a5fa"/><text x="70" y="22" font-size="12">×4</text>
+          <rect x="95" y="14" width="8" height="8" fill="#bfdbfe"/><text x="108" y="22" font-size="12">×7</text>
+          <text x="0" y="45" font-size="13" font-weight="800" fill="#1e3a8a">= 247</text>
+        </g>
+        <text x="140" y="45" font-size="20" font-weight="800" fill="#333">+</text>
+        <!-- 115 -->
+        <g transform="translate(165,5)">
+          <rect x="0" y="0" width="24" height="24" fill="#2563eb"/><text x="30" y="17" font-size="12">×1</text>
+          <rect x="55" y="6" width="10" height="24" fill="#60a5fa"/><text x="70" y="22" font-size="12">×1</text>
+          <rect x="95" y="14" width="8" height="8" fill="#bfdbfe"/><text x="108" y="22" font-size="12">×5</text>
+          <text x="0" y="45" font-size="13" font-weight="800" fill="#1e3a8a">= 115</text>
+        </g>
+        <text x="305" y="45" font-size="20" font-weight="800" fill="#333">=?</text>
+        <text x="5" y="70" font-size="9" fill="#888">■ 백 모형(100)  ▮ 십 모형(10)  ▫ 일 모형(1)</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 362</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B1Q2</span></div>
+    <div class="qtext">그중 인기가 많은 책 115권을 이웃 학교 도서관에 빌려주었습니다. 지금 도서관에 남아 있는 책은 몇 권일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 340 80" width="100%">
+        <g transform="translate(5,5)">
+          <rect x="0" y="0" width="24" height="24" fill="#2563eb"/><text x="30" y="17" font-size="12">×3</text>
+          <rect x="55" y="6" width="10" height="24" fill="#60a5fa"/><text x="70" y="22" font-size="12">×6</text>
+          <rect x="95" y="14" width="8" height="8" fill="#bfdbfe"/><text x="108" y="22" font-size="12">×2</text>
+          <text x="0" y="45" font-size="13" font-weight="800" fill="#1e3a8a">= 362</text>
+        </g>
+        <text x="140" y="45" font-size="20" font-weight="800" fill="#333">−</text>
+        <g transform="translate(165,5)">
+          <rect x="0" y="0" width="24" height="24" fill="#2563eb"/><text x="30" y="17" font-size="12">×1</text>
+          <rect x="55" y="6" width="10" height="24" fill="#60a5fa"/><text x="70" y="22" font-size="12">×1</text>
+          <rect x="95" y="14" width="8" height="8" fill="#bfdbfe"/><text x="108" y="22" font-size="12">×5</text>
+          <text x="0" y="45" font-size="13" font-weight="800" fill="#1e3a8a">= 115</text>
+        </g>
+        <text x="305" y="45" font-size="20" font-weight="800" fill="#333">=?</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 247</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B1Q3</span></div>
+    <div class="qtext">이번에는 이웃 학교에서 책 38권을 선물로 받았습니다. 도서관의 책은 이제 모두 몇 권이 되었을까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 340 80" width="100%">
+        <g transform="translate(5,5)">
+          <rect x="0" y="0" width="24" height="24" fill="#2563eb"/><text x="30" y="17" font-size="12">×2</text>
+          <rect x="55" y="6" width="10" height="24" fill="#60a5fa"/><text x="70" y="22" font-size="12">×4</text>
+          <rect x="95" y="14" width="8" height="8" fill="#bfdbfe"/><text x="108" y="22" font-size="12">×7</text>
+          <text x="0" y="45" font-size="13" font-weight="800" fill="#1e3a8a">= 247</text>
+        </g>
+        <text x="140" y="45" font-size="20" font-weight="800" fill="#333">+</text>
+        <g transform="translate(165,5)">
+          <rect x="55" y="6" width="10" height="24" fill="#60a5fa"/><text x="70" y="22" font-size="12">×3</text>
+          <rect x="95" y="14" width="8" height="8" fill="#bfdbfe"/><text x="108" y="22" font-size="12">×8</text>
+          <text x="55" y="45" font-size="13" font-weight="800" fill="#1e3a8a">= 38</text>
+        </g>
+        <text x="305" y="45" font-size="20" font-weight="800" fill="#333">=?</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 285</div>
+  </div>
+</div>
+
+<!-- ============ 방2 ============ -->
+<div class="room r2">
+  <div class="room-h">✖️ 방2 · 곱셈과 나눗셈(구구단) <span class="cnt">4문항</span></div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B2Q1</span></div>
+    <div class="qtext">체육 창고에 배드민턴 셔틀콕이 48개 있습니다. 한 상자에 8개씩 담으려고 합니다. 상자는 모두 몇 개가 필요할까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 90" width="100%">
+        <g font-size="0">
+        <!-- 6 rows x 8 dots, grouped by dashed rect -->
+        <g stroke="#d97706" stroke-dasharray="3,2" fill="none">
+          <rect x="2" y="2" width="252" height="12"/><rect x="2" y="16" width="252" height="12"/>
+          <rect x="2" y="30" width="252" height="12"/><rect x="2" y="44" width="252" height="12"/>
+          <rect x="2" y="58" width="252" height="12"/><rect x="2" y="72" width="252" height="12"/>
+        </g>
+        </g>
+        <text x="256" y="12" font-size="9" fill="#92400e">8개</text>
+        <text x="256" y="26" font-size="9" fill="#92400e">8개</text>
+        <text x="256" y="40" font-size="9" fill="#92400e">8개</text>
+        <text x="256" y="54" font-size="9" fill="#92400e">8개</text>
+        <text x="256" y="68" font-size="9" fill="#92400e">8개</text>
+        <text x="256" y="82" font-size="9" fill="#92400e">8개</text>
+        <text x="90" y="86" font-size="9" fill="#666">→ 8개씩 몇 상자?(48개)</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 6</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B2Q2</span></div>
+    <div class="qtext">우리 반 글쓰기 동아리 회원은 6명입니다. 회원들을 3모둠으로 똑같이 나누면 한 모둠에 몇 명씩 들어갈까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 220 60" width="100%">
+        <g font-size="20">
+        <ellipse cx="35" cy="30" rx="35" ry="24" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+        <text x="18" y="38">🙂🙂</text>
+        <ellipse cx="110" cy="30" rx="35" ry="24" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+        <text x="93" y="38">🙂🙂</text>
+        <ellipse cx="185" cy="30" rx="35" ry="24" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+        <text x="168" y="38">🙂🙂</text>
+        </g>
+      </svg>
+    </div>
+    <div class="qans">정답: 2</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B2Q3</span></div>
+    <div class="qtext">교실 뒤 게시판에 그림을 붙이는데, 한 줄에 7장씩 붙였더니 모두 49장이 되었습니다. 줄은 모두 몇 줄이 되었을까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 210 210" width="55%">
+        <g fill="#f59e0b">
+        <!-- 7x7 grid of small squares -->
+        </g>
+        <g>
+        <!-- generate via manual rows -->
+        </g>
+        <g fill="#fbbf24" stroke="#b45309">
+          <!-- row template repeated manually -->
+          <rect x="2" y="2" width="24" height="24"/><rect x="30" y="2" width="24" height="24"/><rect x="58" y="2" width="24" height="24"/><rect x="86" y="2" width="24" height="24"/><rect x="114" y="2" width="24" height="24"/><rect x="142" y="2" width="24" height="24"/><rect x="170" y="2" width="24" height="24"/>
+          <rect x="2" y="30" width="24" height="24"/><rect x="30" y="30" width="24" height="24"/><rect x="58" y="30" width="24" height="24"/><rect x="86" y="30" width="24" height="24"/><rect x="114" y="30" width="24" height="24"/><rect x="142" y="30" width="24" height="24"/><rect x="170" y="30" width="24" height="24"/>
+          <rect x="2" y="58" width="24" height="24"/><rect x="30" y="58" width="24" height="24"/><rect x="58" y="58" width="24" height="24"/><rect x="86" y="58" width="24" height="24"/><rect x="114" y="58" width="24" height="24"/><rect x="142" y="58" width="24" height="24"/><rect x="170" y="58" width="24" height="24"/>
+          <rect x="2" y="86" width="24" height="24"/><rect x="30" y="86" width="24" height="24"/><rect x="58" y="86" width="24" height="24"/><rect x="86" y="86" width="24" height="24"/><rect x="114" y="86" width="24" height="24"/><rect x="142" y="86" width="24" height="24"/><rect x="170" y="86" width="24" height="24"/>
+          <rect x="2" y="114" width="24" height="24"/><rect x="30" y="114" width="24" height="24"/><rect x="58" y="114" width="24" height="24"/><rect x="86" y="114" width="24" height="24"/><rect x="114" y="114" width="24" height="24"/><rect x="142" y="114" width="24" height="24"/><rect x="170" y="114" width="24" height="24"/>
+          <rect x="2" y="142" width="24" height="24"/><rect x="30" y="142" width="24" height="24"/><rect x="58" y="142" width="24" height="24"/><rect x="86" y="142" width="24" height="24"/><rect x="114" y="142" width="24" height="24"/><rect x="142" y="142" width="24" height="24"/><rect x="170" y="142" width="24" height="24"/>
+          <rect x="2" y="170" width="24" height="24"/><rect x="30" y="170" width="24" height="24"/><rect x="58" y="170" width="24" height="24"/><rect x="86" y="170" width="24" height="24"/><rect x="114" y="170" width="24" height="24"/><rect x="142" y="170" width="24" height="24"/><rect x="170" y="170" width="24" height="24"/>
+        </g>
+      </svg>
+      <div style="font-size:.65rem;color:#666;margin-top:4px;">한 줄에 7장씩 → 모두 49장, 줄 수는?</div>
+    </div>
+    <div class="qans">정답: 7</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B2Q4</span></div>
+    <div class="qtext">미술 시간에 색종이를 9장씩 묶었더니 36장이 되었습니다. 묶음은 모두 몇 묶음일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 40" width="100%">
+        <g font-size="18">
+        <rect x="2" y="2" width="55" height="34" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/><text x="14" y="26">📄×9</text>
+        <rect x="65" y="2" width="55" height="34" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/><text x="77" y="26">📄×9</text>
+        <rect x="128" y="2" width="55" height="34" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/><text x="140" y="26">📄×9</text>
+        <rect x="191" y="2" width="55" height="34" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/><text x="203" y="26">📄×9</text>
+        </g>
+      </svg>
+      <div style="font-size:.65rem;color:#666;margin-top:4px;">9장씩 묶음 × 몇 개 = 36장?</div>
+    </div>
+    <div class="qans">정답: 4</div>
+  </div>
+</div>
+
+<!-- ============ 방3 ============ -->
+<div class="room r3">
+  <div class="room-h">➗ 방3 · 나눗셈 <span class="cnt">4문항</span></div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B3Q1</span></div>
+    <div class="qtext">색종이 36장을 학생 9명에게 똑같이 나누어 주려고 합니다. 한 명이 몇 장씩 받을 수 있을까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 50" width="100%">
+        <g font-size="16">
+        <text x="0" y="20">🧑</text><text x="26" y="20">🧑</text><text x="52" y="20">🧑</text><text x="78" y="20">🧑</text><text x="104" y="20">🧑</text>
+        <text x="130" y="20">🧑</text><text x="156" y="20">🧑</text><text x="182" y="20">🧑</text><text x="208" y="20">🧑</text>
+        </g>
+        <text x="0" y="45" font-size="11" fill="#047857">9명이 36장을 똑같이 나누면 한 명당 몇 장?</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 4</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B3Q2</span></div>
+    <div class="qtext">어항 속 금붕어 28마리를 어항 4개에 똑같이 나누어 넣으려고 합니다. 어항 한 개에 금붕어를 몇 마리씩 넣어야 할까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 60" width="100%">
+        <g font-size="18">
+        <rect x="2" y="2" width="55" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="10" y="28">🐟🐟</text>
+        <rect x="65" y="2" width="55" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="73" y="28">🐟🐟</text>
+        <rect x="128" y="2" width="55" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="136" y="28">🐟🐟</text>
+        <rect x="191" y="2" width="55" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="199" y="28">🐟🐟</text>
+        </g>
+        <text x="0" y="56" font-size="11" fill="#047857">어항 4개에 28마리를 똑같이 → 한 어항당?</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 7</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B3Q3</span></div>
+    <div class="qtext">참새 21마리가 나뭇가지에 앉으려고 합니다. 한 나뭇가지에 7마리씩 앉는다면, 나뭇가지는 모두 몇 개 필요할까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 50" width="100%">
+        <g font-size="16">
+        <rect x="2" y="20" width="70" height="4" fill="#78350f"/><text x="4" y="18">🐦🐦🐦🐦🐦🐦🐦</text>
+        <rect x="95" y="20" width="70" height="4" fill="#78350f"/><text x="97" y="18">🐦🐦🐦🐦🐦🐦🐦</text>
+        <rect x="188" y="20" width="70" height="4" fill="#78350f"/><text x="190" y="18">🐦🐦🐦🐦🐦🐦🐦</text>
+        </g>
+        <text x="0" y="45" font-size="11" fill="#047857">21마리를 7마리씩 → 나뭇가지 몇 개?</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 3</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B3Q4</span></div>
+    <div class="qtext">우리 반 학생 35명을 한 모둠에 7명씩 편성하려고 합니다. 모둠은 모두 몇 모둠이 될까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 60" width="100%">
+        <g font-size="15">
+        <rect x="2" y="2" width="46" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="6" y="26">🧑×7</text>
+        <rect x="53" y="2" width="46" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="57" y="26">🧑×7</text>
+        <rect x="104" y="2" width="46" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="108" y="26">🧑×7</text>
+        <rect x="155" y="2" width="46" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="159" y="26">🧑×7</text>
+        <rect x="206" y="2" width="46" height="40" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/><text x="210" y="26">🧑×7</text>
+        </g>
+        <text x="0" y="56" font-size="11" fill="#047857">35명을 7명씩 모둠으로 → 모둠 수?</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 5</div>
+  </div>
+</div>
+
+<!-- ============ 방4 ============ -->
+<div class="room r4">
+  <div class="room-h">📏 방4 · 길이와 시간 <span class="cnt">4문항</span></div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B4Q1</span></div>
+    <div class="qtext">지우개의 길이를 자로 재어보니 6cm였습니다. 6cm는 몇 mm일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 55" width="100%">
+        <rect x="5" y="20" width="240" height="16" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+        <g stroke="#7c3aed" stroke-width="1">
+          <line x1="5" y1="20" x2="5" y2="36"/><line x1="45" y1="14" x2="45" y2="36"/><line x1="85" y1="14" x2="85" y2="36"/>
+          <line x1="125" y1="14" x2="125" y2="36"/><line x1="165" y1="14" x2="165" y2="36"/><line x1="205" y1="14" x2="205" y2="36"/><line x1="245" y1="14" x2="245" y2="36"/>
+        </g>
+        <text x="0" y="12" font-size="9" fill="#6d28d9">0</text><text x="42" y="12" font-size="9" fill="#6d28d9">1cm</text>
+        <text x="82" y="12" font-size="9" fill="#6d28d9">2cm</text><text x="122" y="12" font-size="9" fill="#6d28d9">3cm</text>
+        <text x="160" y="12" font-size="9" fill="#6d28d9">4cm</text><text x="200" y="12" font-size="9" fill="#6d28d9">5cm</text>
+        <text x="235" y="12" font-size="9" fill="#6d28d9">6cm</text>
+        <text x="90" y="50" font-size="10" fill="#666">지우개 길이 = 6cm = ? mm</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 60</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B4Q2</span> <span style="font-size:.65rem;color:#7c3aed;font-weight:800;">(수정: mm→cm, 소수 포함)</span></div>
+    <div class="qtext">리본의 길이를 자로 재어보니 75mm였습니다. 75mm는 몇 cm일까요? (소수로 답하세요, 예: 1.5)</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 55" width="100%">
+        <rect x="5" y="20" width="225" height="16" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+        <g stroke="#7c3aed" stroke-width="1">
+          <line x1="5" y1="20" x2="5" y2="36"/><line x1="35" y1="14" x2="35" y2="36"/><line x1="65" y1="14" x2="65" y2="36"/>
+          <line x1="95" y1="14" x2="95" y2="36"/><line x1="125" y1="14" x2="125" y2="36"/><line x1="155" y1="14" x2="155" y2="36"/>
+          <line x1="185" y1="14" x2="185" y2="36"/><line x1="215" y1="14" x2="215" y2="36"/>
+        </g>
+        <line x1="200" y1="12" x2="200" y2="38" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <text x="0" y="12" font-size="9" fill="#6d28d9">0cm</text><text x="30" y="12" font-size="9" fill="#6d28d9">1</text>
+        <text x="60" y="12" font-size="9" fill="#6d28d9">2</text><text x="90" y="12" font-size="9" fill="#6d28d9">3</text>
+        <text x="120" y="12" font-size="9" fill="#6d28d9">4</text><text x="150" y="12" font-size="9" fill="#6d28d9">5</text>
+        <text x="180" y="12" font-size="9" fill="#6d28d9">6</text><text x="205" y="12" font-size="9" fill="#dc2626" font-weight="800">7</text>
+        <text x="188" y="50" font-size="9" fill="#dc2626" font-weight="800">75mm 지점</text>
+        <text x="0" y="50" font-size="10" fill="#666">리본 길이 = 75mm = ? cm</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 7.5</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B4Q3</span></div>
+    <div class="qtext">민준이는 미술관에서 오전 9시 50분부터 오전 10시 30분까지 그림 전시를 관람했습니다. 관람한 시간은 모두 몇 분일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 240 100" width="60%">
+        <g transform="translate(30,10)">
+          <circle cx="30" cy="30" r="28" fill="#fff" stroke="#7c3aed" stroke-width="2.5"/>
+          <line x1="30" y1="30" x2="30" y2="12" stroke="#7c3aed" stroke-width="2.5"/>
+          <line x1="30" y1="30" x2="46" y2="34" stroke="#7c3aed" stroke-width="2"/>
+          <text x="10" y="72" font-size="11" font-weight="700" fill="#333">9시 50분</text>
+        </g>
+        <g transform="translate(150,10)">
+          <circle cx="30" cy="30" r="28" fill="#fff" stroke="#7c3aed" stroke-width="2.5"/>
+          <line x1="30" y1="30" x2="30" y2="12" stroke="#7c3aed" stroke-width="2.5"/>
+          <line x1="30" y1="30" x2="14" y2="30" stroke="#7c3aed" stroke-width="2"/>
+          <text x="6" y="72" font-size="11" font-weight="700" fill="#333">10시 30분</text>
+        </g>
+      </svg>
+    </div>
+    <div class="qans">정답: 40</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B4Q4</span></div>
+    <div class="qtext">달리기를 하는 데 3분 25초가 걸렸습니다. 3분 25초는 모두 몇 초일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 55" width="100%">
+        <g font-size="12" fill="#6d28d9" font-weight="700">
+        <rect x="5" y="10" width="55" height="24" fill="#ede9fe" stroke="#7c3aed"/><text x="17" y="26">1분</text>
+        <rect x="63" y="10" width="55" height="24" fill="#ede9fe" stroke="#7c3aed"/><text x="75" y="26">1분</text>
+        <rect x="121" y="10" width="55" height="24" fill="#ede9fe" stroke="#7c3aed"/><text x="133" y="26">1분</text>
+        <rect x="179" y="10" width="35" height="24" fill="#fee2e2" stroke="#dc2626"/><text x="184" y="26" fill="#dc2626">25초</text>
+        </g>
+        <text x="0" y="50" font-size="10" fill="#666">1분=60초 × 3 + 25초 = ? 초</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 205</div>
+  </div>
+</div>
+
+<!-- ============ 방5 ============ -->
+<div class="room r5">
+  <div class="room-h">🍕 방5 · 분수 <span class="cnt">4문항</span></div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B5Q1</span></div>
+    <div class="qtext">케이크 한 판을 6조각으로 똑같이 나누었습니다. 언니가 3조각, 동생이 2조각을 먹었습니다. 두 사람이 먹은 케이크는 전체의 얼마일까요? (분수로 답하세요, 예: 1/2)</div>
+    <div class="qimg">
+      <svg viewBox="0 0 120 120" width="35%">
+        <g transform="translate(60,60)">
+        <path d="M0 0 L0 -55 A55 55 0 0 1 47.6 -27.5 Z" fill="#fecaca" stroke="#dc2626"/>
+        <path d="M0 0 L47.6 -27.5 A55 55 0 0 1 47.6 27.5 Z" fill="#fecaca" stroke="#dc2626"/>
+        <path d="M0 0 L47.6 27.5 A55 55 0 0 1 0 55 Z" fill="#fecaca" stroke="#dc2626"/>
+        <path d="M0 0 L0 55 A55 55 0 0 1 -47.6 27.5 Z" fill="#fecaca" stroke="#dc2626"/>
+        <path d="M0 0 L-47.6 27.5 A55 55 0 0 1 -47.6 -27.5 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L-47.6 -27.5 A55 55 0 0 1 0 -55 Z" fill="#fff" stroke="#dc2626"/>
+        </g>
+      </svg>
+      <div style="font-size:.65rem;color:#666;margin-top:2px;">색칠된 5조각 = 먹은 양 (전체 6조각 중)</div>
+    </div>
+    <div class="qans">정답: 5/6</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B5Q2</span></div>
+    <div class="qtext">아래 세 도형 중에서, 변이 있는 도형 중 변의 개수가 가장 적은 도형은 변이 몇 개일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 320 90" width="100%">
+        <rect x="10" y="15" width="60" height="45" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+        <text x="20" y="78" font-size="11">사각형(변4)</text>
+        <polygon points="150,15 185,60 115,60" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+        <text x="120" y="78" font-size="11">삼각형(변3)</text>
+        <circle cx="265" cy="38" r="25" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+        <text x="242" y="78" font-size="11">원(변0)</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 3 (삼각형 · 원은 변이 없어서 제외)</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B5Q3</span></div>
+    <div class="qtext">물통에 물이 8칸 중 7칸(7/8)만큼 차 있었습니다. 그중 3칸(3/8)만큼의 물을 사용했습니다. 지금 물통에 남아 있는 물은 전체의 얼마일까요? (분수로 답하세요, 예: 4/8)</div>
+    <div class="qimg">
+      <svg viewBox="0 0 260 50" width="100%">
+        <g stroke="#b91c1c">
+          <rect x="2" y="10" width="30" height="24" fill="#3b82f6"/><rect x="34" y="10" width="30" height="24" fill="#3b82f6"/>
+          <rect x="66" y="10" width="30" height="24" fill="#3b82f6"/><rect x="98" y="10" width="30" height="24" fill="#3b82f6"/>
+          <rect x="130" y="10" width="30" height="24" fill="#fecaca"/><rect x="162" y="10" width="30" height="24" fill="#fecaca"/>
+          <rect x="194" y="10" width="30" height="24" fill="#fecaca"/><rect x="226" y="10" width="30" height="24" fill="#fff" stroke-dasharray="2,2"/>
+        </g>
+        <text x="0" y="46" font-size="9" fill="#666">파랑=남은 물 4칸 · 연분홍=사용해서 빠진 3칸 · 흰칸=원래 빈칸 1칸</text>
+      </svg>
+    </div>
+    <div class="qans">정답: 4/8</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qhead"><span class="qid">B5Q4</span></div>
+    <div class="qtext">피자 한 판을 9조각으로 똑같이 나누었습니다. 형이 1조각, 동생이 1조각을 먹었습니다. 두 사람이 먹은 피자는 전체의 얼마일까요?</div>
+    <div class="qimg">
+      <svg viewBox="0 0 120 120" width="35%">
+        <g transform="translate(60,60)">
+        <path d="M0 0 L0 -55 A55 55 0 0 1 37.6 -40.2 Z" fill="#fecaca" stroke="#dc2626"/>
+        <path d="M0 0 L37.6 -40.2 A55 55 0 0 1 53.1 -15.3 Z" fill="#fecaca" stroke="#dc2626"/>
+        <path d="M0 0 L53.1 -15.3 A55 55 0 0 1 53.1 15.3 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L53.1 15.3 A55 55 0 0 1 37.6 40.2 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L37.6 40.2 A55 55 0 0 1 0 55 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L0 55 A55 55 0 0 1 -37.6 40.2 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L-37.6 40.2 A55 55 0 0 1 -53.1 15.3 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L-53.1 15.3 A55 55 0 0 1 -53.1 -15.3 Z" fill="#fff" stroke="#dc2626"/>
+        <path d="M0 0 L-53.1 -15.3 A55 55 0 0 1 0 -55 Z" fill="#fff" stroke="#dc2626"/>
+        </g>
+      </svg>
+      <div style="font-size:.65rem;color:#666;margin-top:2px;">색칠된 2조각 = 먹은 양 (전체 9조각 중)</div>
+    </div>
+    <div class="qans">정답: 2/9</div>
+  </div>
+</div>
+
+</body>
+</html>
