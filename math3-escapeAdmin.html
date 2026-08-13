@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔐 3학년 수학 방탈출 관리자</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
+:root{--navy:#1B2E4A;--navy-g:#3B6BA5;--sky:#4DA3E8;--sky-p:#E8F4FD;--red:#E0465A;--green:#2DAA6E;--bg:#F3F5F8;--card:#FFF;--tx:#1E2D3D;--tx2:#6B7D8F;--bdr:#E0E7EF;--sh:0 1px 4px rgba(27,46,74,.07);}
+*{box-sizing:border-box;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);margin:0;}
+.hd{background:linear-gradient(135deg,var(--navy),var(--navy-g));color:#fff;padding:16px 20px;}
+.hd h1{font-size:19px;}
+.hd .sub{font-size:11px;opacity:.7;margin-top:2px;}
+.tabs{display:flex;gap:2px;background:rgba(255,255,255,.15);border-radius:8px;padding:2px;margin-top:10px;max-width:320px;}
+.tab{flex:1;padding:8px 6px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;background:transparent;color:rgba(255,255,255,.7);font-family:inherit;}
+.tab.on{background:#fff;color:var(--navy);}
+.wrap{max-width:1100px;margin:0 auto;padding:18px;}
+.card{background:var(--card);border-radius:10px;box-shadow:var(--sh);padding:16px;margin-bottom:16px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th,td{border:1px solid var(--bdr);padding:8px 6px;text-align:center;}
+th{background:#F0F3F7;font-size:11px;}
+.prog-cell{font-weight:800;}
+.prog-full{color:var(--green);background:#EAFBF1;}
+.prog-zero{color:#B9C2CC;}
+.stucount{font-size:18px;font-weight:900;color:#D4A017;}
+.btn{border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;padding:9px 16px;font-size:13px;}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-primary{background:var(--sky);color:#fff;}
+.btn-sub{background:#F0F3F7;color:var(--navy);}
+.reset-mini{margin-top:4px;border:1px solid var(--bdr);background:#fff;color:var(--tx2);border-radius:6px;cursor:pointer;font-size:12px;padding:2px 8px;}
+.reset-mini:hover{background:#FDEEEF;color:var(--red);border-color:#F5C6CB;}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-bottom:10px;}
+.stuname{font-weight:800;text-align:left!important;}
+.room-sec{page-break-inside:avoid;margin-bottom:22px;}
+.room-sec h2{font-size:15px;background:var(--navy);color:#fff;padding:6px 10px;border-radius:6px;margin-bottom:10px;}
+.qr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.qr-card{border:1px solid var(--bdr);border-radius:8px;padding:8px;text-align:center;page-break-inside:avoid;background:#fff;}
+.qr-card canvas{width:100%;height:auto;max-width:120px;}
+.qr-id{font-weight:900;font-size:12px;margin-top:4px;}
+.qr-meta{font-size:10px;color:var(--tx2);}
+.empty-msg{color:var(--tx2);font-size:13px;padding:20px;text-align:center;}
+.help-card{border:2px solid #F59E0B;background:#FFFBEB;}
+.help-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #FDE68A;}
+.help-row:first-of-type{border-top:none;}
+.help-title{font-weight:900;color:#92400E;margin-bottom:4px;font-size:14px;}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-ov.show{display:flex;}
+.modal-box{background:#fff;border-radius:16px;padding:20px;max-width:760px;width:100%;max-height:85vh;overflow-y:auto;text-align:left;box-shadow:0 16px 48px rgba(0,0,0,.25);}
+.modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;position:sticky;top:0;background:#fff;padding-bottom:8px;}
+.modal-hd h3{font-size:16px;color:var(--navy);}
+.work-item{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--bdr);}
+.work-item img{max-width:100%;border:1px solid var(--bdr);border-radius:8px;margin-top:6px;background:#fafbfc;}
+@media print{
+  .hd,.actions,.tabs{display:none!important;}
+  .wrap{padding:0;max-width:none;}
+  .card{box-shadow:none;border:none;padding:0;}
+  .qr-grid{grid-template-columns:repeat(5,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="hd">
+  <h1>🔐 3학년 수학 방탈출 관리자</h1>
+  <div class="sub">학생별 진행 현황 · QR 코드 인쇄</div>
+  <div class="tabs">
+    <button class="tab on" id="tabDash" onclick="showTab('dash')">📊 대시보드</button>
+    <button class="tab" id="tabQr" onclick="showTab('qr')">🖨️ QR 인쇄</button>
+  </div>
+</div>
+<div class="wrap">
+  <div id="globalErr" style="display:none;color:#E0465A;background:#FDEEEF;border:1px solid #F5C6CB;border-radius:10px;padding:12px;margin-bottom:14px;font-size:13px;"></div>
+  <div id="viewDash"></div>
+  <div id="viewQr" style="display:none"></div>
+</div>
+
+<div class="modal-ov" id="workModalOv">
+  <div class="modal-box">
+    <div class="modal-hd"><h3 id="workModalTitle"></h3><button class="btn btn-sub" onclick="closeWorkModal()">닫기</button></div>
+    <div id="workModalBody"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<script>
+window.addEventListener("error",function(e){
+  const el=document.getElementById("globalErr");
+  if(el){el.style.display="";el.innerHTML='<b>화면 오류가 발생했어요.</b><br>'+e.message+'<br><br>학교 인터넷이 구글 서버(Firebase/CDN) 접속을 막고 있을 수 있어요. 새로고침해보거나 다른 네트워크로 접속해보세요.';}
+});
+firebase.initializeApp({apiKey:"AIzaSyAKbtiQ1UutXkGI2ozyTNDO3N20NQ9vjDE",authDomain:"jump-rope-43833.firebaseapp.com",databaseURL:"https://jump-rope-43833-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"jump-rope-43833",storageBucket:"jump-rope-43833.firebasestorage.app",messagingSenderId:"870652268913",appId:"1:870652268913:web:6b45cabb7e317827b1a6d0"});
+const db=firebase.database();
+const dbRoot=db.ref("math3_escape_data/students");
+
+const ROOMS=[
+ {id:"B1",emoji:"📚",name:"도서관",unit:"덧셈과 뺄셈"},
+ {id:"B2",emoji:"💻",name:"컴퓨터실",unit:"나눗셈"},
+ {id:"B3",emoji:"🔤",name:"영어실",unit:"곱셈"},
+ {id:"B4",emoji:"🏛️",name:"강당",unit:"길이와 시간"},
+ {id:"B5",emoji:"🥽",name:"VR실",unit:"평면도형"},
+ {id:"B6",emoji:"🏫",name:"3학년교실",unit:"분수와 소수"},
+];
+const QMETA={
+B1:[["B1Q1","받아올림 1회"],["B1Q2","받아올림 2회"],["B1Q3","받아내림 1회"],["B1Q4","받아내림(0있음)"],["B1Q5","두 단계 문장제"]],
+B2:[["B2Q1","등분제"],["B2Q2","포함제"],["B2Q3","곱셈↔나눗셈 관계"],["B2Q4","나눗셈(똑같이 나누기)"],["B2Q5","곱셈+나눗셈 2단계"]],
+B3:[["B3Q1","(두자리)×(한자리)"],["B3Q2","큰 올림"],["B3Q3","(세자리)×(한자리)"],["B3Q4","배열(줄×칸)"],["B3Q5","오류 찾기(검산)"]],
+B4:[["B4Q1","거리 비교"],["B4Q2","mm→cm 소수"],["B4Q3","시간의 덧셈"],["B4Q4","시간의 뺄셈"],["B4Q5","경과 시간"]],
+B5:[["B5Q1","각 찾기"],["B5Q2","직사각형 판별"],["B5Q3","모눈 위 정사각형"],["B5Q4","네 변이 같은 도형"],["B5Q5","각의 종류(둔각)"]],
+B6:[["B6Q1","분수로 나타내기"],["B6Q2","단위분수 판별"],["B6Q3","단위분수 범위"],["B6Q4","자 읽기→소수"],["B6Q5","소수 카드 조합"]],
+};
+
+function showTab(t){
+  document.getElementById("tabDash").className="tab"+(t==="dash"?" on":"");
+  document.getElementById("tabQr").className="tab"+(t==="qr"?" on":"");
+  document.getElementById("viewDash").style.display=t==="dash"?"":"none";
+  document.getElementById("viewQr").style.display=t==="qr"?"":"none";
+  if(t==="qr")renderQrPage();
+}
+
+/* ===== 대시보드 ===== */
+let lastAllData={};
+function escapeHtml(s){return (s||"").toString().replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function renderDash(all){
+  lastAllData=all||{};
+  const data=lastAllData;
+  const keys=Object.keys(data);
+
+  const helpKeys=keys.filter(k=>data[k]&&data[k].helpRequest);
+  let helpHtml="";
+  if(helpKeys.length>0){
+    helpHtml='<div class="card help-card"><div class="help-title">🙋 도움 요청 ('+helpKeys.length+'건)</div>';
+    helpKeys.forEach(k=>{
+      const hr=data[k].helpRequest;
+      const name=escapeHtml(data[k].displayName||k);
+      helpHtml+='<div class="help-row"><div style="flex:1;font-size:13px;"><b>'+name+'</b>님이 <b>'+escapeHtml(hr.roomName||"")+'</b>에서 <b>'+escapeHtml(hr.qid||"")+'</b> 문제를 못 찾겠대요.</div>'
+        +'<button class="btn btn-primary" style="padding:6px 12px;font-size:12px" onclick="approveHelp(\''+k+"','"+hr.qid+'\')">🔓 열어주기</button>'
+        +'<button class="btn btn-sub" style="padding:6px 12px;font-size:12px" onclick="dismissHelp(\''+k+'\')">무시</button></div>';
+    });
+    helpHtml+='</div>';
+  }
+
+  let h=helpHtml+'<div class="actions"><button class="btn btn-danger" onclick="resetAll()">🔄 전체 학생 초기화</button></div>';
+  if(keys.length===0){
+    h+='<div class="card"><div class="empty-msg">아직 접속한 학생이 없어요. 학생이 이름을 입력하고 들어오면 여기에 표시됩니다.</div></div>';
+    document.getElementById("viewDash").innerHTML=h;
+    return;
+  }
+  h+='<div class="card"><table><tr><th class="stuname">학생 이름</th>';
+  ROOMS.forEach(r=>h+="<th>"+r.emoji+" "+r.name+"</th>");
+  h+="<th>총 진행</th><th>풀이 보기</th><th>진행 초기화</th><th>학생 삭제</th></tr>";
+  keys.sort((a,b)=>(data[a].displayName||a).localeCompare(data[b].displayName||b,"ko")).forEach(key=>{
+    const d=data[key]||{};
+    const solved=d.solvedIds||{};
+    const name=escapeHtml(d.displayName||key);
+    let totalSolved=0;
+    h+="<tr><td class=\"stuname\">"+name+"</td>";
+    ROOMS.forEach(r=>{
+      const cnt=QMETA[r.id].filter(q=>solved[q[0]]).length;
+      totalSolved+=cnt;
+      h+='<td class="prog-cell '+(cnt===5?"prog-full":cnt===0?"prog-zero":"")+'">'+cnt+" / 5"
+        +'<br><button class="reset-mini" onclick="resetRoom(\''+key+"','"+r.id+"')\" title=\""+name+" "+r.name+' 초기화">↺</button></td>';
+    });
+    h+="<td><b>"+totalSolved+" / 30</b></td>";
+    h+='<td><button class="btn btn-primary" style="padding:5px 10px;font-size:11px" onclick="viewWork(\''+key+'\')">📝 보기</button></td>';
+    h+='<td><button class="btn btn-sub" style="padding:5px 10px;font-size:11px" onclick="resetStudent(\''+key+'\')">↺ 초기화</button></td>';
+    h+='<td><button class="btn btn-danger" style="padding:5px 10px;font-size:11px" onclick="deleteStudent(\''+key+'\')">🗑 삭제</button></td></tr>';
+  });
+  h+="</table></div>";
+  h+='<div class="card"><span class="stucount">'+keys.length+'</span> 명 접속 기록</div>';
+  document.getElementById("viewDash").innerHTML=h;
+}
+function approveHelp(key,qid){
+  dbRoot.child(key).child("unlocked").child(qid).set(true);
+  dbRoot.child(key).child("helpRequest").remove();
+}
+function dismissHelp(key){
+  dbRoot.child(key).child("helpRequest").remove();
+}
+function viewWork(key){
+  const name=(lastAllData[key]&&lastAllData[key].displayName)||key;
+  document.getElementById("workModalTitle").textContent=name+" 학생의 풀이 과정";
+  document.getElementById("workModalBody").innerHTML='<p style="color:#888">불러오는 중...</p>';
+  document.getElementById("workModalOv").className="modal-ov show";
+  dbRoot.child(key).child("work").once("value").then(snap=>{
+    const work=snap.val()||{};
+    let body="";
+    ROOMS.forEach(r=>{
+      const qs=QMETA[r.id].filter(q=>work[q[0]]);
+      if(qs.length===0)return;
+      body+="<h4 style='margin:12px 0 4px;color:var(--navy)'>"+r.emoji+" "+r.name+"</h4>";
+      qs.forEach(q=>{
+        body+='<div class="work-item"><b>'+q[0]+"</b> · "+escapeHtml(q[1])+"<br><img src='"+work[q[0]]+"' alt='"+q[0]+" 풀이'></div>";
+      });
+    });
+    if(!body)body="<p style='color:#888'>아직 저장된 풀이가 없어요. (학생이 문제를 제출하면 그때 풀이 공간이 저장돼요)</p>";
+    document.getElementById("workModalBody").innerHTML=body;
+  });
+}
+function closeWorkModal(){
+  document.getElementById("workModalOv").className="modal-ov";
+}
+function resetAll(){
+  if(!confirm("정말 모든 학생의 진행상황을 초기화할까요?\n(리허설 후 실전 전에만 사용하세요)"))return;
+  dbRoot.remove().then(()=>alert("전체 초기화되었습니다."));
+}
+function resetStudent(key){
+  const name=(lastAllData[key]&&lastAllData[key].displayName)||key;
+  if(!confirm(name+" 학생의 전체 진행상황을 초기화할까요? (6개 방 모두)"))return;
+  dbRoot.child(key).set({displayName:name,solvedIds:{},ts:Date.now()}).then(()=>alert(name+" 학생이 초기화되었습니다."));
+}
+function deleteStudent(key){
+  const name=(lastAllData[key]&&lastAllData[key].displayName)||key;
+  if(!confirm(name+" 학생 기록을 목록에서 완전히 삭제할까요?\n(진행상황이 모두 사라지며 되돌릴 수 없습니다. 학생이 같은 이름으로 다시 들어오면 처음부터 새로 시작합니다)"))return;
+  dbRoot.child(key).remove().then(()=>alert(name+" 학생 기록이 삭제되었습니다."));
+}
+function resetRoom(key,roomId){
+  const room=ROOMS.find(r=>r.id===roomId);
+  const name=(lastAllData[key]&&lastAllData[key].displayName)||key;
+  if(!confirm(name+" 학생의 '"+room.name+"' 진행상황만 초기화할까요? (다른 방은 그대로 유지됩니다)"))return;
+  const d=lastAllData[key]||{};
+  const solved=Object.assign({},d.solvedIds||{});
+  QMETA[roomId].forEach(q=>{delete solved[q[0]];});
+  dbRoot.child(key).set({displayName:d.displayName||key,solvedIds:solved,ts:Date.now()}).then(()=>alert(name+"의 '"+room.name+"'이(가) 초기화되었습니다."));
+}
+document.getElementById("viewDash").innerHTML='<div class="card">불러오는 중...</div>';
+dbRoot.on("value",
+  snap=>renderDash(snap.val()),
+  err=>{document.getElementById("viewDash").innerHTML='<div class="card" style="color:var(--red)"><b>데이터를 불러오지 못했어요.</b><br>오류: '+err.message+'<br><br>학교 인터넷이 Firebase(구글 서버) 접속을 막고 있거나, 데이터베이스 권한 설정 문제일 수 있어요.</div>';}
+);
+
+/* ===== QR 인쇄 ===== */
+let qrRendered=false;
+function renderQrPage(){
+  if(qrRendered)return;
+  qrRendered=true;
+  let h='<div class="actions"><button class="btn btn-primary" onclick="window.print()">🖨️ 인쇄하기</button></div>';
+  ROOMS.forEach(r=>{
+    h+='<div class="room-sec"><h2>'+r.emoji+" "+r.name+" ("+r.id+") · "+r.unit+"</h2><div class=\"qr-grid\">";
+    QMETA[r.id].forEach(q=>{
+      h+='<div class="qr-card"><canvas id="qr_'+q[0]+'"></canvas><div class="qr-id">'+q[0]+'</div><div class="qr-meta">'+q[1]+"</div></div>";
+    });
+    h+="</div></div>";
+  });
+  document.getElementById("viewQr").innerHTML=h;
+  if(typeof QRCode==="undefined"){
+    const el=document.getElementById("globalErr");
+    if(el){el.style.display="";el.innerHTML="<b>QR 생성 라이브러리를 불러오지 못했어요.</b><br>새로고침해보거나 다른 네트워크로 접속해보세요.";}
+    return;
+  }
+  ROOMS.forEach(r=>{
+    QMETA[r.id].forEach(q=>{
+      const cv=document.getElementById("qr_"+q[0]);
+      try{
+        QRCode.toCanvas(cv,q[0],{width:140,margin:1},function(err){
+          if(err&&cv)cv.replaceWith(document.createTextNode("QR 생성 실패: "+q[0]));
+        });
+      }catch(e){
+        if(cv)cv.replaceWith(document.createTextNode("QR 생성 실패: "+q[0]));
+      }
+    });
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>🔐 3학년 수학 방탈출</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
+:root{--navy:#1B2E4A;--navy-g:#3B6BA5;--sky:#4DA3E8;--sky-p:#E8F4FD;--red:#E0465A;--green:#2DAA6E;--bg:#F3F5F8;--card:#FFF;--tx:#1E2D3D;--tx2:#6B7D8F;--tx3:#A4B3C2;--bdr:#E0E7EF;--sh:0 1px 4px rgba(27,46,74,.07);--r:12px;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{font-size:16px;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;min-height:100vh;overflow-x:hidden;}
+.hd{background:linear-gradient(135deg,var(--navy),var(--navy-g));color:#fff;padding:12px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:space-between;}
+.hd-l{display:flex;flex-direction:column;}
+.hd-title{font-size:16px;font-weight:900;}
+.hd-name{font-size:11px;opacity:.75;margin-top:1px;}
+.sync-ind{font-size:10px;opacity:.85;display:flex;align-items:center;gap:4px;}
+.sync-dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+.sync-on{background:#4ADE80;}.sync-off{background:#F59E0B;}.sync-err{background:#EF4444;}
+.wrap{max-width:900px;margin:0 auto;padding:16px 14px 40px;}
+.btn{border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:800;transition:.12s;}
+.btn:active{transform:scale(.97);}
+.btn-lg{padding:16px;font-size:17px;width:100%;color:#fff;}
+.btn-primary{background:linear-gradient(135deg,var(--sky),var(--navy-g));}
+.btn-sub{background:#fff;color:var(--navy);border:2px solid var(--bdr);}
+.btn-green{background:var(--green);color:#fff;}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:18px;margin-bottom:14px;}
+/* 이름 입력 */
+.name-row{display:flex;gap:8px;margin-top:14px;}
+.txt-inp{flex:1;padding:12px;border:2px solid var(--bdr);border-radius:10px;font-size:16px;font-family:inherit;}
+.txt-inp:focus{border-color:var(--sky);outline:none;}
+/* 방 그리드 */
+.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(min-width:600px){.room-grid{grid-template-columns:repeat(3,1fr);}}
+.room-card{background:#fff;border-radius:14px;box-shadow:var(--sh);padding:16px 10px;text-align:center;border:2px solid transparent;}
+.room-card.done{border-color:var(--green);background:#F0FBF5;}
+.room-emoji{font-size:30px;}
+.room-name{font-size:12.5px;font-weight:800;margin-top:4px;}
+.room-prog{font-size:11.5px;color:var(--tx2);margin-top:3px;font-weight:700;}
+.room-bar{height:6px;background:#E7ECF2;border-radius:3px;margin-top:6px;overflow:hidden;}
+.room-bar-f{height:100%;background:var(--sky);border-radius:3px;transition:width .3s;}
+.room-card.done .room-bar-f{background:var(--green);}
+.scan-fab{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:min(560px,calc(100% - 32px));z-index:40;}
+.scan-fab button{padding:18px;border-radius:16px;font-size:18px;box-shadow:0 6px 20px rgba(27,46,74,.35);}
+.name-switch{font-size:11px;color:var(--tx3);text-align:center;margin-top:18px;text-decoration:underline;cursor:pointer;}
+/* 스캔 화면 */
+.scan-wrap{text-align:center;}
+.cam-box{position:relative;width:100%;max-width:420px;margin:10px auto;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:1/1;}
+.cam-box video{width:100%;height:100%;object-fit:cover;}
+.cam-frame{position:absolute;inset:14%;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.35);}
+.cam-msg{font-size:12px;color:var(--tx2);margin:8px 0;}
+.manual-box{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:14px;margin-top:16px;}
+.manual-box h4{font-size:13px;color:var(--tx2);margin-bottom:8px;}
+.manual-row{display:flex;gap:8px;}
+.manual-row .txt-inp{text-transform:uppercase;}
+.top-back{font-size:13px;color:var(--sky);font-weight:800;cursor:pointer;margin-bottom:10px;display:inline-block;}
+/* 문제 화면: 가로 분할 */
+.q-split{display:flex;min-height:min(560px,72vh);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:#fff;}
+@media(max-width:640px){.q-split{flex-direction:column;min-height:0;}}
+.q-left{flex:1;padding:16px;overflow-y:auto;border-right:2px dashed var(--bdr);}
+@media(max-width:640px){.q-left{border-right:none;border-bottom:2px dashed var(--bdr);}}
+.q-right{flex:1;display:flex;flex-direction:column;background:#fcfcfd;min-height:0;}
+/* 세로로 좁은 화면(폰)에서는 .q-right가 flex:1만으로는 높이를 못 받아 풀이 공간이
+   찌부러지는 문제가 있어서, 최소 높이를 직접 지정해 항상 그릴 수 있는 영역을 확보함 */
+@media(max-width:640px){.q-right{min-height:45vh;flex:none;}}
+.q-badges{display:flex;gap:6px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;}
+.b-id{background:var(--navy);color:#fff;}
+.b-room{background:var(--sky-p);color:var(--navy-g);}
+.b-unit{background:#F0F3F7;color:var(--tx2);}
+.qimg-wrap{margin:10px 0;text-align:center;background:#FAFBFC;border:1px solid #E5EAEF;border-radius:10px;padding:10px;}
+.qimg-wrap svg{width:100%;height:auto;max-width:340px;display:block;margin:0 auto;}
+.q-text{font-size:15.5px;font-weight:600;margin:8px 0 12px;line-height:1.6;}
+.ans-row{display:flex;gap:8px;margin-top:6px;}
+.ans-row .txt-inp{text-transform:none;}
+.time3-row{display:flex;align-items:center;gap:6px;margin:10px 0;flex-wrap:wrap;}
+.time3-row input{width:52px;padding:10px 4px;text-align:center;border:2px solid var(--bdr);border-radius:8px;font-size:16px;font-family:inherit;}
+.time3-row input:focus{border-color:var(--sky);outline:none;}
+.time3-row .tu{font-size:13px;font-weight:800;color:var(--tx2);}
+.vsub{background:#FAFBFC;border:1px solid #E5EAEF;border-radius:10px;padding:12px 14px;margin:10px 0;font-family:'Courier New',monospace;}
+.vsub .vr{display:flex;justify-content:flex-end;gap:4px;align-items:center;font-size:16px;font-weight:800;color:var(--navy);}
+.vsub .vr .op{width:16px;text-align:left;color:var(--tx2);}
+.vsub .vr span.num{min-width:30px;text-align:right;}
+.vsub .vr span.u{font-size:11px;color:var(--tx2);font-weight:700;margin-right:6px;}
+.vsub .hr{border-top:2px solid var(--navy);margin:6px 0;}
+.fb-box{margin-top:12px;padding:12px;border-radius:12px;font-size:14px;font-weight:800;text-align:center;}
+.fb-ok{background:#E8F9EF;color:var(--green);border:1px solid #B9EDCB;}
+.fb-bad{background:#FDEEEF;color:var(--red);border:1px solid #F5C6CB;}
+.fb-review{background:#EAF2FB;color:var(--navy-g);border:1px solid #C7DCF2;}
+.center-icon{font-size:38px;text-align:center;margin-bottom:4px;}
+/* 풀이 공간 캔버스 */
+.scr-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--bdr);}
+.scr-hd .lbl{font-size:12px;font-weight:800;color:var(--tx2);display:flex;align-items:center;gap:5px;}
+.scr-tools{display:flex;gap:6px;}
+.scr-tools button{border:1px solid var(--bdr);background:#fff;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--tx);cursor:pointer;}
+.scr-tools button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.canvas-wrap{flex:1;position:relative;touch-action:none;}
+.canvas-wrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;}
+.finale{text-align:center;padding:40px 16px;}
+.finale .em{font-size:64px;}
+.finale h2{font-size:22px;margin:10px 0;color:var(--navy);}
+.finale p{font-size:14px;color:var(--tx2);line-height:1.7;}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-box{background:#fff;border-radius:16px;padding:26px 20px;max-width:340px;width:100%;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,.25);}
+.modal-box .em{font-size:56px;}
+.modal-box h3{font-size:19px;margin:8px 0;color:var(--navy);}
+.modal-box p{font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="hd">
+  <div class="hd-l">
+    <div class="hd-title">🔐 3학년 수학 방탈출</div>
+    <div class="hd-name" id="hdName">이름 입력 전</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button id="hdLogout" onclick="switchName()" style="display:none;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;">🚪 로그아웃</button>
+    <div class="sync-ind"><span class="sync-dot sync-off" id="syncDot"></span><span id="syncTxt">연결 중</span></div>
+  </div>
+</div>
+<div class="wrap" id="app"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+window.addEventListener("error",function(e){
+  const el=document.getElementById("app");
+  if(el)el.innerHTML='<div class="card" style="color:#E0465A"><b>화면 오류가 발생했어요.</b><br>'+e.message+'<br><br>학교 인터넷이 구글 서버(Firebase) 접속을 막고 있을 수 있어요. 새로고침해보거나 다른 네트워크로 접속해보세요.</div>';
+});
+firebase.initializeApp({apiKey:"AIzaSyAKbtiQ1UutXkGI2ozyTNDO3N20NQ9vjDE",authDomain:"jump-rope-43833.firebaseapp.com",databaseURL:"https://jump-rope-43833-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"jump-rope-43833",storageBucket:"jump-rope-43833.firebasestorage.app",messagingSenderId:"870652268913",appId:"1:870652268913:web:6b45cabb7e317827b1a6d0"});
+const db=firebase.database();
+
+/* ===================== 방 구성 ===================== */
+const ROOMS=[
+ {id:"B1",emoji:"📚",name:"도서관",unit:"덧셈과 뺄셈",css:"r1"},
+ {id:"B2",emoji:"💻",name:"컴퓨터실",unit:"나눗셈",css:"r2"},
+ {id:"B3",emoji:"🔤",name:"영어실",unit:"곱셈",css:"r3"},
+ {id:"B4",emoji:"🏛️",name:"강당",unit:"길이와 시간",css:"r4"},
+ {id:"B5",emoji:"🥽",name:"VR실",unit:"평면도형",css:"r5"},
+ {id:"B6",emoji:"🏫",name:"3학년교실",unit:"분수와 소수",css:"r6"},
+];
+
+/* ===================== 문제 데이터 (30문항) ===================== */
+const QUESTIONS={
+B1:[
+ {qid:"B1Q1",tag:"받아올림 1회",answer:"383",
+  text:"도서관에 있는 위인전은 138권, 동화책은 245권입니다. 위인전과 동화책은 모두 몇 권인가요?"},
+ {qid:"B1Q2",tag:"받아올림 2회",answer:"443",
+  text:"이번 달 도서관 방문객 수는 첫째 주 275명, 둘째 주 168명이었습니다. 두 주 동안 방문객은 모두 몇 명인가요?"},
+ {qid:"B1Q3",tag:"받아내림 1회",answer:"360",
+  text:"도서관에 책이 512권 있었는데, 152권을 다른 학교에 나누어 주었습니다. 남은 책은 몇 권인가요?"},
+ {qid:"B1Q4",tag:"받아내림(0 있음)",answer:"173",
+  text:"도서관에 책이 300권 있었는데 127권을 대출했습니다. 남은 책은 몇 권인가요?"},
+ {qid:"B1Q5",tag:"두 단계 문장제",answer:"308",
+  text:"도서관에 책이 250권 있었습니다. 신간 96권이 들어오고, 낡은 책 38권을 폐기했습니다. 지금 도서관에 있는 책은 몇 권인가요?"},
+],
+B2:[
+ {qid:"B2Q1",tag:"등분제",answer:"9",
+  text:"사탕 54개를 6명에게 똑같이 나누어 주려고 합니다. 한 명이 몇 개씩 받을까요?",
+  img:'<svg viewBox="0 0 268 50"><g font-size="11">'
+   +'<g transform="translate(2,2)"><rect width="40" height="44" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="3" y="15">🍬🍬🍬</text><text x="3" y="28">🍬🍬🍬</text><text x="3" y="41">🍬🍬🍬</text></g>'
+   +'<g transform="translate(46,2)"><rect width="40" height="44" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="3" y="15">🍬🍬🍬</text><text x="3" y="28">🍬🍬🍬</text><text x="3" y="41">🍬🍬🍬</text></g>'
+   +'<g transform="translate(90,2)"><rect width="40" height="44" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="3" y="15">🍬🍬🍬</text><text x="3" y="28">🍬🍬🍬</text><text x="3" y="41">🍬🍬🍬</text></g>'
+   +'<g transform="translate(134,2)"><rect width="40" height="44" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="3" y="15">🍬🍬🍬</text><text x="3" y="28">🍬🍬🍬</text><text x="3" y="41">🍬🍬🍬</text></g>'
+   +'<g transform="translate(178,2)"><rect width="40" height="44" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="3" y="15">🍬🍬🍬</text><text x="3" y="28">🍬🍬🍬</text><text x="3" y="41">🍬🍬🍬</text></g>'
+   +'<g transform="translate(222,2)"><rect width="40" height="44" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="3" y="15">🍬🍬🍬</text><text x="3" y="28">🍬🍬🍬</text><text x="3" y="41">🍬🍬🍬</text></g>'
+   +'</g></svg>'},
+ {qid:"B2Q2",tag:"포함제",answer:"4",
+  text:"야구공 32개를 한 상자에 8개씩 담으려고 합니다. 상자는 몇 개 필요할까요?",
+  img:'<svg viewBox="0 0 260 40"><g font-size="12">'
+   +'<g transform="translate(2,2)"><rect width="58" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">⚾⚾⚾⚾</text><text x="4" y="30">⚾⚾⚾⚾</text></g>'
+   +'<g transform="translate(68,2)"><rect width="58" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">⚾⚾⚾⚾</text><text x="4" y="30">⚾⚾⚾⚾</text></g>'
+   +'<g transform="translate(134,2)"><rect width="58" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">⚾⚾⚾⚾</text><text x="4" y="30">⚾⚾⚾⚾</text></g>'
+   +'<g transform="translate(200,2)"><rect width="58" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">⚾⚾⚾⚾</text><text x="4" y="30">⚾⚾⚾⚾</text></g>'
+   +'</g></svg>'},
+ {qid:"B2Q3",tag:"곱셈↔나눗셈 관계",answer:"5",
+  text:"8×5=40입니다. 이 곱셈식을 나눗셈식으로 나타내면 40÷8=◻입니다. ◻에 알맞은 수는 무엇인가요?"},
+ {qid:"B2Q4",tag:"나눗셈(똑같이 나누기)",answer:"8",
+  text:"딸기 32개를 4명이 똑같이 나누어 먹으려면 한 사람이 몇 개씩 먹을 수 있는지 구해 보세요."},
+ {qid:"B2Q5",tag:"곱셈+나눗셈 2단계",answer:"10",
+  text:"빵이 8개씩 든 상자가 5상자 있습니다. 이 빵을 모두 모아 4명에게 똑같이 나누어 주면 한 명이 몇 개씩 받을 수 있나요?",
+  img:'<svg viewBox="0 0 260 40"><g font-size="11">'
+   +'<g transform="translate(2,2)"><rect width="48" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">🍞🍞🍞🍞</text><text x="4" y="30">🍞🍞🍞🍞</text></g>'
+   +'<g transform="translate(54,2)"><rect width="48" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">🍞🍞🍞🍞</text><text x="4" y="30">🍞🍞🍞🍞</text></g>'
+   +'<g transform="translate(106,2)"><rect width="48" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">🍞🍞🍞🍞</text><text x="4" y="30">🍞🍞🍞🍞</text></g>'
+   +'<g transform="translate(158,2)"><rect width="48" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">🍞🍞🍞🍞</text><text x="4" y="30">🍞🍞🍞🍞</text></g>'
+   +'<g transform="translate(210,2)"><rect width="48" height="34" rx="6" fill="#ecfdf5" stroke="#059669"/><text x="4" y="16">🍞🍞🍞🍞</text><text x="4" y="30">🍞🍞🍞🍞</text></g>'
+   +'</g></svg>'},
+],
+B3:[
+ {qid:"B3Q1",tag:"(두자리)×(한자리)",answer:"92",
+  text:"학생 한 명당 색연필을 4자루씩 나누어 줍니다. 학생이 23명이라면 색연필은 모두 몇 자루 필요할까요?",
+  img:'<svg viewBox="0 0 262 60"><g font-size="8" font-weight="700" fill="#92400e">'
+   +'<g transform="translate(1,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(33,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(65,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(97,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(129,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(161,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(193,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(225,1)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(1,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(33,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(65,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(97,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(129,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(161,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(193,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(225,19)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(1,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(33,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(65,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(97,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(129,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(161,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'<g transform="translate(193,37)"><rect width="30" height="16" rx="3" fill="#fffbeb" stroke="#d97706"/><text x="2" y="11" font-size="7">✏✏✏✏</text></g>'
+   +'</g><text x="0" y="56" font-size="8" fill="#666">학생 23명 × 색연필 4자루씩 (23묶음 전부 표시)</text></svg>'},
+ {qid:"B3Q2",tag:"큰 올림",answer:"270",
+  text:"버스 한 대에 45명씩 탈 수 있습니다. 버스 6대에는 모두 몇 명이 탈 수 있나요?",
+  img:'<svg viewBox="0 0 270 78"><g font-size="9" fill="#92400e">'
+   +'<g transform="translate(2,2)"><text x="0" y="14" font-size="15">🚌</text><rect x="18" y="1" width="6" height="16" fill="#60a5fa"/><rect x="26" y="1" width="6" height="16" fill="#60a5fa"/><rect x="34" y="1" width="6" height="16" fill="#60a5fa"/><rect x="42" y="1" width="6" height="16" fill="#60a5fa"/><rect x="18" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="25" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="32" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="39" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="46" y="19" width="5" height="5" fill="#bfdbfe"/></g>'
+   +'<g transform="translate(92,2)"><text x="0" y="14" font-size="15">🚌</text><rect x="18" y="1" width="6" height="16" fill="#60a5fa"/><rect x="26" y="1" width="6" height="16" fill="#60a5fa"/><rect x="34" y="1" width="6" height="16" fill="#60a5fa"/><rect x="42" y="1" width="6" height="16" fill="#60a5fa"/><rect x="18" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="25" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="32" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="39" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="46" y="19" width="5" height="5" fill="#bfdbfe"/></g>'
+   +'<g transform="translate(182,2)"><text x="0" y="14" font-size="15">🚌</text><rect x="18" y="1" width="6" height="16" fill="#60a5fa"/><rect x="26" y="1" width="6" height="16" fill="#60a5fa"/><rect x="34" y="1" width="6" height="16" fill="#60a5fa"/><rect x="42" y="1" width="6" height="16" fill="#60a5fa"/><rect x="18" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="25" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="32" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="39" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="46" y="19" width="5" height="5" fill="#bfdbfe"/></g>'
+   +'<g transform="translate(2,40)"><text x="0" y="14" font-size="15">🚌</text><rect x="18" y="1" width="6" height="16" fill="#60a5fa"/><rect x="26" y="1" width="6" height="16" fill="#60a5fa"/><rect x="34" y="1" width="6" height="16" fill="#60a5fa"/><rect x="42" y="1" width="6" height="16" fill="#60a5fa"/><rect x="18" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="25" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="32" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="39" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="46" y="19" width="5" height="5" fill="#bfdbfe"/></g>'
+   +'<g transform="translate(92,40)"><text x="0" y="14" font-size="15">🚌</text><rect x="18" y="1" width="6" height="16" fill="#60a5fa"/><rect x="26" y="1" width="6" height="16" fill="#60a5fa"/><rect x="34" y="1" width="6" height="16" fill="#60a5fa"/><rect x="42" y="1" width="6" height="16" fill="#60a5fa"/><rect x="18" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="25" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="32" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="39" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="46" y="19" width="5" height="5" fill="#bfdbfe"/></g>'
+   +'<g transform="translate(182,40)"><text x="0" y="14" font-size="15">🚌</text><rect x="18" y="1" width="6" height="16" fill="#60a5fa"/><rect x="26" y="1" width="6" height="16" fill="#60a5fa"/><rect x="34" y="1" width="6" height="16" fill="#60a5fa"/><rect x="42" y="1" width="6" height="16" fill="#60a5fa"/><rect x="18" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="25" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="32" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="39" y="19" width="5" height="5" fill="#bfdbfe"/><rect x="46" y="19" width="5" height="5" fill="#bfdbfe"/></g>'
+   +'</g><text x="0" y="74" font-size="8" fill="#666">버스 1대 = 10명 묶음(파랑 막대) 4개 + 낱개(연파랑) 5명 = 45명, 버스 6대 전부 표시</text></svg>'},
+ {qid:"B3Q3",tag:"(세자리)×(한자리)",answer:"372",
+  text:"한 상자에 사탕이 124개 들어 있습니다. 상자 3개에는 사탕이 모두 몇 개 있나요?",
+  img:'<svg viewBox="0 0 270 48"><g font-size="7" fill="#78350f">'
+   +'<g transform="translate(2,2)"><rect x="0" y="0" width="30" height="30" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/><text x="4" y="18" font-size="8">100개</text><rect x="34" y="2" width="22" height="9" rx="2" fill="#fbbf24" stroke="#b45309"/><text x="37" y="9" font-size="6">10개</text><rect x="34" y="14" width="22" height="9" rx="2" fill="#fbbf24" stroke="#b45309"/><text x="37" y="21" font-size="6">10개</text><text x="60" y="12" font-size="11">🍬</text><text x="72" y="12" font-size="11">🍬</text><text x="60" y="26" font-size="11">🍬</text><text x="72" y="26" font-size="11">🍬</text></g>'
+   +'<g transform="translate(92,2)"><rect x="0" y="0" width="30" height="30" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/><text x="4" y="18" font-size="8">100개</text><rect x="34" y="2" width="22" height="9" rx="2" fill="#fbbf24" stroke="#b45309"/><text x="37" y="9" font-size="6">10개</text><rect x="34" y="14" width="22" height="9" rx="2" fill="#fbbf24" stroke="#b45309"/><text x="37" y="21" font-size="6">10개</text><text x="60" y="12" font-size="11">🍬</text><text x="72" y="12" font-size="11">🍬</text><text x="60" y="26" font-size="11">🍬</text><text x="72" y="26" font-size="11">🍬</text></g>'
+   +'<g transform="translate(182,2)"><rect x="0" y="0" width="30" height="30" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/><text x="4" y="18" font-size="8">100개</text><rect x="34" y="2" width="22" height="9" rx="2" fill="#fbbf24" stroke="#b45309"/><text x="37" y="9" font-size="6">10개</text><rect x="34" y="14" width="22" height="9" rx="2" fill="#fbbf24" stroke="#b45309"/><text x="37" y="21" font-size="6">10개</text><text x="60" y="12" font-size="11">🍬</text><text x="72" y="12" font-size="11">🍬</text><text x="60" y="26" font-size="11">🍬</text><text x="72" y="26" font-size="11">🍬</text></g>'
+   +'</g><text x="0" y="39" font-size="7" fill="#666">상자 1개 = 100개입 박스 + 10개입 줄포장 2개 + 낱개 4개(=124개), 상자 3개</text></svg>'},
+ {qid:"B3Q4",tag:"배열(줄×칸)",answer:"120",
+  text:"강당에 의자가 한 줄에 8개씩, 15줄 놓여 있습니다. 의자는 모두 몇 개인가요?",
+  img:'<svg viewBox="0 0 200 220"><defs><pattern id="chairpat" width="20" height="13" patternUnits="userSpaceOnUse"><rect width="17" height="10" x="1.5" y="1.5" rx="2" fill="#fde68a" stroke="#b45309" stroke-width="1"/></pattern></defs><rect x="10" y="10" width="160" height="195" fill="url(#chairpat)" stroke="#d97706" stroke-width="2"/><text x="10" y="215" font-size="10" fill="#666">가로 8개 × 세로 15줄 (칸 1개 = 의자 1개)</text></svg>'},
+ {qid:"B3Q5",tag:"오류 찾기(검산)",answer:"228",
+  text:"현우는 57×4를 계산했는데 208이라고 답했습니다. 그런데 정답이 아니었습니다. 57×4의 바른 답은 얼마인가요?"},
+],
+B4:[
+ {qid:"B4Q1",tag:"거리 비교",answer:"1250",
+  text:"학교에서 도서관까지의 거리는 1km 300m이고, 학교에서 놀이터까지의 거리는 1250m입니다. 두 거리를 비교했을 때, 더 가까운 곳까지의 거리는 몇 m인가요?",
+  img:'<svg viewBox="0 0 240 70"><text x="90" y="12" font-size="11" font-weight="800" fill="#6d28d9">🏫학교</text><line x1="90" y1="18" x2="20" y2="55" stroke="#7c3aed" stroke-width="1.5"/><text x="0" y="65" font-size="9" fill="#6d28d9">도서관: 1km300m</text><line x1="90" y1="18" x2="200" y2="55" stroke="#7c3aed" stroke-width="1.5"/><text x="165" y="65" font-size="9" fill="#6d28d9">놀이터: 1250m</text></svg>'},
+ {qid:"B4Q2",tag:"mm→cm 소수",answer:"7.5",
+  text:"리본의 길이를 재어보니 75mm였습니다. 75mm는 몇 cm일까요? (소수로 답하세요, 예: 1.5)",
+  img:'<svg viewBox="0 0 260 42"><rect x="5" y="14" width="225" height="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/><line x1="200" y1="8" x2="200" y2="32" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="2,2"/><text x="188" y="40" font-size="9" fill="#dc2626" font-weight="800">75mm</text></svg>'},
+ {qid:"B4Q3",tag:"시간의 덧셈",type:"time3",timeAns:{h:9,m:12,s:23},
+  text:"승원이는 가족들과 공원에서 2시간 37분 57초 동안 산책을 했습니다. 산책을 시작한 시각이 저녁 6시 34분 26초라면 산책이 끝난 시각은 몇 시 몇 분 몇 초인지 구해 보세요."},
+ {qid:"B4Q4",tag:"시간의 뺄셈",type:"time3",timeAns:{h:7,m:5,s:47},timeVisual:{h1:7,m1:23,s1:12,h2:0,m2:17,s2:25},
+  text:"다음 시간을 계산해 보세요. (몇 시 몇 분 몇 초인가요?)"},
+ {qid:"B4Q5",tag:"경과 시간",answer:"50",
+  text:"오전 10시 15분에 시작한 체육대회가 오전 11시 5분에 끝났습니다. 체육대회는 몇 분 동안 진행되었나요?"},
+],
+B5:[
+ {qid:"B5Q1",tag:"각 찾기",answer:"2",
+  text:'아래 도형 중에서 "각"(한 점에서 그은 두 반직선으로 이루어진 도형)은 모두 몇 개인가요?',
+  img:'<svg viewBox="0 0 260 60"><g stroke="#db2777" stroke-width="2" fill="none"><path d="M15 15 L35 45 L60 20"/><text x="33" y="58" font-size="10" font-weight="700">①</text><path d="M85 15 L95 45"/><path d="M100 45 L130 20"/><text x="103" y="58" font-size="10" font-weight="700">②</text><path d="M155 45 Q180 10 205 45"/><text x="178" y="58" font-size="10" font-weight="700">③</text><path d="M220 15 L215 45 L250 40"/><text x="230" y="58" font-size="10" font-weight="700">④</text></g></svg>'},
+ {qid:"B5Q2",tag:"직사각형 판별",answer:"2",
+  text:"아래 도형 가~라 중에서 직사각형은 모두 몇 개인가요?",
+  img:'<svg viewBox="0 0 260 55"><g stroke="#db2777" stroke-width="2" fill="none"><rect x="8" y="10" width="45" height="30"/><text x="20" y="50" font-size="9" fill="#333">가</text><polygon points="75,40 120,40 130,10 85,10"/><text x="95" y="50" font-size="9" fill="#333">나</text><rect x="150" y="14" width="60" height="24"/><text x="175" y="50" font-size="9" fill="#333">다</text><polygon points="225,40 255,40 248,10 232,10"/><text x="233" y="50" font-size="9" fill="#333">라</text></g></svg>'},
+ {qid:"B5Q3",tag:"모눈 위 정사각형",answer:"2",
+  text:"모눈종이 위에 그려진 도형 중에서 정사각형을 고르세요. (번호로 답)",
+  img:'<svg viewBox="0 0 282 80">'
+   +'<g transform="translate(2,2)"><g stroke="#ddd" stroke-width="0.5"><line x1="0" y1="0" x2="0" y2="60"/><line x1="12" y1="0" x2="12" y2="60"/><line x1="24" y1="0" x2="24" y2="60"/><line x1="36" y1="0" x2="36" y2="60"/><line x1="48" y1="0" x2="48" y2="60"/><line x1="60" y1="0" x2="60" y2="60"/><line x1="0" y1="0" x2="60" y2="0"/><line x1="0" y1="12" x2="60" y2="12"/><line x1="0" y1="24" x2="60" y2="24"/><line x1="0" y1="36" x2="60" y2="36"/><line x1="0" y1="48" x2="60" y2="48"/><line x1="0" y1="60" x2="60" y2="60"/></g><polygon points="6,30 30,18 54,30 30,42" fill="none" stroke="#db2777" stroke-width="2"/><text x="26" y="74" font-size="11" font-weight="700">①</text></g>'
+   +'<g transform="translate(72,2)"><g stroke="#ddd" stroke-width="0.5"><line x1="0" y1="0" x2="0" y2="60"/><line x1="12" y1="0" x2="12" y2="60"/><line x1="24" y1="0" x2="24" y2="60"/><line x1="36" y1="0" x2="36" y2="60"/><line x1="48" y1="0" x2="48" y2="60"/><line x1="60" y1="0" x2="60" y2="60"/><line x1="0" y1="0" x2="60" y2="0"/><line x1="0" y1="12" x2="60" y2="12"/><line x1="0" y1="24" x2="60" y2="24"/><line x1="0" y1="36" x2="60" y2="36"/><line x1="0" y1="48" x2="60" y2="48"/><line x1="0" y1="60" x2="60" y2="60"/></g><rect x="12" y="12" width="36" height="36" fill="none" stroke="#db2777" stroke-width="2"/><text x="26" y="74" font-size="11" font-weight="700">②</text></g>'
+   +'<g transform="translate(142,2)"><g stroke="#ddd" stroke-width="0.5"><line x1="0" y1="0" x2="0" y2="60"/><line x1="12" y1="0" x2="12" y2="60"/><line x1="24" y1="0" x2="24" y2="60"/><line x1="36" y1="0" x2="36" y2="60"/><line x1="48" y1="0" x2="48" y2="60"/><line x1="60" y1="0" x2="60" y2="60"/><line x1="0" y1="0" x2="60" y2="0"/><line x1="0" y1="12" x2="60" y2="12"/><line x1="0" y1="24" x2="60" y2="24"/><line x1="0" y1="36" x2="60" y2="36"/><line x1="0" y1="48" x2="60" y2="48"/><line x1="0" y1="60" x2="60" y2="60"/></g><rect x="6" y="18" width="48" height="24" fill="none" stroke="#db2777" stroke-width="2"/><text x="26" y="74" font-size="11" font-weight="700">③</text></g>'
+   +'<g transform="translate(212,2)"><g stroke="#ddd" stroke-width="0.5"><line x1="0" y1="0" x2="0" y2="60"/><line x1="12" y1="0" x2="12" y2="60"/><line x1="24" y1="0" x2="24" y2="60"/><line x1="36" y1="0" x2="36" y2="60"/><line x1="48" y1="0" x2="48" y2="60"/><line x1="60" y1="0" x2="60" y2="60"/><line x1="0" y1="0" x2="60" y2="0"/><line x1="0" y1="12" x2="60" y2="12"/><line x1="0" y1="24" x2="60" y2="24"/><line x1="0" y1="36" x2="60" y2="36"/><line x1="0" y1="48" x2="60" y2="48"/><line x1="0" y1="60" x2="60" y2="60"/></g><polygon points="18,18 42,18 54,42 6,42" fill="none" stroke="#db2777" stroke-width="2"/><text x="26" y="74" font-size="11" font-weight="700">④</text></g>'
+   +'</svg>'},
+ {qid:"B5Q4",tag:"네 변이 같은 도형",answer:"2",
+  text:"아래 도형 가~라 중에서 네 변의 길이가 모두 같은 사각형은 몇 개인가요? (변 위의 짧은 표시가 같으면 길이가 같은 변입니다)",
+  img:'<svg viewBox="0 0 260 55"><g stroke="#db2777" stroke-width="2" fill="none"><rect x="8" y="10" width="35" height="35"/><polygon points="85,25 105,10 125,25 105,40"/><rect x="150" y="15" width="55" height="25"/><polygon points="225,40 258,40 250,15 233,20"/></g><g stroke="#db2777" stroke-width="1.5"><line x1="24.5" y1="8" x2="24.5" y2="12"/><line x1="41" y1="25.5" x2="45" y2="25.5"/><line x1="24.5" y1="43" x2="24.5" y2="47"/><line x1="6" y1="25.5" x2="10" y2="25.5"/><line x1="93" y1="15.5" x2="96" y2="12.5"/><line x1="117" y1="15.5" x2="114" y2="12.5"/><line x1="117" y1="34.5" x2="114" y2="37.5"/><line x1="93" y1="34.5" x2="96" y2="37.5"/><line x1="175.5" y1="13" x2="175.5" y2="17"/><line x1="175.5" y1="38" x2="175.5" y2="42"/><line x1="149" y1="26" x2="151" y2="26"/><line x1="149" y1="29" x2="151" y2="29"/><line x1="204" y1="26" x2="206" y2="26"/><line x1="204" y1="29" x2="206" y2="29"/></g><g font-size="9" fill="#333"><text x="20" y="52">가</text><text x="100" y="52">나</text><text x="172" y="52">다</text><text x="240" y="52">라</text></g></svg>'},
+ {qid:"B5Q5",tag:"각의 종류(둔각)",answer:"3",
+  text:"아래 세 각 중 직각(90°)보다 큰 각(둔각)은 몇 번인가요?",
+  img:'<svg viewBox="0 0 260 60"><g stroke="#db2777" stroke-width="2.5" fill="none"><path d="M20 55 L20 15 M20 55 L60 42"/><text x="35" y="58" font-size="10" font-weight="700">①</text><path d="M110 55 L110 15 M110 55 L155 55"/><path d="M110 47 L118 47 L118 55"/><text x="128" y="58" font-size="10" font-weight="700">②</text><path d="M200 55 L200 15 M200 55 L255 32"/><text x="222" y="58" font-size="10" font-weight="700">③</text></g></svg>'},
+],
+B6:[
+ {qid:"B6Q1",tag:"분수로 나타내기(분자)",answer:"1",
+  text:"다음 도형에서 한 칸을 칠하고 분수로 나타낼 때, 분자의 숫자는 몇인가요?",
+  img:'<svg viewBox="0 0 200 110"><path d="M30,90 A70,70 0 0 1 170,90" fill="none" stroke="#dc2626" stroke-width="2.5"/><line x1="30" y1="90" x2="170" y2="90" stroke="#dc2626" stroke-width="2.5"/><line x1="100" y1="90" x2="65" y2="29.4" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/><line x1="100" y1="90" x2="135" y2="29.4" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/><path d="M100,90 L65,29.4 A70,70 0 0 1 135,29.4 Z" fill="#fca5a5" opacity="0.85"/></svg>'},
+ {qid:"B6Q2",tag:"단위분수 판별",answer:"2",
+  text:"도형 가~라의 색칠한 부분을 분수로 나타낼 때, 단위분수(분자가 1인 분수)가 되는 도형은 모두 몇 개인가요?",
+  img:'<svg viewBox="0 0 260 55"><g stroke="#dc2626" stroke-width="1.5"><rect x="10" y="10" width="35" height="35" fill="none"/><rect x="10" y="10" width="26" height="26" fill="#fca5a5"/><line x1="10" y1="27" x2="45" y2="27"/><line x1="27" y1="10" x2="27" y2="45"/><text x="20" y="52" font-size="9" fill="#333">가</text><rect x="80" y="10" width="35" height="35" fill="none"/><rect x="80" y="10" width="17" height="17" fill="#fca5a5"/><line x1="80" y1="27" x2="115" y2="27"/><line x1="97" y1="10" x2="97" y2="45"/><text x="93" y="52" font-size="9" fill="#333">나</text><circle cx="167" cy="27" r="17" fill="none"/><path d="M167 27 L167 10 A17 17 0 0 1 183 20 Z" fill="#fca5a5"/><path d="M167 27 L183 20 A17 17 0 0 1 175 43 Z" fill="#fca5a5"/><text x="163" y="52" font-size="9" fill="#333">다</text><polygon points="220,45 255,45 237,10" fill="none"/><path d="M237 10 L228 45 L237 45 Z" fill="#fca5a5"/><text x="233" y="52" font-size="9" fill="#333">라</text></g></svg>'},
+ {qid:"B6Q3",tag:"단위분수 범위",answer:"3",
+  text:"단위분수 중에서 1/6보다 크고, 1/2보다 작은 분수는 모두 몇 개일까요?"},
+ {qid:"B6Q4",tag:"자 읽기→소수",answer:"6.3",
+  text:"그림과 같이 색연필의 길이를 자로 재었습니다. 색연필의 길이를 소수로 나타내면 몇 cm인가요? (예: 1.2)",
+  img:'<svg viewBox="0 0 260 42"><rect x="5" y="14" width="240" height="14" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/><g stroke="#dc2626" stroke-width="1"><line x1="5" y1="14" x2="5" y2="30"/><line x1="39" y1="8" x2="39" y2="30"/><line x1="73" y1="8" x2="73" y2="30"/><line x1="107" y1="8" x2="107" y2="30"/><line x1="141" y1="8" x2="141" y2="30"/><line x1="175" y1="8" x2="175" y2="30"/><line x1="209" y1="8" x2="209" y2="30"/></g><text x="0" y="7" font-size="8" fill="#991b1b">0</text><text x="34" y="7" font-size="8" fill="#991b1b">1</text><text x="68" y="7" font-size="8" fill="#991b1b">2</text><text x="102" y="7" font-size="8" fill="#991b1b">3</text><text x="136" y="7" font-size="8" fill="#991b1b">4</text><text x="170" y="7" font-size="8" fill="#991b1b">5</text><text x="200" y="7" font-size="8" fill="#991b1b">6cm</text><rect x="5" y="14" width="214" height="14" fill="#fca5a5" opacity="0.6"/><line x1="219" y1="6" x2="219" y2="32" stroke="#7c2d12" stroke-width="1.5" stroke-dasharray="2,2"/><text x="90" y="40" font-size="8" fill="#666">색연필(색칠된 부분)의 길이는 몇 cm일까요?</text></svg>'},
+ {qid:"B6Q5",tag:"소수 카드 조합",answer:"9.8",
+  text:"수 카드 2, 3, 5, 8, 9 중에서 2장을 골라 소수 한 자리 수(◻.◻)를 만들려고 합니다. 만들 수 있는 가장 큰 소수는 얼마인가요?"},
+],
+};
+
+/* ===================== 상태 ===================== */
+let myName=localStorage.getItem("math3_name")||"";
+let safeKey=localStorage.getItem("math3_key")||"";
+let solvedIds={};
+let unlocked={};
+let helpRequest=null;
+let dbRef=null,myLastSaveTs=0,saveTimer=null;
+let view="home",activeQid=null,pendingFinale=false;
+let videoStream=null,scanRAF=null;
+let canvasCtx=null,drawing=false,lastX=0,lastY=0;
+
+function sanitizeKey(name){
+  return name.trim().replace(/[.#$\[\]\/]/g,"_").slice(0,40);
+}
+function findQ(qid){const rid=qid.slice(0,2);return (QUESTIONS[rid]||[]).find(q=>q.qid===qid);}
+function normalize(s){return (s||"").toString().trim().replace(/\s+/g,"").toLowerCase();}
+function roomProgress(rid){return QUESTIONS[rid].filter(q=>solvedIds[q.qid]).length;}
+function totalSolved(){return ROOMS.reduce((sum,r)=>sum+roomProgress(r.id),0);}
+function loadLocal(){
+  if(!safeKey)return;
+  try{const d=JSON.parse(localStorage.getItem("math3_state_"+safeKey)||"{}");solvedIds=d.solvedIds||{};}catch(e){}
+}
+function persistLocal(){if(!safeKey)return;localStorage.setItem("math3_state_"+safeKey,JSON.stringify({solvedIds}));}
+
+function connectFirebase(){
+  if(!safeKey)return;
+  dbRef=db.ref("math3_escape_data/students/"+safeKey);
+  let firstSync=true;
+  dbRef.on("value",snap=>{
+    setSync("on");
+    const d=snap.val();
+    if(d){
+      if(!(d.ts&&Math.abs(d.ts-myLastSaveTs)<2000)){
+        solvedIds=d.solvedIds||{};
+        persistLocal();
+      }
+      unlocked=d.unlocked||{};
+      helpRequest=d.helpRequest||null;
+    }
+    if(view==="home")renderHome();
+    if(firstSync){
+      firstSync=false;
+      // 접속하자마자 서버에 존재를 등록해서 관리자 대시보드에 바로 보이도록 함
+      saveCloud();
+    }
+  },()=>setSync("err"));
+}
+function setSync(s){
+  const dot=document.getElementById("syncDot"),txt=document.getElementById("syncTxt");
+  if(!dot)return;
+  dot.className="sync-dot "+(s==="on"?"sync-on":s==="err"?"sync-err":"sync-off");
+  txt.textContent=s==="on"?"연결됨":s==="err"?"연결 오류(오프라인 저장중)":"연결 중";
+}
+function saveCloud(){
+  persistLocal();
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    if(!dbRef)return;
+    myLastSaveTs=Date.now();
+    // update()를 써야 함: set()을 쓰면 work/unlocked/helpRequest 같은 다른 하위 데이터가 통째로 지워짐
+    dbRef.update({displayName:myName,solvedIds,ts:myLastSaveTs}).then(()=>setSync("on")).catch(()=>setSync("err"));
+  },400);
+}
+function saveWorkSnapshot(qid){
+  if(!dbRef)return;
+  const canvas=document.getElementById("scratchCanvas");
+  if(!canvas)return;
+  try{
+    const dataUrl=canvas.toDataURL("image/png");
+    dbRef.child("work/"+qid).set(dataUrl);
+  }catch(e){}
+}
+function requestHelp(roomId){
+  const room=ROOMS.find(r=>r.id===roomId);
+  if(!room||!dbRef)return;
+  const roomQids=QUESTIONS[roomId].map(x=>x.qid);
+  const solvedCount=roomQids.filter(id=>solvedIds[id]).length;
+  if(solvedCount>=5)return;
+  const nextQid=roomQids[solvedCount];
+  if(!confirm(room.emoji+" "+room.name+"의 다음 QR 코드를 못 찾으시겠어요?\n선생님께 도움을 요청할까요?"))return;
+  const req={qid:nextQid,roomId:roomId,roomName:room.name,ts:Date.now()};
+  dbRef.child("helpRequest").set(req).then(()=>{
+    helpRequest=req;
+    if(view==="home")renderHome();
+  });
+}
+function cancelHelp(){
+  if(dbRef)dbRef.child("helpRequest").remove();
+  helpRequest=null;
+  if(view==="home")renderHome();
+}
+function openUnlocked(qid){
+  if(dbRef)dbRef.child("helpRequest").remove();
+  helpRequest=null;
+  showQuestionScreen(qid,"active");
+}
+
+/* ===================== 렌더 ===================== */
+const app=document.getElementById("app");
+function setHeader(){
+  document.getElementById("hdName").textContent=myName?(myName+" 학생"):"이름 입력 전";
+  const lo=document.getElementById("hdLogout");
+  if(lo)lo.style.display=myName?"":"none";
+}
+
+function renderNameEntry(){
+  setHeader();
+  app.innerHTML='<div class="card"><h2 style="font-size:16px;margin-bottom:6px;">이름을 입력해주세요</h2>'
+    +'<p style="font-size:12px;color:var(--tx2);">입력한 이름으로 진행 상황이 저장돼요. 같은 이름으로 다시 접속하면 이어서 할 수 있어요.</p>'
+    +'<div class="name-row"><input class="txt-inp" id="nameInp" placeholder="이름 입력" maxlength="20"><button class="btn btn-primary" style="padding:0 20px" onclick="submitName()">입장하기</button></div>'
+    +'</div>';
+  const inp=document.getElementById("nameInp");
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter")submitName();});
+  inp.focus();
+}
+function submitName(){
+  const v=document.getElementById("nameInp").value.trim();
+  if(!v){alert("이름을 입력해주세요.");return;}
+  myName=v;
+  safeKey=sanitizeKey(v);
+  localStorage.setItem("math3_name",myName);
+  localStorage.setItem("math3_key",safeKey);
+  loadLocal();
+  connectFirebase();
+  view="home";renderHome();
+}
+function switchName(){
+  if(!confirm("로그아웃할까요? (지금까지의 진행상황은 서버에 그대로 저장되어 있어서, 나중에 같은 이름으로 다시 들어오면 이어할 수 있어요)"))return;
+  myName="";safeKey="";
+  localStorage.removeItem("math3_name");localStorage.removeItem("math3_key");
+  if(dbRef){dbRef.off();dbRef=null;}
+  solvedIds={};
+  setHeader();
+  view="name";renderNameEntry();
+}
+
+function renderHome(){
+  setHeader();
+  const total=totalSolved();
+  let h="";
+  if(total===30){
+    h+='<div class="finale"><div class="em">🎉🏆✨</div><h2>전체 미션 성공!</h2><p>6개 방 30문제를 모두 풀었어요!<br>선생님께 완료했다고 알려주세요.</p></div>';
+  }
+  h+='<div class="room-grid">';
+  ROOMS.forEach(r=>{
+    const p=roomProgress(r.id),done=p===5;
+    let extra="";
+    if(!done){
+      const roomQids=QUESTIONS[r.id].map(x=>x.qid);
+      const nextQid=roomQids[p];
+      if(unlocked[nextQid]){
+        extra='<button class="btn btn-green" style="width:100%;margin-top:6px;padding:6px;font-size:10.5px;font-weight:800;" onclick="openUnlocked(\''+nextQid+'\')">🔓 선생님이 열어주셨어요!</button>';
+      }else if(helpRequest&&helpRequest.qid===nextQid){
+        extra='<div style="margin-top:6px;font-size:10px;color:#b45309;font-weight:800;">🙋 요청함 · 기다려주세요<br><span style="text-decoration:underline;cursor:pointer;color:var(--tx3);font-weight:600;" onclick="cancelHelp()">요청 취소</span></div>';
+      }else{
+        extra='<div style="margin-top:6px;font-size:10px;color:var(--tx3);text-decoration:underline;cursor:pointer;" onclick="requestHelp(\''+r.id+'\')">🙋 QR을 못 찾겠어요</div>';
+      }
+    }
+    h+='<div class="room-card'+(done?" done":"")+'"><div class="room-emoji">'+r.emoji+"</div>"
+      +'<div class="room-name">'+r.name+"<br><span style=\"font-weight:600;color:var(--tx2);font-size:10.5px\">"+r.unit+"</span></div>"
+      +'<div class="room-prog">'+(done?"✔ 완료!":p+" / 5")+"</div>"
+      +'<div class="room-bar"><div class="room-bar-f" style="width:'+(p/5*100)+'%"></div></div>'+extra+'</div>';
+  });
+  h+="</div>";
+  h+='<div style="height:90px"></div>';
+  h+='<div class="scan-fab"><button class="btn btn-lg btn-primary" onclick="openScan()">📷 QR 스캔하기</button></div>';
+  app.innerHTML=h;
+  if(pendingFinale){pendingFinale=false;showFinaleModal();}
+}
+function showFinaleModal(){
+  const ov=document.createElement("div");
+  ov.className="modal-ov";
+  ov.innerHTML='<div class="modal-box"><div class="em">🎉🏆✨</div><h3>전체 미션 성공!</h3><p>6개 방 30문제를 모두 풀었어요!<br>선생님께 완료했다고 알려주세요.</p><button class="btn btn-lg btn-primary" onclick="this.closest(\'.modal-ov\').remove()">확인</button></div>';
+  document.body.appendChild(ov);
+}
+
+function openScan(){
+  view="scan";
+  app.innerHTML='<div class="scan-wrap"><div class="top-back" onclick="goHome()">← 홈으로</div>'
+    +'<div class="cam-box"><video id="vid" playsinline muted autoplay></video><div class="cam-frame"></div></div>'
+    +'<div class="cam-msg" id="camMsg">카메라를 QR 코드에 비춰주세요</div>'
+    +'<div class="manual-box"><h4>카메라가 안 되면 문제 번호를 직접 입력하세요 (예: B1Q1)</h4>'
+    +'<div class="manual-row"><input class="txt-inp" id="manualInp" placeholder="B1Q1" maxlength="5"><button class="btn btn-sub" style="padding:0 16px" onclick="submitManual()">확인</button></div></div>'
+    +"</div>";
+  document.getElementById("manualInp").addEventListener("keydown",e=>{if(e.key==="Enter")submitManual();});
+  startCamera();
+}
+function goHome(){stopCamera();view="home";renderHome();}
+function submitManual(){
+  const v=document.getElementById("manualInp").value.trim().toUpperCase();
+  if(!/^B[1-6]Q[1-5]$/.test(v)){alert("문제 번호 형식이 올바르지 않아요. 예: B1Q1");return;}
+  stopCamera();handleScan(v);
+}
+async function startCamera(){
+  try{
+    videoStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+    const vid=document.getElementById("vid");
+    if(!vid)return;
+    vid.srcObject=videoStream;
+    const canvas=document.createElement("canvas");
+    const ctx=canvas.getContext("2d",{willReadFrequently:true});
+    function tick(){
+      if(view!=="scan")return;
+      if(vid.readyState===vid.HAVE_ENOUGH_DATA){
+        const vw=vid.videoWidth,vh=vid.videoHeight;
+        const sq=Math.min(vw,vh);
+        const sx0=(vw-sq)/2,sy0=(vh-sq)/2;
+        const inset=sq*0.14;
+        const gx=sx0+inset,gy=sy0+inset,gsize=sq*0.72;
+        canvas.width=gsize;canvas.height=gsize;
+        ctx.drawImage(vid,gx,gy,gsize,gsize,0,0,gsize,gsize);
+        const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+        const code=jsQR(img.data,img.width,img.height);
+        if(code&&code.data){
+          const v=code.data.trim().toUpperCase();
+          if(/^B[1-6]Q[1-5]$/.test(v)){stopCamera();handleScan(v);return;}
+        }
+      }
+      scanRAF=requestAnimationFrame(tick);
+    }
+    scanRAF=requestAnimationFrame(tick);
+  }catch(e){
+    const msg=document.getElementById("camMsg");
+    if(msg)msg.textContent="카메라를 사용할 수 없어요. 아래에 문제 번호를 직접 입력하세요.";
+  }
+}
+function stopCamera(){
+  if(scanRAF)cancelAnimationFrame(scanRAF);
+  scanRAF=null;
+  if(videoStream){videoStream.getTracks().forEach(t=>t.stop());videoStream=null;}
+}
+
+function handleScan(qid){
+  const q=findQ(qid);
+  if(!q){alert("존재하지 않는 문제예요.");view="home";renderHome();return;}
+  const rid=qid.slice(0,2);
+  if(solvedIds[qid]){showQuestionScreen(qid,"review");return;}
+  const roomQids=QUESTIONS[rid].map(x=>x.qid);
+  const solvedCount=roomQids.filter(id=>solvedIds[id]).length;
+  const requiredQid=roomQids[solvedCount];
+  if(qid!==requiredQid&&!unlocked[qid]){showQuestionScreen(qid,"locked",requiredQid);return;}
+  showQuestionScreen(qid,"active");
+}
+
+function roomOf(qid){return ROOMS.find(r=>r.id===qid.slice(0,2));}
+
+function showQuestionScreen(qid,mode,requiredQid){
+  view="question";activeQid=qid;
+  const q=findQ(qid);
+  const room=roomOf(qid);
+
+  let h='<div class="top-back" onclick="goHome()">← 홈으로</div>';
+  h+='<div class="q-split">';
+  h+='<div class="q-left">';
+  h+='<div class="q-badges"><span class="badge b-id">'+qid+"</span><span class=\"badge b-room\">"+room.emoji+" "+room.name+"</span><span class=\"badge b-unit\">"+q.tag+"</span></div>";
+
+  if(mode==="locked"){
+    h+='<div class="center-icon">🔒</div><div class="fb-box fb-review">아직 이 문제를 열 수 없어요!<br>이 방은 순서대로 풀어야 해요.<br>지금 풀어야 할 문제: <b>'+requiredQid+"</b></div>";
+    h+='<button class="btn btn-lg btn-primary" style="margin-top:12px" onclick="requestHelp(\''+room.id+"');goHome();\">🙋 선생님께 도움 요청하기</button>";
+    h+="</div><div class=\"q-right\"></div></div>";
+    h+='<button class="btn btn-lg btn-sub" style="margin-top:12px" onclick="goHome()">홈으로</button>';
+    app.innerHTML=h;
+    return;
+  }
+
+  if(q.img)h+='<div class="qimg-wrap">'+q.img+"</div>";
+  h+='<div class="q-text">'+q.text+"</div>";
+
+  if(q.type==="time3"&&q.timeVisual){
+    const tv=q.timeVisual;
+    h+='<div class="vsub"><div class="vr"><span class="op"></span><span class="num">'+tv.h1+'</span><span class="u">시</span><span class="num">'+tv.m1+'</span><span class="u">분</span><span class="num">'+tv.s1+'</span><span class="u">초</span></div>'
+      +'<div class="vr"><span class="op">−</span><span class="num"></span><span class="u"></span><span class="num">'+tv.m2+'</span><span class="u">분</span><span class="num">'+tv.s2+'</span><span class="u">초</span></div>'
+      +'<div class="hr"></div></div>';
+  }
+
+  if(mode==="review"){
+    let ansShown=q.type==="time3"?(q.timeAns.h+"시 "+q.timeAns.m+"분 "+q.timeAns.s+"초"):q.answer;
+    h+='<div class="fb-box fb-review">✅ 이미 푼 문제예요<br>정답: <b>'+ansShown+"</b></div>";
+    h+='</div>';
+    h+=renderScratchPane();
+    h+="</div>";
+    h+='<button class="btn btn-lg btn-sub" style="margin-top:12px" onclick="goHome()">홈으로</button>';
+    app.innerHTML=h;
+    initCanvas();
+    return;
+  }
+
+  // active
+  if(q.type==="time3"){
+    h+='<div class="time3-row"><input type="number" id="ans_h" placeholder="시"><span class="tu">시</span><input type="number" id="ans_m" placeholder="분"><span class="tu">분</span><input type="number" id="ans_s" placeholder="초"><span class="tu">초</span><button class="btn btn-green" id="submitBtn" style="padding:0 16px" onclick="submitAnswer()">제출</button></div>';
+  }else{
+    h+='<div class="ans-row"><input class="txt-inp" id="ansInp" placeholder="정답 입력" autocomplete="off" autocapitalize="off"><button class="btn btn-green" id="submitBtn" style="padding:0 18px" onclick="submitAnswer()">제출</button></div>';
+  }
+  h+='<div id="fbArea"></div>';
+  h+="</div>";
+  h+=renderScratchPane();
+  h+="</div>";
+  app.innerHTML=h;
+  initCanvas();
+  const inp=document.getElementById("ansInp");
+  if(inp){inp.addEventListener("keydown",e=>{if(e.key==="Enter")submitAnswer();});inp.focus();}
+}
+
+function renderScratchPane(){
+  return '<div class="q-right">'
+    +'<div class="scr-hd"><span class="lbl">✏️ 풀이 공간</span><div class="scr-tools"><button onclick="clearScratch()">🗑 지우기</button></div></div>'
+    +'<div class="canvas-wrap" id="canvasWrap"><canvas id="scratchCanvas"></canvas></div>'
+    +'</div>';
+}
+
+function initCanvas(){
+  const wrap=document.getElementById("canvasWrap");
+  const canvas=document.getElementById("scratchCanvas");
+  if(!wrap||!canvas)return;
+  // 캔버스 크기는 화면 진입 시 한 번만 정한다. (모바일에서 정답칸을 눌러 키보드가 뜨면
+  // window resize 이벤트가 발생하는데, 그때마다 다시 크기를 잡으면 그림이 지워지는 문제가 있었음)
+  const rect=wrap.getBoundingClientRect();
+  canvas.width=rect.width||wrap.offsetWidth||300;
+  canvas.height=rect.height||wrap.offsetHeight||300;
+  canvasCtx=canvas.getContext("2d");
+  canvasCtx.lineWidth=2.5;canvasCtx.lineCap="round";canvasCtx.lineJoin="round";canvasCtx.strokeStyle="#1E2D3D";
+  canvas.style.touchAction="none";
+  function posFromClient(clientX,clientY){
+    const r=canvas.getBoundingClientRect();
+    return {x:clientX-r.left,y:clientY-r.top};
+  }
+  function startDraw(x,y){drawing=true;lastX=x;lastY=y;}
+  function moveDraw(x,y){
+    if(!drawing||!canvasCtx)return;
+    canvasCtx.beginPath();canvasCtx.moveTo(lastX,lastY);canvasCtx.lineTo(x,y);canvasCtx.stroke();
+    lastX=x;lastY=y;
+  }
+  function stopDraw(){drawing=false;}
+
+  // Pointer Events (대부분의 최신 브라우저)
+  canvas.addEventListener("pointerdown",e=>{
+    e.preventDefault();
+    const p=posFromClient(e.clientX,e.clientY);startDraw(p.x,p.y);
+    try{canvas.setPointerCapture(e.pointerId);}catch(err){}
+  },{passive:false});
+  canvas.addEventListener("pointermove",e=>{
+    if(!drawing)return;
+    e.preventDefault();
+    const p=posFromClient(e.clientX,e.clientY);moveDraw(p.x,p.y);
+  },{passive:false});
+  canvas.addEventListener("pointerup",stopDraw);
+  canvas.addEventListener("pointercancel",stopDraw);
+  canvas.addEventListener("pointerleave",stopDraw);
+
+  // Touch Events (일부 태블릿 브라우저는 Pointer Events를 지원하지 않아 이 경로가 필요함)
+  canvas.addEventListener("touchstart",e=>{
+    e.preventDefault();
+    const t=e.touches[0];if(!t)return;
+    const p=posFromClient(t.clientX,t.clientY);startDraw(p.x,p.y);
+  },{passive:false});
+  canvas.addEventListener("touchmove",e=>{
+    e.preventDefault();
+    const t=e.touches[0];if(!t)return;
+    const p=posFromClient(t.clientX,t.clientY);moveDraw(p.x,p.y);
+  },{passive:false});
+  canvas.addEventListener("touchend",e=>{e.preventDefault();stopDraw();},{passive:false});
+  canvas.addEventListener("touchcancel",e=>{e.preventDefault();stopDraw();},{passive:false});
+
+  // Mouse Events (PC 테스트용)
+  canvas.addEventListener("mousedown",e=>{const p=posFromClient(e.clientX,e.clientY);startDraw(p.x,p.y);});
+  canvas.addEventListener("mousemove",e=>{if(drawing){const p=posFromClient(e.clientX,e.clientY);moveDraw(p.x,p.y);}});
+  window.addEventListener("mouseup",stopDraw);
+}
+function clearScratch(){
+  const canvas=document.getElementById("scratchCanvas");
+  if(canvas&&canvasCtx)canvasCtx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function submitAnswer(){
+  const qid=activeQid,q=findQ(qid);
+  const fb=document.getElementById("fbArea");
+  let correct=false;
+  if(q.type==="time3"){
+    const h=parseInt(document.getElementById("ans_h").value,10);
+    const m=parseInt(document.getElementById("ans_m").value,10);
+    const s=parseInt(document.getElementById("ans_s").value,10);
+    correct=(h===q.timeAns.h&&m===q.timeAns.m&&s===q.timeAns.s);
+  }else{
+    const inp=document.getElementById("ansInp");
+    const val=inp?inp.value:"";
+    correct=(normalize(val)===normalize(q.answer));
+  }
+  saveWorkSnapshot(qid);
+  if(correct){
+    solvedIds[qid]=true;
+    saveCloud();
+    const rid=qid.slice(0,2);
+    const roomDone=roomProgress(rid)===5;
+    const allDone=totalSolved()===30;
+    if(allDone)pendingFinale=true;
+    fb.innerHTML='<div class="fb-box fb-ok">🎉 정답이에요!<br>'+(roomDone?"이 방을 모두 클리어했어요!":"다음 QR 코드를 찾아 스캔해보세요!")+'</div><button class="btn btn-lg btn-primary" style="margin-top:12px" onclick="openScan()">📷 다음 QR 스캔하기</button><button class="btn btn-lg btn-sub" style="margin-top:8px" onclick="goHome()">홈으로</button>';
+    document.querySelectorAll("#ansInp,#ans_h,#ans_m,#ans_s").forEach(el=>el.disabled=true);
+    const sb=document.getElementById("submitBtn");if(sb)sb.disabled=true;
+  }else{
+    fb.innerHTML='<div class="fb-box fb-bad">❌ 정답이 아니에요. 다시 풀어보세요!</div>';
+  }
+}
+
+/* ===================== 시작 ===================== */
+if(myName&&safeKey){loadLocal();connectFirebase();renderHome();}
+else{view="name";renderNameEntry();}
+</script>
+</body>
+</html>
