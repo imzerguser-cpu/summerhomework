@@ -5838,9 +5838,13 @@ showScreen('screen-students');
         </div>
         <button class="toggletext" id="toggleText">텍스트로 입력할래요</button>
 
-        <div class="actionrow">
+        <div class="actionrow" id="actionRow">
           <button class="btn ghost" id="showAnswerBtn">정답 보기</button>
           <button class="btn next" id="nextBtn" disabled>다음 →</button>
+        </div>
+        <div class="actionrow hidden" id="retryChoice">
+          <button class="btn ghost" id="choiceMoreBtn">🔁 조금 더 연습하기</button>
+          <button class="btn next" id="choiceNextBtn">다음 문제로 →</button>
         </div>
         <div class="notice hidden" id="micNotice">이 브라우저는 음성 인식을 지원하지 않아요. 텍스트로 입력해서 연습해보세요!</div>
       </div>
@@ -6283,6 +6287,7 @@ let state = {
   recognizing:false,
   usingText:false,
   micBlocked:false,
+  wrongCount:0,
 };
 
 function shuffle(arr){
@@ -6572,6 +6577,10 @@ const textInput = document.getElementById('textInput');
 const textSubmit = document.getElementById('textSubmit');
 const micNotice = document.getElementById('micNotice');
 const micRow = document.getElementById('micRow');
+const actionRow = document.getElementById('actionRow');
+const retryChoice = document.getElementById('retryChoice');
+const choiceMoreBtn = document.getElementById('choiceMoreBtn');
+const choiceNextBtn = document.getElementById('choiceNextBtn');
 
 function startGame(unitId, modeId){
   state.currentUnit = unitId;
@@ -6593,6 +6602,8 @@ function currentItem(){ return state.pool[state.idx]; }
 function renderQuestion(){
   stopAllAudio();
   state.answered = false;
+  state.wrongCount = 0;
+  setChoiceMode(false);
   transcriptEl.textContent = '';
   feedbackEl.className = 'feedback';
   feedbackEl.textContent = '';
@@ -6844,6 +6855,14 @@ function checkAnswer(transcript, item, lang){
 }
 
 
+function setChoiceMode(active){
+  retryChoice.classList.toggle('hidden', !active);
+  actionRow.classList.toggle('hidden', active);
+  toggleTextBtn.classList.toggle('hidden', active);
+  if(recognitionSupported) micRow.classList.toggle('hidden', active);
+  if(active) textFallback.classList.add('hidden');
+}
+
 function markResult(isCorrect, transcript){
   state.answered = true;
   nextBtn.disabled = false;
@@ -6856,13 +6875,26 @@ function markResult(isCorrect, transcript){
     micLabel.textContent = '정답이에요! 다음으로 넘어가볼까요?';
     spawnFloatBadge('✨');
   } else {
+    state.wrongCount++;
     feedbackEl.className = 'feedback wrong';
-    feedbackEl.innerHTML = `아직이에요! 정답 발음을 듣고 다시 따라 말해보세요.<span class="answer-reveal">정답: ${item.target}</span>`;
-    setTimeout(()=>{
-      playItemAudio(item, ()=>{ micLabel.textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
-    }, 350);
+    if(state.wrongCount >= 3){
+      feedbackEl.innerHTML = `😅 3번 틀렸어요! 다음으로 넘어갈까요, 조금 더 연습해볼까요?<span class="answer-reveal">정답: ${item.target}</span>`;
+      setChoiceMode(true);
+      setTimeout(()=>{ playItemAudio(item, ()=>{}); }, 350);
+    } else {
+      feedbackEl.innerHTML = `아직이에요! (${state.wrongCount}/3번째 시도) 정답 발음을 듣고 다시 따라 말해보세요.<span class="answer-reveal">정답: ${item.target}</span>`;
+      setTimeout(()=>{
+        playItemAudio(item, ()=>{ micLabel.textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
+      }, 350);
+    }
   }
 }
+
+choiceNextBtn.addEventListener('click', goNext);
+choiceMoreBtn.addEventListener('click', ()=>{
+  renderQuestion();
+  playItemAudio(currentItem(), ()=>{ micLabel.textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
+});
 
 showAnswerBtn.addEventListener('click', ()=>{
   const item = currentItem();
@@ -7754,9 +7786,13 @@ showScreen('grade');
         </div>
         <button class="toggletext" id="toggleText">텍스트로 입력할래요</button>
 
-        <div class="actionrow">
+        <div class="actionrow" id="actionRow">
           <button class="btn ghost" id="showAnswerBtn">정답 보기</button>
           <button class="btn next" id="nextBtn" disabled>다음 →</button>
+        </div>
+        <div class="actionrow hidden" id="retryChoice">
+          <button class="btn ghost" id="choiceMoreBtn">🔁 조금 더 연습하기</button>
+          <button class="btn next" id="choiceNextBtn">다음 문제로 →</button>
         </div>
         <div class="notice hidden" id="micNotice">이 브라우저는 음성 인식을 지원하지 않아요. 텍스트로 입력해서 연습해보세요!</div>
       </div>
@@ -7855,6 +7891,7 @@ let state = {
   recognizing:false,
   usingText:false,
   micBlocked:false,
+  wrongCount:0,
 };
 
 const TTS_OVERRIDES = { 'banh mi': 'bahn mee', 'team': 'teem' };
@@ -8103,6 +8140,10 @@ const textInput = document.getElementById('textInput');
 const textSubmit = document.getElementById('textSubmit');
 const micNotice = document.getElementById('micNotice');
 const micRow = document.getElementById('micRow');
+const actionRow = document.getElementById('actionRow');
+const retryChoice = document.getElementById('retryChoice');
+const choiceMoreBtn = document.getElementById('choiceMoreBtn');
+const choiceNextBtn = document.getElementById('choiceNextBtn');
 
 function startGame(unitId, modeId){
   state.currentUnit = unitId;
@@ -8124,6 +8165,8 @@ function currentItem(){ return state.pool[state.idx]; }
 function renderQuestion(){
   stopAllAudio();
   state.answered = false;
+  state.wrongCount = 0;
+  setChoiceMode(false);
   transcriptEl.textContent = '';
   feedbackEl.className = 'feedback';
   feedbackEl.textContent = '';
@@ -8335,6 +8378,14 @@ function checkAnswer(transcript, item, lang){
   }
 }
 
+function setChoiceMode(active){
+  retryChoice.classList.toggle('hidden', !active);
+  actionRow.classList.toggle('hidden', active);
+  toggleTextBtn.classList.toggle('hidden', active);
+  if(recognitionSupported) micRow.classList.toggle('hidden', active);
+  if(active) textFallback.classList.add('hidden');
+}
+
 function markResult(isCorrect, transcript){
   state.answered = true;
   nextBtn.disabled = false;
@@ -8347,13 +8398,26 @@ function markResult(isCorrect, transcript){
     micLabel.textContent = '정답이에요! 다음으로 넘어가볼까요?';
     spawnFloatBadge('✨');
   } else {
+    state.wrongCount++;
     feedbackEl.className = 'feedback wrong';
-    feedbackEl.innerHTML = `아직이에요! 정답 발음을 듣고 다시 따라 말해보세요.<span class="answer-reveal">정답: ${item.target}</span>`;
-    setTimeout(()=>{
-      playItemAudio(item, ()=>{ micLabel.textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
-    }, 350);
+    if(state.wrongCount >= 3){
+      feedbackEl.innerHTML = `😅 3번 틀렸어요! 다음으로 넘어갈까요, 조금 더 연습해볼까요?<span class="answer-reveal">정답: ${item.target}</span>`;
+      setChoiceMode(true);
+      setTimeout(()=>{ playItemAudio(item, ()=>{}); }, 350);
+    } else {
+      feedbackEl.innerHTML = `아직이에요! (${state.wrongCount}/3번째 시도) 정답 발음을 듣고 다시 따라 말해보세요.<span class="answer-reveal">정답: ${item.target}</span>`;
+      setTimeout(()=>{
+        playItemAudio(item, ()=>{ micLabel.textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
+      }, 350);
+    }
   }
 }
+
+choiceNextBtn.addEventListener('click', goNext);
+choiceMoreBtn.addEventListener('click', ()=>{
+  renderQuestion();
+  playItemAudio(currentItem(), ()=>{ micLabel.textContent = '이제 마이크를 눌러 다시 따라 말해보세요'; });
+});
 
 showAnswerBtn.addEventListener('click', ()=>{
   const item = currentItem();
