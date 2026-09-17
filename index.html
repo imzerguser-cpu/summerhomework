@@ -5650,6 +5650,18 @@ showScreen('screen-students');
     font-weight:700;
     color:var(--ink-soft);
   }
+  .pronscore{
+    width:100%;
+    border-radius:14px;
+    padding:8px 14px;
+    font-weight:800;
+    font-size:12.5px;
+    text-align:center;
+    display:none;
+  }
+  .pronscore.good{ display:block; background:#E7F7EE; color:var(--green-dark); }
+  .pronscore.mid{ display:block; background:#FFF6DD; color:var(--mustard-dark); }
+  .pronscore.low{ display:block; background:#FFEDEA; color:var(--coral-dark); }
   .actionrow{
     display:flex;
     gap:10px;
@@ -5824,6 +5836,7 @@ showScreen('screen-students');
       <div class="controls">
         <div class="transcript" id="transcript"></div>
         <div class="feedback" id="feedback"></div>
+        <div class="pronscore" id="pronScore"></div>
 
         <div class="microw" id="micRow">
           <button class="sidebtn" id="listenBtn" title="정답 듣기">🔊</button>
@@ -6581,6 +6594,7 @@ const actionRow = document.getElementById('actionRow');
 const retryChoice = document.getElementById('retryChoice');
 const choiceMoreBtn = document.getElementById('choiceMoreBtn');
 const choiceNextBtn = document.getElementById('choiceNextBtn');
+const pronScoreEl = document.getElementById('pronScore');
 
 function startGame(unitId, modeId){
   state.currentUnit = unitId;
@@ -6604,6 +6618,7 @@ function renderQuestion(){
   state.answered = false;
   state.wrongCount = 0;
   setChoiceMode(false);
+  pronScoreEl.className = 'pronscore';
   transcriptEl.textContent = '';
   feedbackEl.className = 'feedback';
   feedbackEl.textContent = '';
@@ -6905,6 +6920,262 @@ showAnswerBtn.addEventListener('click', ()=>{
 });
 
 /* =========================================================
+   PRONUNCIATION SCORING (자체 MFCC+DTW 발음 유사도 - 정답/오답 판정에는 영향 없음,
+   원어민 mp3가 있는 "단어" 문제에서 마이크로 답했을 때만 보조 점수로 표시)
+========================================================= */
+// Pure-JS MFCC + DTW pronunciation-similarity core, no Web Audio / browser APIs.
+// This is the exact algorithm that will be embedded verbatim into the page (only the
+// audio-capture/decode glue around it is browser-specific), so it's written here as
+// plain functions over Float32Array so it can be unit-tested under plain Node first.
+
+function nextPow2(n) {
+  let p = 1;
+  while (p < n) p *= 2;
+  return p;
+}
+
+// Iterative in-place radix-2 Cooley-Tukey FFT. re/im are Float64Array of length = power of 2.
+function fft(re, im) {
+  const n = re.length;
+  if (n <= 1) return;
+  // bit-reversal permutation
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) {
+      [re[i], re[j]] = [re[j], re[i]];
+      [im[i], im[j]] = [im[j], im[i]];
+    }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = (-2 * Math.PI) / len;
+    const wRe = Math.cos(ang), wIm = Math.sin(ang);
+    for (let i = 0; i < n; i += len) {
+      let curRe = 1, curIm = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const uRe = re[i + k], uIm = im[i + k];
+        const vRe = re[i + k + len / 2] * curRe - im[i + k + len / 2] * curIm;
+        const vIm = re[i + k + len / 2] * curIm + im[i + k + len / 2] * curRe;
+        re[i + k] = uRe + vRe;
+        im[i + k] = uIm + vIm;
+        re[i + k + len / 2] = uRe - vRe;
+        im[i + k + len / 2] = uIm - vIm;
+        const nextRe = curRe * wRe - curIm * wIm;
+        const nextIm = curRe * wIm + curIm * wRe;
+        curRe = nextRe; curIm = nextIm;
+      }
+    }
+  }
+}
+
+function hammingWindow(size) {
+  const w = new Float64Array(size);
+  for (let i = 0; i < size; i++) w[i] = 0.54 - 0.46 * Math.cos((2 * Math.PI * i) / (size - 1));
+  return w;
+}
+
+function hzToMel(hz) { return 2595 * Math.log10(1 + hz / 700); }
+function melToHz(mel) { return 700 * (Math.pow(10, mel / 2595) - 1); }
+
+// Precompute a [numFilters x (fftSize/2+1)] triangular mel filterbank matrix.
+function melFilterbank(sampleRate, fftSize, numFilters, minHz, maxHz) {
+  const nBins = fftSize / 2 + 1;
+  const melMin = hzToMel(minHz);
+  const melMax = hzToMel(maxHz);
+  const melPoints = new Float64Array(numFilters + 2);
+  for (let i = 0; i < melPoints.length; i++) melPoints[i] = melMin + ((melMax - melMin) * i) / (numFilters + 1);
+  const hzPoints = Array.from(melPoints, melToHz);
+  const binPoints = hzPoints.map(hz => Math.floor(((fftSize + 1) * hz) / sampleRate));
+  const filters = [];
+  for (let m = 1; m <= numFilters; m++) {
+    const f = new Float64Array(nBins);
+    const left = binPoints[m - 1], center = binPoints[m], right = binPoints[m + 1];
+    for (let k = left; k < center; k++) if (k >= 0 && k < nBins && center > left) f[k] = (k - left) / (center - left);
+    for (let k = center; k < right; k++) if (k >= 0 && k < nBins && right > center) f[k] = (right - k) / (right - center);
+    filters.push(f);
+  }
+  return filters;
+}
+
+function dct2(input, numCoeffs) {
+  const N = input.length;
+  const out = new Float64Array(numCoeffs);
+  for (let k = 0; k < numCoeffs; k++) {
+    let sum = 0;
+    for (let n = 0; n < N; n++) sum += input[n] * Math.cos((Math.PI / N) * (n + 0.5) * k);
+    out[k] = sum;
+  }
+  return out;
+}
+
+// samples: Float32Array/Float64Array of PCM in [-1,1]. sampleRate: Hz.
+// Returns array of frames, each a Float64Array of `numCoeffs` MFCCs.
+function computeMFCC(samples, sampleRate, opts) {
+  opts = opts || {};
+  const frameMs = opts.frameMs || 25;
+  const hopMs = opts.hopMs || 10;
+  const numFilters = opts.numFilters || 26;
+  const numCoeffs = opts.numCoeffs || 13;
+  const frameLen = Math.round((sampleRate * frameMs) / 1000);
+  const hopLen = Math.round((sampleRate * hopMs) / 1000);
+  const fftSize = nextPow2(frameLen);
+  const window = hammingWindow(frameLen);
+  const filters = melFilterbank(sampleRate, fftSize, numFilters, 0, sampleRate / 2);
+
+  const frames = [];
+  for (let start = 0; start + frameLen <= samples.length; start += hopLen) {
+    const re = new Float64Array(fftSize);
+    const im = new Float64Array(fftSize);
+    for (let i = 0; i < frameLen; i++) re[i] = samples[start + i] * window[i];
+    fft(re, im);
+    const nBins = fftSize / 2 + 1;
+    const power = new Float64Array(nBins);
+    for (let k = 0; k < nBins; k++) power[k] = (re[k] * re[k] + im[k] * im[k]) / fftSize;
+
+    const filterEnergies = new Float64Array(numFilters);
+    for (let m = 0; m < numFilters; m++) {
+      let sum = 0;
+      const f = filters[m];
+      for (let k = 0; k < nBins; k++) sum += f[k] * power[k];
+      filterEnergies[m] = Math.log(Math.max(sum, 1e-10));
+    }
+    frames.push(dct2(filterEnergies, numCoeffs));
+  }
+  return frames;
+}
+
+function euclid(a, b) {
+  let sum = 0;
+  // skip coeff 0 (overall log-energy) - dominated by loudness, not timbre/phoneme shape.
+  for (let i = 1; i < a.length; i++) { const d = a[i] - b[i]; sum += d * d; }
+  return Math.sqrt(sum);
+}
+
+// Standard DTW: returns the average per-step distance along the optimal alignment path
+// (normalized by path length so longer/shorter utterances don't get penalized just for length).
+function dtwDistance(seqA, seqB) {
+  const n = seqA.length, m = seqB.length;
+  if (n === 0 || m === 0) return Infinity;
+  const INF = Infinity;
+  const cost = new Float64Array((n + 1) * (m + 1)).fill(INF);
+  const steps = new Int32Array((n + 1) * (m + 1)).fill(0);
+  const idx = (i, j) => i * (m + 1) + j;
+  cost[idx(0, 0)] = 0;
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++) {
+      const d = euclid(seqA[i - 1], seqB[j - 1]);
+      const diag = cost[idx(i - 1, j - 1)];
+      const up = cost[idx(i - 1, j)];
+      const left = cost[idx(i, j - 1)];
+      const best = Math.min(diag, up, left);
+      cost[idx(i, j)] = d + best;
+      steps[idx(i, j)] = (best === diag ? steps[idx(i - 1, j - 1)] : best === up ? steps[idx(i - 1, j)] : steps[idx(i, j - 1)]) + 1;
+    }
+  }
+  return cost[idx(n, m)] / steps[idx(n, m)];
+}
+
+// Map a raw DTW average-distance to a 0-100 score via exponential decay (smooth, no hard
+// cliff at some "zero" distance - a linear clamp made every clearly-wrong case collapse to
+// exactly 0 with no gradation, which lost information and felt jarring). `tau` is the decay
+// scale (needs real-world calibration against real recordings; this is a starting point).
+function scoreFromDistance(distance, tau) {
+  tau = tau || 30;
+  const s = 100 * Math.exp(-distance / tau);
+  return Math.max(0, Math.min(100, Math.round(s)));
+}
+
+function pronunciationScore(samplesA, rateA, samplesB, rateB, opts) {
+  const mfccA = computeMFCC(samplesA, rateA, opts);
+  const mfccB = computeMFCC(samplesB, rateB, opts);
+  const dist = dtwDistance(mfccA, mfccB);
+  return { distance: dist, score: scoreFromDistance(dist, opts && opts.tau) };
+}
+
+const pronunciationSupported = !!(window.MediaRecorder && (window.AudioContext || window.webkitAudioContext));
+let pronunciationCtx = null;
+function getPronunciationCtx(){
+  if(!pronunciationCtx) pronunciationCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return pronunciationCtx;
+}
+function dataUriToArrayBuffer(dataUri){
+  const base64 = dataUri.split(',')[1] || '';
+  const bin = atob(base64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+const pronunciationRefCache = {};
+async function getReferenceSamples(key){
+  if(pronunciationRefCache[key]) return pronunciationRefCache[key];
+  const buf = dataUriToArrayBuffer(AUDIOS[key]);
+  const audioBuf = await getPronunciationCtx().decodeAudioData(buf);
+  const result = { samples: audioBuf.getChannelData(0), rate: audioBuf.sampleRate };
+  pronunciationRefCache[key] = result;
+  return result;
+}
+
+let pronunciationRecorder = null;
+let pronunciationChunks = [];
+let pronunciationStream = null;
+
+async function startPronunciationCapture(){
+  if(!pronunciationSupported) return;
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    pronunciationStream = stream;
+    pronunciationChunks = [];
+    const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+      : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
+    const rec = new MediaRecorder(stream, mime ? {mimeType:mime} : undefined);
+    rec.ondataavailable = (e)=>{ if(e.data && e.data.size>0) pronunciationChunks.push(e.data); };
+    rec.start();
+    pronunciationRecorder = rec;
+  }catch(e){
+    pronunciationRecorder = null;
+  }
+}
+
+function stopPronunciationCapture(){
+  return new Promise((resolve)=>{
+    const rec = pronunciationRecorder;
+    pronunciationRecorder = null;
+    if(!rec){ resolve(null); return; }
+    rec.onstop = ()=>{
+      if(pronunciationStream){ pronunciationStream.getTracks().forEach(t=>t.stop()); pronunciationStream = null; }
+      resolve(new Blob(pronunciationChunks, {type: rec.mimeType || 'audio/webm'}));
+    };
+    try{ rec.stop(); }catch(e){ resolve(null); }
+  });
+}
+
+function rmsEnergy(samples){
+  let sum = 0;
+  for(let i=0;i<samples.length;i++) sum += samples[i]*samples[i];
+  return Math.sqrt(sum / Math.max(1, samples.length));
+}
+
+async function computeAndShowPronunciationScore(item, blob){
+  try{
+    if(!pronunciationSupported || !blob) return;
+    if(!item || !item.listenAudioKey || !AUDIOS[item.listenAudioKey]) return;
+    const studentBuf = await blob.arrayBuffer();
+    if(!studentBuf.byteLength) return;
+    const studentAudio = await getPronunciationCtx().decodeAudioData(studentBuf);
+    const studentSamples = studentAudio.getChannelData(0);
+    if(rmsEnergy(studentSamples) < 0.01) return; // near-silence - capture likely failed or nothing was said
+    const ref = await getReferenceSamples(item.listenAudioKey);
+    const result = pronunciationScore(studentSamples, studentAudio.sampleRate, ref.samples, ref.rate, {});
+    const tier = result.score >= 80 ? 'good' : (result.score >= 50 ? 'mid' : 'low');
+    pronScoreEl.className = 'pronscore ' + tier;
+    pronScoreEl.textContent = '🎯 발음 정확도: ' + result.score + '%';
+  }catch(e){
+    // best-effort feedback only - never blocks the main answer flow
+  }
+}
+
+/* =========================================================
    SPEECH RECOGNITION
 ========================================================= */
 const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -6931,6 +7202,7 @@ if(recognitionSupported){
   recognizer.onerror = (e)=>{
     state.recognizing = false;
     micBtn.classList.remove('listening');
+    stopPronunciationCapture();
     let msg = '다시 눌러서 말해보세요';
     if(e.error==='not-allowed' || e.error==='service-not-allowed'){
       msg = '🚫 마이크 권한이 꺼져 있어요.';
@@ -6963,6 +7235,7 @@ if(recognitionSupported){
     }
     transcriptEl.textContent = `👂 인식된 말: "${best}"`;
     markResult(correct, best);
+    stopPronunciationCapture().then((blob)=>{ computeAndShowPronunciationScore(item, blob); });
   };
 }
 
@@ -7040,6 +7313,7 @@ async function startListening(){
   transcriptEl.textContent = '';
   feedbackEl.className='feedback';
   feedbackEl.textContent='';
+  pronScoreEl.className = 'pronscore';
   micLabel.textContent = '마이크 준비 중...';
   const granted = await ensureMicPermission();
   if(!granted){
@@ -7047,6 +7321,7 @@ async function startListening(){
     textFallback.classList.remove('hidden');
     return;
   }
+  startPronunciationCapture();
   const lang = answerLangForMode(state.modeId);
   recognizer.lang = lang;
   try{
@@ -7598,6 +7873,18 @@ showScreen('grade');
     font-weight:700;
     color:var(--ink-soft);
   }
+  .pronscore{
+    width:100%;
+    border-radius:14px;
+    padding:8px 14px;
+    font-weight:800;
+    font-size:12.5px;
+    text-align:center;
+    display:none;
+  }
+  .pronscore.good{ display:block; background:#E7F7EE; color:var(--green-dark); }
+  .pronscore.mid{ display:block; background:#FFF6DD; color:var(--mustard-dark); }
+  .pronscore.low{ display:block; background:#FFEDEA; color:var(--coral-dark); }
   .actionrow{
     display:flex;
     gap:10px;
@@ -7772,6 +8059,7 @@ showScreen('grade');
       <div class="controls">
         <div class="transcript" id="transcript"></div>
         <div class="feedback" id="feedback"></div>
+        <div class="pronscore" id="pronScore"></div>
 
         <div class="microw" id="micRow">
           <button class="sidebtn" id="listenBtn" title="정답 듣기">🔊</button>
@@ -8144,6 +8432,7 @@ const actionRow = document.getElementById('actionRow');
 const retryChoice = document.getElementById('retryChoice');
 const choiceMoreBtn = document.getElementById('choiceMoreBtn');
 const choiceNextBtn = document.getElementById('choiceNextBtn');
+const pronScoreEl = document.getElementById('pronScore');
 
 function startGame(unitId, modeId){
   state.currentUnit = unitId;
@@ -8167,6 +8456,7 @@ function renderQuestion(){
   state.answered = false;
   state.wrongCount = 0;
   setChoiceMode(false);
+  pronScoreEl.className = 'pronscore';
   transcriptEl.textContent = '';
   feedbackEl.className = 'feedback';
   feedbackEl.textContent = '';
@@ -8428,6 +8718,262 @@ showAnswerBtn.addEventListener('click', ()=>{
 });
 
 /* =========================================================
+   PRONUNCIATION SCORING (자체 MFCC+DTW 발음 유사도 - 정답/오답 판정에는 영향 없음,
+   원어민 mp3가 있는 "단어" 문제에서 마이크로 답했을 때만 보조 점수로 표시)
+========================================================= */
+// Pure-JS MFCC + DTW pronunciation-similarity core, no Web Audio / browser APIs.
+// This is the exact algorithm that will be embedded verbatim into the page (only the
+// audio-capture/decode glue around it is browser-specific), so it's written here as
+// plain functions over Float32Array so it can be unit-tested under plain Node first.
+
+function nextPow2(n) {
+  let p = 1;
+  while (p < n) p *= 2;
+  return p;
+}
+
+// Iterative in-place radix-2 Cooley-Tukey FFT. re/im are Float64Array of length = power of 2.
+function fft(re, im) {
+  const n = re.length;
+  if (n <= 1) return;
+  // bit-reversal permutation
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) {
+      [re[i], re[j]] = [re[j], re[i]];
+      [im[i], im[j]] = [im[j], im[i]];
+    }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = (-2 * Math.PI) / len;
+    const wRe = Math.cos(ang), wIm = Math.sin(ang);
+    for (let i = 0; i < n; i += len) {
+      let curRe = 1, curIm = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const uRe = re[i + k], uIm = im[i + k];
+        const vRe = re[i + k + len / 2] * curRe - im[i + k + len / 2] * curIm;
+        const vIm = re[i + k + len / 2] * curIm + im[i + k + len / 2] * curRe;
+        re[i + k] = uRe + vRe;
+        im[i + k] = uIm + vIm;
+        re[i + k + len / 2] = uRe - vRe;
+        im[i + k + len / 2] = uIm - vIm;
+        const nextRe = curRe * wRe - curIm * wIm;
+        const nextIm = curRe * wIm + curIm * wRe;
+        curRe = nextRe; curIm = nextIm;
+      }
+    }
+  }
+}
+
+function hammingWindow(size) {
+  const w = new Float64Array(size);
+  for (let i = 0; i < size; i++) w[i] = 0.54 - 0.46 * Math.cos((2 * Math.PI * i) / (size - 1));
+  return w;
+}
+
+function hzToMel(hz) { return 2595 * Math.log10(1 + hz / 700); }
+function melToHz(mel) { return 700 * (Math.pow(10, mel / 2595) - 1); }
+
+// Precompute a [numFilters x (fftSize/2+1)] triangular mel filterbank matrix.
+function melFilterbank(sampleRate, fftSize, numFilters, minHz, maxHz) {
+  const nBins = fftSize / 2 + 1;
+  const melMin = hzToMel(minHz);
+  const melMax = hzToMel(maxHz);
+  const melPoints = new Float64Array(numFilters + 2);
+  for (let i = 0; i < melPoints.length; i++) melPoints[i] = melMin + ((melMax - melMin) * i) / (numFilters + 1);
+  const hzPoints = Array.from(melPoints, melToHz);
+  const binPoints = hzPoints.map(hz => Math.floor(((fftSize + 1) * hz) / sampleRate));
+  const filters = [];
+  for (let m = 1; m <= numFilters; m++) {
+    const f = new Float64Array(nBins);
+    const left = binPoints[m - 1], center = binPoints[m], right = binPoints[m + 1];
+    for (let k = left; k < center; k++) if (k >= 0 && k < nBins && center > left) f[k] = (k - left) / (center - left);
+    for (let k = center; k < right; k++) if (k >= 0 && k < nBins && right > center) f[k] = (right - k) / (right - center);
+    filters.push(f);
+  }
+  return filters;
+}
+
+function dct2(input, numCoeffs) {
+  const N = input.length;
+  const out = new Float64Array(numCoeffs);
+  for (let k = 0; k < numCoeffs; k++) {
+    let sum = 0;
+    for (let n = 0; n < N; n++) sum += input[n] * Math.cos((Math.PI / N) * (n + 0.5) * k);
+    out[k] = sum;
+  }
+  return out;
+}
+
+// samples: Float32Array/Float64Array of PCM in [-1,1]. sampleRate: Hz.
+// Returns array of frames, each a Float64Array of `numCoeffs` MFCCs.
+function computeMFCC(samples, sampleRate, opts) {
+  opts = opts || {};
+  const frameMs = opts.frameMs || 25;
+  const hopMs = opts.hopMs || 10;
+  const numFilters = opts.numFilters || 26;
+  const numCoeffs = opts.numCoeffs || 13;
+  const frameLen = Math.round((sampleRate * frameMs) / 1000);
+  const hopLen = Math.round((sampleRate * hopMs) / 1000);
+  const fftSize = nextPow2(frameLen);
+  const window = hammingWindow(frameLen);
+  const filters = melFilterbank(sampleRate, fftSize, numFilters, 0, sampleRate / 2);
+
+  const frames = [];
+  for (let start = 0; start + frameLen <= samples.length; start += hopLen) {
+    const re = new Float64Array(fftSize);
+    const im = new Float64Array(fftSize);
+    for (let i = 0; i < frameLen; i++) re[i] = samples[start + i] * window[i];
+    fft(re, im);
+    const nBins = fftSize / 2 + 1;
+    const power = new Float64Array(nBins);
+    for (let k = 0; k < nBins; k++) power[k] = (re[k] * re[k] + im[k] * im[k]) / fftSize;
+
+    const filterEnergies = new Float64Array(numFilters);
+    for (let m = 0; m < numFilters; m++) {
+      let sum = 0;
+      const f = filters[m];
+      for (let k = 0; k < nBins; k++) sum += f[k] * power[k];
+      filterEnergies[m] = Math.log(Math.max(sum, 1e-10));
+    }
+    frames.push(dct2(filterEnergies, numCoeffs));
+  }
+  return frames;
+}
+
+function euclid(a, b) {
+  let sum = 0;
+  // skip coeff 0 (overall log-energy) - dominated by loudness, not timbre/phoneme shape.
+  for (let i = 1; i < a.length; i++) { const d = a[i] - b[i]; sum += d * d; }
+  return Math.sqrt(sum);
+}
+
+// Standard DTW: returns the average per-step distance along the optimal alignment path
+// (normalized by path length so longer/shorter utterances don't get penalized just for length).
+function dtwDistance(seqA, seqB) {
+  const n = seqA.length, m = seqB.length;
+  if (n === 0 || m === 0) return Infinity;
+  const INF = Infinity;
+  const cost = new Float64Array((n + 1) * (m + 1)).fill(INF);
+  const steps = new Int32Array((n + 1) * (m + 1)).fill(0);
+  const idx = (i, j) => i * (m + 1) + j;
+  cost[idx(0, 0)] = 0;
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++) {
+      const d = euclid(seqA[i - 1], seqB[j - 1]);
+      const diag = cost[idx(i - 1, j - 1)];
+      const up = cost[idx(i - 1, j)];
+      const left = cost[idx(i, j - 1)];
+      const best = Math.min(diag, up, left);
+      cost[idx(i, j)] = d + best;
+      steps[idx(i, j)] = (best === diag ? steps[idx(i - 1, j - 1)] : best === up ? steps[idx(i - 1, j)] : steps[idx(i, j - 1)]) + 1;
+    }
+  }
+  return cost[idx(n, m)] / steps[idx(n, m)];
+}
+
+// Map a raw DTW average-distance to a 0-100 score via exponential decay (smooth, no hard
+// cliff at some "zero" distance - a linear clamp made every clearly-wrong case collapse to
+// exactly 0 with no gradation, which lost information and felt jarring). `tau` is the decay
+// scale (needs real-world calibration against real recordings; this is a starting point).
+function scoreFromDistance(distance, tau) {
+  tau = tau || 30;
+  const s = 100 * Math.exp(-distance / tau);
+  return Math.max(0, Math.min(100, Math.round(s)));
+}
+
+function pronunciationScore(samplesA, rateA, samplesB, rateB, opts) {
+  const mfccA = computeMFCC(samplesA, rateA, opts);
+  const mfccB = computeMFCC(samplesB, rateB, opts);
+  const dist = dtwDistance(mfccA, mfccB);
+  return { distance: dist, score: scoreFromDistance(dist, opts && opts.tau) };
+}
+
+const pronunciationSupported = !!(window.MediaRecorder && (window.AudioContext || window.webkitAudioContext));
+let pronunciationCtx = null;
+function getPronunciationCtx(){
+  if(!pronunciationCtx) pronunciationCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return pronunciationCtx;
+}
+function dataUriToArrayBuffer(dataUri){
+  const base64 = dataUri.split(',')[1] || '';
+  const bin = atob(base64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+const pronunciationRefCache = {};
+async function getReferenceSamples(key){
+  if(pronunciationRefCache[key]) return pronunciationRefCache[key];
+  const buf = dataUriToArrayBuffer(AUDIOS[key]);
+  const audioBuf = await getPronunciationCtx().decodeAudioData(buf);
+  const result = { samples: audioBuf.getChannelData(0), rate: audioBuf.sampleRate };
+  pronunciationRefCache[key] = result;
+  return result;
+}
+
+let pronunciationRecorder = null;
+let pronunciationChunks = [];
+let pronunciationStream = null;
+
+async function startPronunciationCapture(){
+  if(!pronunciationSupported) return;
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    pronunciationStream = stream;
+    pronunciationChunks = [];
+    const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+      : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
+    const rec = new MediaRecorder(stream, mime ? {mimeType:mime} : undefined);
+    rec.ondataavailable = (e)=>{ if(e.data && e.data.size>0) pronunciationChunks.push(e.data); };
+    rec.start();
+    pronunciationRecorder = rec;
+  }catch(e){
+    pronunciationRecorder = null;
+  }
+}
+
+function stopPronunciationCapture(){
+  return new Promise((resolve)=>{
+    const rec = pronunciationRecorder;
+    pronunciationRecorder = null;
+    if(!rec){ resolve(null); return; }
+    rec.onstop = ()=>{
+      if(pronunciationStream){ pronunciationStream.getTracks().forEach(t=>t.stop()); pronunciationStream = null; }
+      resolve(new Blob(pronunciationChunks, {type: rec.mimeType || 'audio/webm'}));
+    };
+    try{ rec.stop(); }catch(e){ resolve(null); }
+  });
+}
+
+function rmsEnergy(samples){
+  let sum = 0;
+  for(let i=0;i<samples.length;i++) sum += samples[i]*samples[i];
+  return Math.sqrt(sum / Math.max(1, samples.length));
+}
+
+async function computeAndShowPronunciationScore(item, blob){
+  try{
+    if(!pronunciationSupported || !blob) return;
+    if(!item || !item.listenAudioKey || !AUDIOS[item.listenAudioKey]) return;
+    const studentBuf = await blob.arrayBuffer();
+    if(!studentBuf.byteLength) return;
+    const studentAudio = await getPronunciationCtx().decodeAudioData(studentBuf);
+    const studentSamples = studentAudio.getChannelData(0);
+    if(rmsEnergy(studentSamples) < 0.01) return; // near-silence - capture likely failed or nothing was said
+    const ref = await getReferenceSamples(item.listenAudioKey);
+    const result = pronunciationScore(studentSamples, studentAudio.sampleRate, ref.samples, ref.rate, {});
+    const tier = result.score >= 80 ? 'good' : (result.score >= 50 ? 'mid' : 'low');
+    pronScoreEl.className = 'pronscore ' + tier;
+    pronScoreEl.textContent = '🎯 발음 정확도: ' + result.score + '%';
+  }catch(e){
+    // best-effort feedback only - never blocks the main answer flow
+  }
+}
+
+/* =========================================================
    SPEECH RECOGNITION
 ========================================================= */
 const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -8454,6 +9000,7 @@ if(recognitionSupported){
   recognizer.onerror = (e)=>{
     state.recognizing = false;
     micBtn.classList.remove('listening');
+    stopPronunciationCapture();
     let msg = '다시 눌러서 말해보세요';
     if(e.error==='not-allowed' || e.error==='service-not-allowed'){
       msg = '🚫 마이크 권한이 꺼져 있어요.';
@@ -8486,6 +9033,7 @@ if(recognitionSupported){
     }
     transcriptEl.textContent = `👂 인식된 말: "${best}"`;
     markResult(correct, best);
+    stopPronunciationCapture().then((blob)=>{ computeAndShowPronunciationScore(item, blob); });
   };
 }
 
@@ -8563,6 +9111,7 @@ async function startListening(){
   transcriptEl.textContent = '';
   feedbackEl.className='feedback';
   feedbackEl.textContent='';
+  pronScoreEl.className = 'pronscore';
   micLabel.textContent = '마이크 준비 중...';
   const granted = await ensureMicPermission();
   if(!granted){
@@ -8570,6 +9119,7 @@ async function startListening(){
     textFallback.classList.remove('hidden');
     return;
   }
+  startPronunciationCapture();
   const lang = answerLangForMode(state.modeId);
   recognizer.lang = lang;
   try{

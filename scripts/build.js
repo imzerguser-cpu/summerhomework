@@ -39,6 +39,7 @@ const transforms = [
   require('./transforms/20-improve-speech-matching-engine-a'),
   require('./transforms/21-improve-speech-matching-engine-b'),
   require('./transforms/22-pronunciation-retry-choice'),
+  require('./transforms/23-pronunciation-acoustic-score'),
 ];
 
 let html = base;
